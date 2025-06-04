@@ -1,4 +1,4 @@
-import React from "react";
+import React, { use } from "react";
 import AuthImagePattern from "../components/AuthImagePattern";
 import {
   Eye,
@@ -12,18 +12,54 @@ import {
 } from "lucide-react";
 import { Link } from "react-router";
 import { FaGlobeAmericas } from "react-icons/fa";
+import { AuthContext } from "../Auth/AuthProvider";
+import toast from "react-hot-toast";
 
 function Login() {
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
   const [showPassword, setShowPassword] = React.useState(false);
+
+  const { logIn, setUser, logInWithGoogle } = use(AuthContext);
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log("Form submitted");
+    const form = event.target;
+    const formData = new FormData(form);
+    const userInfo = Object.fromEntries(formData.entries());
+    console.log(userInfo);
+    const { email, password } = userInfo;
+    setIsLoggedIn(true);
+    logIn(email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        console.log(user);
+        setUser(user);
+        toast.success("Account logged in successfully!");
+        setIsLoggedIn(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error("Account login failed!");
+        setIsLoggedIn(false);
+      });
   };
 
   const handleGoogleLogin = () => {
     // Simulate a Google login flow
     setIsLoggedIn(true);
+    logInWithGoogle()
+      .then((userCredential) => {
+        const user = userCredential.user;
+        console.log(user);
+        setUser(user);
+        toast.success("Account logged in successfully!");
+        setIsLoggedIn(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error("Account login failed!");
+        setIsLoggedIn(false);
+      });
   };
   return (
     <div className="h-screen grid lg:grid-cols-2">
@@ -107,6 +143,7 @@ function Login() {
                 </svg>
                 <input
                   type="email"
+                  name="email"
                   className={`  w-full `}
                   placeholder="mail@site.com"
                   required
@@ -144,6 +181,8 @@ function Login() {
                 </svg>
                 <input
                   type="password"
+                  name="password"
+                  className={`  w-full `}
                   required
                   placeholder="Password"
                   minlength="8"
@@ -175,7 +214,7 @@ function Login() {
                   Loading...
                 </>
               ) : (
-                "Sign in"
+                "Log In"
               )}
             </button>
           </form>

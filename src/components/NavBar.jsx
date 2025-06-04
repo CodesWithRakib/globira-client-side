@@ -1,12 +1,20 @@
-import React from "react";
+import React, { use } from "react";
 import { NavLink, useNavigate } from "react-router";
 import { FaShoppingCart } from "react-icons/fa";
 import { CiUser } from "react-icons/ci";
 import { IoPersonAddOutline } from "react-icons/io5";
+import { AuthContext } from "../Auth/AuthProvider";
+import { Loader } from "lucide-react";
 
 function NavBar() {
+  const { user, loading } = use(AuthContext);
+  console.log(user);
   const navigate = useNavigate();
-  return (
+  return loading ? (
+    <div className="flex items-center justify-center py-4">
+      <Loader className="w-10 h-10 animate-spin"></Loader>
+    </div>
+  ) : (
     <div className="navbar bg-base-100 shadow-sm sticky top-0 overflow-hidden z-50 py-4">
       <div className="navbar-start">
         <div className="dropdown flex sm:hidden">
@@ -70,40 +78,42 @@ function NavBar() {
           Cart
         </NavLink>
         <div className=" flex gap-2 items-center">
-          <div className="flex gap-2 items-center text-2xl">
-            <NavLink to={"/login"} className="flex gap-2 items-center">
-              <CiUser />
-              Log In
-            </NavLink>
-            <NavLink to={"/register"} className="flex gap-2 items-center">
-              <IoPersonAddOutline />
-              Register
-            </NavLink>
-          </div>
+          {user ? (
+            <div
+              onClick={() => navigate("/profile")}
+              className="relative group inline-block text-right"
+            >
+              <img
+                src={user?.photoURL}
+                alt={user?.displayName}
+                className="w-10 h-10 rounded-full cursor-pointer border border-gray-300"
+              />
 
-          <div
-            onClick={() => navigate("/profile")}
-            className="relative group inline-block text-right"
-          >
-            <img
-              // src={user?.photoURL}
-              // alt={user?.displayName}
-              className="w-10 h-10 rounded-full cursor-pointer border border-gray-300"
-            />
-
-            {/* Hover box */}
-            <div className="absolute right-0 hidden group-hover:flex flex-col items-center justify-center bg-white border shadow-lg z-10 rounded-md w-40 py-5">
-              <span className="font-semibold text-zinc-900">
-                {/* {user?.displayName || "User"} */}
-              </span>
-              <button
-                // onClick={handleLogout}
-                className="mt-2 px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 text-sm"
-              >
-                Log Out
-              </button>
+              {/* Hover box */}
+              <div className="absolute right-0 hidden group-hover:flex flex-col items-center justify-center bg-white border shadow-lg z-10 rounded-md w-40 py-5">
+                <span className="font-semibold text-zinc-900">
+                  {user?.displayName || "User"}
+                </span>
+                <button
+                  // onClick={handleLogout}
+                  className="mt-2 px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 text-sm"
+                >
+                  Log Out
+                </button>
+              </div>
             </div>
-          </div>
+          ) : (
+            <div className="flex gap-2 items-center text-2xl">
+              <NavLink to={"/login"} className="flex gap-2 items-center">
+                <CiUser />
+                Log In
+              </NavLink>
+              <NavLink to={"/register"} className="flex gap-2 items-center">
+                <IoPersonAddOutline />
+                Register
+              </NavLink>
+            </div>
+          )}
         </div>
       </div>
     </div>
