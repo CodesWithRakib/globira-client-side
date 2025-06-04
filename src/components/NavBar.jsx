@@ -7,7 +7,7 @@ import { IoPersonAddOutline } from "react-icons/io5";
 function NavBar() {
   const navigate = useNavigate();
   return (
-    <div className="navbar bg-base-100 shadow-sm">
+    <div className="navbar bg-base-100 shadow-sm sticky top-0 overflow-hidden z-50 py-4">
       <div className="navbar-start">
         <div className="dropdown flex sm:hidden">
           <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
@@ -43,7 +43,7 @@ function NavBar() {
           </ul>
         </div>
         <div>
-          <h2 className="text-2xl font-semibold">Logo</h2>
+          <h2 className="text-2xl font-semibold">Globira</h2>
         </div>
       </div>
       <ul className="navbar-center flex gap-5 text-xl">
