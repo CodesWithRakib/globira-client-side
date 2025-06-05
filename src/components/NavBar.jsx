@@ -20,6 +20,8 @@ function NavBar() {
     logOut()
       .then(() => {
         toast.success("Account logged out successfully!");
+        localStorage.removeItem("jwtToken");
+        navigate("/login");
       })
       .catch(() => {
         toast.error("Account logout failed!");

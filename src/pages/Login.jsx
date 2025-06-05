@@ -5,6 +5,7 @@ import { Link, useLocation, useNavigate } from "react-router";
 import { FaGlobeAmericas } from "react-icons/fa";
 import { AuthContext } from "../Auth/AuthProvider";
 import toast from "react-hot-toast";
+import useAxios from "../hooks/useAxios";
 
 function Login() {
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
@@ -12,6 +13,7 @@ function Login() {
 
   const { logIn, setUser, logInWithGoogle } = use(AuthContext);
 
+  const axios = useAxios();
   const navigate = useNavigate();
   const location = useLocation();
   const handleSubmit = (event) => {
@@ -28,7 +30,18 @@ function Login() {
         const user = userCredential.user;
         console.log(user);
         setUser(user);
+
         toast.success("Account logged in successfully!");
+
+        axios
+          .post("/jwt", { email, password })
+          .then((response) => {
+            const token = response.data.token;
+            localStorage.setItem("jwtToken", token);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
         setTimeout(() => {
           navigate(`${location.state ? location.state : "/"}`);
         }, 2000);

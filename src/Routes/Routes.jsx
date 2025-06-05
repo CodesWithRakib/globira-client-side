@@ -12,6 +12,7 @@ import Cart from "../pages/Cart";
 import Profile from "../pages/Profile";
 import UpdateProduct from "../pages/UpdateProduct";
 import ProductDetails from "../pages/ProductDetails";
+import PrivateRoute from "../Auth/PrivateRoute";
 
 const router = createBrowserRouter([
   {
@@ -28,23 +29,45 @@ const router = createBrowserRouter([
       },
       {
         path: "/all-products",
-        element: <AllProducts></AllProducts>,
+        element: (
+          <PrivateRoute>
+            <AllProducts></AllProducts>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/add-product",
-        element: <AddProduct></AddProduct>,
+        element: (
+          <PrivateRoute>
+            <AddProduct></AddProduct>
+          </PrivateRoute>
+        ),
       },
       {
         path: "my-product",
-        element: <MyProduct></MyProduct>,
+        element: (
+          <PrivateRoute>
+            {" "}
+            <MyProduct></MyProduct>{" "}
+          </PrivateRoute>
+        ),
       },
       {
         path: "product-details/:id",
-        element: <ProductDetails></ProductDetails>,
+        element: (
+          <PrivateRoute>
+            {" "}
+            <ProductDetails></ProductDetails>{" "}
+          </PrivateRoute>
+        ),
       },
       {
         path: "product-update/:id",
-        element: <UpdateProduct></UpdateProduct>,
+        element: (
+          <PrivateRoute>
+            <UpdateProduct></UpdateProduct>
+          </PrivateRoute>
+        ),
       },
       {
         path: "cart",
@@ -52,7 +75,12 @@ const router = createBrowserRouter([
       },
       {
         path: "profile",
-        element: <Profile></Profile>,
+        element: (
+          <PrivateRoute>
+            {" "}
+            <Profile></Profile>{" "}
+          </PrivateRoute>
+        ),
       },
       {
         path: "/login",
