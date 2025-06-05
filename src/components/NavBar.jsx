@@ -31,9 +31,7 @@ function NavBar() {
     document.querySelector("html").setAttribute("data-theme", theme);
   }, [theme]);
   return loading ? (
-    <div className="flex items-center justify-center py-4">
-      <Loader className="w-10 h-10 animate-spin"></Loader>
-    </div>
+    ""
   ) : (
     <div className="navbar bg-base-100 shadow-sm sticky top-0  z-50 py-4 justify-between ">
       <div className="flex gap-2 items-center ">

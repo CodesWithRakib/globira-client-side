@@ -1,38 +1,71 @@
-import React from "react";
+import React, { useEffect } from "react";
 import AuthImagePattern from "../components/AuthImagePattern";
 import { AiFillProduct } from "react-icons/ai";
 import useAxios from "../hooks/useAxios";
 import { Loader2 } from "lucide-react";
 import toast from "react-hot-toast";
+import { useParams } from "react-router";
+import Loading from "../components/Loading";
 
-const AddProduct = () => {
-  const [isAdded, setIsAdded] = React.useState(false);
+const UpdateProduct = () => {
+  const [isUpdated, setIsUpdated] = React.useState(false);
+  const [product, setProduct] = React.useState({});
+  const [loading, setLoading] = React.useState(true);
 
+  const { id } = useParams();
   const axios = useAxios();
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    setIsAdded(true);
+    setIsUpdated(true);
     const form = event.target;
     const formData = new FormData(form);
     const productInfo = Object.fromEntries(formData.entries());
     console.log(productInfo);
 
     axios
-      .post("/api/products", productInfo)
+      .put(`/api/products/${id}`, productInfo)
       .then((response) => {
         console.log(response.data);
-        toast.success("Product added successfully!");
-        setIsAdded(false);
+        toast.success("Product updated successfully!");
+        setIsUpdated(false);
         form.reset();
       })
       .catch((error) => {
-        toast.error("Product add failed!");
+        toast.error("Product update failed!");
         console.log(error);
-        setIsAdded(false);
+        setIsUpdated(false);
       });
   };
-  return (
+  console.log(product);
+  const {
+    brandName,
+    productName,
+    category,
+    description,
+    price,
+    mainQuantity,
+    minimumQuantity,
+    rating,
+    productImage,
+  } = product;
+
+  useEffect(() => {
+    setLoading(true);
+    axios
+      .get(`/api/products/${id}`)
+      .then((response) => {
+        console.log(response.data);
+        setProduct(response.data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [id]);
+  return loading ? (
+    <Loading></Loading>
+  ) : (
     <div className="min-h-screen grid lg:grid-cols-2">
       {/* left side */}
       <div className="flex flex-col justify-center items-center p-6 sm:p-12">
@@ -46,9 +79,9 @@ const AddProduct = () => {
               >
                 <AiFillProduct className="size-6 text-primary" />
               </div>
-              <h1 className="text-2xl font-bold mt-2">Add Product</h1>
+              <h1 className="text-2xl font-bold mt-2">Update Product</h1>
               <p className="text-base-content/60">
-                Add a new product to your store
+                Update your product details
               </p>
             </div>
           </div>
@@ -78,6 +111,7 @@ const AddProduct = () => {
                   <input
                     type="text"
                     name="brandName"
+                    defaultValue={brandName}
                     className={`  w-full `}
                     placeholder="Nike"
                     required
@@ -110,6 +144,7 @@ const AddProduct = () => {
                   </svg>
                   <input
                     type="text"
+                    defaultValue={productName}
                     name="productName"
                     className={`  w-full `}
                     placeholder="Nike"
@@ -125,7 +160,7 @@ const AddProduct = () => {
               <div className="w-full">
                 <legend className="fieldset-legend">Category</legend>
                 <select
-                  defaultValue="Pick a category"
+                  defaultValue={category}
                   className="select w-full"
                   name="category"
                   required
@@ -166,6 +201,7 @@ const AddProduct = () => {
                   </svg>
                   <input
                     type="text"
+                    defaultValue={productImage}
                     name="productImage"
                     className={`  w-full `}
                     placeholder="https://example.com/image.jpg"
@@ -199,6 +235,7 @@ const AddProduct = () => {
                   </svg>
                   <input
                     type="number"
+                    defaultValue={mainQuantity}
                     name="mainQuantity"
                     className={`  w-full `}
                     placeholder="1000"
@@ -232,6 +269,7 @@ const AddProduct = () => {
                   </svg>
                   <input
                     type="number"
+                    defaultValue={minimumQuantity}
                     name="minimumQuantity"
                     className={`  w-full `}
                     placeholder="500"
@@ -267,6 +305,7 @@ const AddProduct = () => {
                   <input
                     type="number"
                     name="price"
+                    defaultValue={price}
                     className={`  w-full `}
                     placeholder="product price"
                     required
@@ -299,6 +338,7 @@ const AddProduct = () => {
                   <input
                     type="number"
                     name="rating"
+                    defaultValue={rating}
                     className={`  w-full `}
                     min={1}
                     max={5}
@@ -317,6 +357,7 @@ const AddProduct = () => {
                 <legend className="fieldset-legend">Description</legend>
                 <textarea
                   name="description"
+                  defaultValue={description}
                   className="textarea w-full h-24"
                   placeholder="Product description"
                 ></textarea>
@@ -326,15 +367,16 @@ const AddProduct = () => {
             <button
               type="submit"
               className="btn btn-primary w-full"
-              disabled={isAdded}
+              disabled={isUpdated}
             >
-              {isAdded ? (
+              {isUpdated ? (
                 <>
-                  <Loader2 className="h-5 w-5 animate-spin" />
-                  Adding...
+                  <Loader2 className="w-4 h-4 mr-2 animate-spin">
+                    Updating...
+                  </Loader2>
                 </>
               ) : (
-                "Add Product"
+                "Update"
               )}
             </button>
           </form>
@@ -352,4 +394,4 @@ Whether you’re sourcing or selling—your global growth starts here."
   );
 };
 
-export default AddProduct;
+export default UpdateProduct;
