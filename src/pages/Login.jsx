@@ -10,7 +10,7 @@ import {
   Mail,
   MessageSquare,
 } from "lucide-react";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { FaGlobeAmericas } from "react-icons/fa";
 import { AuthContext } from "../Auth/AuthProvider";
 import toast from "react-hot-toast";
@@ -20,6 +20,9 @@ function Login() {
   const [showPassword, setShowPassword] = React.useState(false);
 
   const { logIn, setUser, logInWithGoogle } = use(AuthContext);
+
+  const navigate = useNavigate();
+  const location = useLocation();
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log("Form submitted");
@@ -35,6 +38,9 @@ function Login() {
         console.log(user);
         setUser(user);
         toast.success("Account logged in successfully!");
+        setTimeout(() => {
+          navigate(`${location.state ? location.state : "/"}`);
+        }, 2000);
         setIsLoggedIn(false);
       })
       .catch((error) => {
@@ -53,6 +59,9 @@ function Login() {
         console.log(user);
         setUser(user);
         toast.success("Account logged in successfully!");
+        setTimeout(() => {
+          navigate(`${location.state ? location.state : "/"}`);
+        }, 2000);
         setIsLoggedIn(false);
       })
       .catch((error) => {
@@ -62,7 +71,7 @@ function Login() {
       });
   };
   return (
-    <div className="h-screen grid lg:grid-cols-2">
+    <div className="min-h-screen grid lg:grid-cols-2">
       {/* Left Side - Form */}
       <div className="flex flex-col justify-center items-center p-6 sm:p-12">
         <div className="w-full max-w-md space-y-8">
@@ -180,12 +189,12 @@ function Login() {
                   </g>
                 </svg>
                 <input
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   name="password"
                   className={`  w-full `}
                   required
                   placeholder="Password"
-                  minlength="8"
+                  minLength="8"
                   pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
                   title="Must be more than 8 characters, including number, lowercase letter, uppercase letter"
                 />
@@ -195,9 +204,9 @@ function Login() {
                   onClick={() => setShowPassword(!showPassword)}
                 >
                   {showPassword ? (
-                    <EyeOffIcon className="size-5 text-base-content/40" />
-                  ) : (
                     <EyeIcon className="size-5 text-base-content/40" />
+                  ) : (
+                    <EyeOffIcon className="size-5 text-base-content/40" />
                   )}
                 </button>
               </label>

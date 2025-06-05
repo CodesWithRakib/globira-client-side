@@ -214,9 +214,9 @@ const Register = () => {
                   onClick={() => setShowPassword(!showPassword)}
                 >
                   {showPassword ? (
-                    <EyeOffIcon className="size-5 text-base-content/40" />
-                  ) : (
                     <EyeIcon className="size-5 text-base-content/40" />
+                  ) : (
+                    <EyeOffIcon className="size-5 text-base-content/40" />
                   )}
                 </button>
               </label>

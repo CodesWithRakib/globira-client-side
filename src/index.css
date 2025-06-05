@@ -1,7 +1,13 @@
-@import "tailwindcss";
-@plugin "daisyui" {
-  themes: all;
+html {
+  scroll-behavior: smooth;
 }
+
+@import "tailwindcss";
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+@plugin "daisyui" {
+  themes: light --default, dark --prefersdark;
+}
+
 /* #FF6600 */
 /* #3A190B */
 /* #402013 */
