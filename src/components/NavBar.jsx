@@ -75,7 +75,7 @@ function NavBar() {
             </li>
           </ul>
         </div>
-        <div>
+        <div onClick={() => navigate("/")}>
           <h2 className="text-xl font-semibold text-[#FF6600]">Globira</h2>
         </div>
       </div>

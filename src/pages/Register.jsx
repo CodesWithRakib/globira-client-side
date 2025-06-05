@@ -1,6 +1,6 @@
 import React, { use } from "react";
 import AuthImagePattern from "../components/AuthImagePattern";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import {
   Loader2,
   MessageSquare,
@@ -24,6 +24,9 @@ const Register = () => {
   const { createUser, updateUser, setUser } = use(AuthContext);
 
   const axios = useAxios();
+  const navigate = useNavigate();
+  const { state } = useLocation();
+  console.log(state);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -52,6 +55,10 @@ const Register = () => {
             console.log(error);
           });
         form.reset();
+
+        setTimeout(() => {
+          navigate(`${state ? state : "/"}`);
+        }, 2000);
       })
       .catch((error) => {
         toast.error("Account creation failed!");

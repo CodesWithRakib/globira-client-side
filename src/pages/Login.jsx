@@ -1,15 +1,6 @@
 import React, { use } from "react";
 import AuthImagePattern from "../components/AuthImagePattern";
-import {
-  Eye,
-  EyeIcon,
-  EyeOff,
-  EyeOffIcon,
-  Loader2,
-  Lock,
-  Mail,
-  MessageSquare,
-} from "lucide-react";
+import { EyeIcon, EyeOffIcon, Loader2 } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router";
 import { FaGlobeAmericas } from "react-icons/fa";
 import { AuthContext } from "../Auth/AuthProvider";
@@ -59,10 +50,10 @@ function Login() {
         console.log(user);
         setUser(user);
         toast.success("Account logged in successfully!");
+        setIsLoggedIn(false);
         setTimeout(() => {
           navigate(`${location.state ? location.state : "/"}`);
         }, 2000);
-        setIsLoggedIn(false);
       })
       .catch((error) => {
         console.log(error);

@@ -21,7 +21,6 @@ const UpdateProduct = () => {
     const form = event.target;
     const formData = new FormData(form);
     const productInfo = Object.fromEntries(formData.entries());
-    console.log(productInfo);
 
     axios
       .put(`/api/products/${id}`, productInfo)
@@ -37,7 +36,6 @@ const UpdateProduct = () => {
         setIsUpdated(false);
       });
   };
-  console.log(product);
   const {
     brandName,
     productName,
@@ -55,7 +53,6 @@ const UpdateProduct = () => {
     axios
       .get(`/api/products/${id}`)
       .then((response) => {
-        console.log(response.data);
         setProduct(response.data);
         setLoading(false);
       })
