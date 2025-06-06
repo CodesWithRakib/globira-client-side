@@ -4,7 +4,7 @@ import { AiFillProduct } from "react-icons/ai";
 import useAxios from "../hooks/useAxios";
 import { Loader2 } from "lucide-react";
 import toast from "react-hot-toast";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import Loading from "../components/Loading";
 
 const UpdateProduct = () => {
@@ -14,6 +14,7 @@ const UpdateProduct = () => {
 
   const { id } = useParams();
   const axios = useAxios();
+  const navigate = useNavigate();
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -57,6 +58,9 @@ const UpdateProduct = () => {
         setLoading(false);
       })
       .catch((error) => {
+        setLoading(false);
+        toast.error("Product id incorrect or not found!");
+        navigate("/");
         console.log(error);
       });
   }, [id]);
