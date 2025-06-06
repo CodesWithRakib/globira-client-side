@@ -130,9 +130,7 @@ const AddProduct = () => {
                   name="category"
                   required
                 >
-                  <option disabled={true} selected>
-                    Pick a category
-                  </option>
+                  <option disabled={true}>Pick a category</option>
                   <option>Electronics & Gadgets</option>
                   <option>Home & Kitchen Appliances</option>
                   <option>Fashion & Apparel</option>

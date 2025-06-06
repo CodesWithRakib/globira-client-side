@@ -125,7 +125,7 @@ function NavBar() {
         <div className=" flex gap-2 items-center">
           {user ? (
             <div
-              onClick={() => navigate("/profile")}
+              onClick={() => navigate(`/profile`)}
               className="relative group inline-block text-right"
             >
               <img
