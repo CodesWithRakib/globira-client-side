@@ -1,14 +1,120 @@
-import React from "react";
+import React, { use, useState } from "react";
 import AuthImagePattern from "../components/AuthImagePattern";
 import { AiFillProduct } from "react-icons/ai";
 import useAxios from "../hooks/useAxios";
 import { Loader2 } from "lucide-react";
 import toast from "react-hot-toast";
+import { AuthContext } from "../Auth/AuthProvider";
 
 const AddProduct = () => {
-  const [isAdded, setIsAdded] = React.useState(false);
+  const [isAdded, setIsAdded] = useState(false);
 
   const axios = useAxios();
+  const { user } = use(AuthContext);
+
+  const productContent = {
+    electronics_gadgets: `Includes:
+- Device unit
+- Charging cable
+- User manual
+- Warranty card
+
+Features:
+- Latest Bluetooth/Wi-Fi connectivity
+- Long-lasting battery life
+- High-definition display
+
+Care Instructions:
+- Keep away from water and moisture
+- Use original charger only
+- Clean screen with microfiber cloth`,
+
+    home_kitchen_appliances: `Includes:
+- Appliance unit
+- User manual
+- Warranty card
+
+Features:
+- Energy-efficient technology
+- Easy-to-use controls
+- Safety-certified
+
+Care Instructions:
+- Clean regularly with a soft cloth
+- Follow manufacturer maintenance guidelines
+- Keep away from flammable materials`,
+
+    fashion_apparel: `Materials:
+- Premium cotton/polyester blend
+- Eco-friendly dyes
+
+Features:
+- Comfortable fit
+- Breathable fabric
+- Machine washable
+
+Care Instructions:
+- Machine wash cold with similar colors
+- Do not bleach
+- Tumble dry low or air dry`,
+
+    industrial_machinery_tools: `Includes:
+- Main machine unit
+- Instruction manual
+- Safety gear (where applicable)
+
+Features:
+- Heavy-duty performance
+- High precision and durability
+- Suitable for industrial use
+
+Safety Instructions:
+- Always wear protective gear during operation
+- Follow all safety instructions provided
+- Keep out of reach of children
+- Regular maintenance required for optimal performance`,
+
+    health_beauty: `Includes:
+- Skincare and wellness products
+- Dermatologist tested items
+
+Features:
+- Natural ingredients
+- Hypoallergenic formulas
+- Suitable for sensitive skin
+
+Care Instructions:
+- Store in a cool, dry place
+- Avoid direct sunlight
+- Follow usage guidelines on packaging`,
+
+    automotive_parts_accessories: `Includes:
+- Car parts and accessories
+- Installation manuals where applicable
+
+Features:
+- Durable and OEM certified
+- Designed for easy installation
+- Warranty included on selected items
+
+Safety Instructions:
+- Professional installation recommended
+- Follow safety guidelines during use
+- Keep away from children`,
+
+    office_supplies_stationery: `Includes:
+- Stationery items like pens, papers, organizers
+- Office supplies essentials
+
+Features:
+- Eco-friendly materials
+- Durable and reliable
+- Suitable for office and home use
+
+Usage Tips:
+- Store in a dry, organized place
+- Recycle paper products responsibly`,
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -16,7 +122,12 @@ const AddProduct = () => {
     const form = event.target;
     const formData = new FormData(form);
     const productInfo = Object.fromEntries(formData.entries());
-    console.log(productInfo);
+    productInfo.email = user.email;
+    productInfo.sellerName = user.displayName;
+    productInfo.sellerPhotoURL = user.photoURL;
+
+    const selectedCategory = productInfo.category;
+    productInfo.productContent = productContent[selectedCategory] || "";
 
     axios
       .post("/api/products", productInfo)
@@ -79,7 +190,7 @@ const AddProduct = () => {
                     type="text"
                     name="brandName"
                     className={`  w-full `}
-                    placeholder="Nike"
+                    placeholder="Brand Name"
                     required
                   />
                 </label>
@@ -117,7 +228,7 @@ const AddProduct = () => {
                     type="text"
                     name="productName"
                     className={`  w-full `}
-                    placeholder="Nike"
+                    placeholder="Product Name"
                     required
                   />
                 </label>
@@ -135,14 +246,26 @@ const AddProduct = () => {
                   name="category"
                   required
                 >
-                  <option disabled={true}>Pick a category</option>
-                  <option>Electronics & Gadgets</option>
-                  <option>Home & Kitchen Appliances</option>
-                  <option>Fashion & Apparel</option>
-                  <option>Health & Beauty</option>
-                  <option>Industrial Machinery & Tools</option>
-                  <option> Automotive Parts & Accessories</option>
-                  <option> Office Supplies & Stationery</option>
+                  <option value="" disabled selected>
+                    Pick a category
+                  </option>
+                  <option value="electronics_gadgets">
+                    Electronics & Gadgets
+                  </option>
+                  <option value="home_kitchen_appliances">
+                    Home & Kitchen Appliances
+                  </option>
+                  <option value="fashion_apparel">Fashion & Apparel</option>
+                  <option value="industrial_machinery_tools">
+                    Industrial Machinery & Tools
+                  </option>
+                  <option value="health_beauty">Health & Beauty</option>
+                  <option value="automotive_parts_accessories">
+                    Automotive Parts & Accessories
+                  </option>
+                  <option value="office_supplies_stationery">
+                    Office Supplies & Stationery
+                  </option>
                 </select>
               </div>
             </fieldset>
@@ -306,6 +429,7 @@ const AddProduct = () => {
                       <path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z" />
                     </g>
                   </svg>
+
                   <input
                     type="number"
                     name="rating"
