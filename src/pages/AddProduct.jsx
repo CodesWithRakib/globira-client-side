@@ -246,24 +246,24 @@ Usage Tips:
                   name="category"
                   required
                 >
-                  <option value="" disabled selected>
+                  <option value="" disabled>
                     Pick a category
                   </option>
-                  <option value="electronics_gadgets">
+                  <option value="electronics-gadgets">
                     Electronics & Gadgets
                   </option>
-                  <option value="home_kitchen_appliances">
+                  <option value="home-kitchen-appliances">
                     Home & Kitchen Appliances
                   </option>
-                  <option value="fashion_apparel">Fashion & Apparel</option>
-                  <option value="industrial_machinery_tools">
+                  <option value="fashion-apparel">Fashion & Apparel</option>
+                  <option value="industrial-machinery-tools">
                     Industrial Machinery & Tools
                   </option>
-                  <option value="health_beauty">Health & Beauty</option>
-                  <option value="automotive_parts_accessories">
+                  <option value="health-beauty">Health & Beauty</option>
+                  <option value="automotive-parts-accessories">
                     Automotive Parts & Accessories
                   </option>
-                  <option value="office_supplies_stationery">
+                  <option value="office-supplies-stationery">
                     Office Supplies & Stationery
                   </option>
                 </select>

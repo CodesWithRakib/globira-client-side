@@ -4,15 +4,15 @@ html {
 
 @import "tailwindcss";
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
-@plugin "daisyui" {
-  themes: light --default, dark --prefersdark;
+@plugin "daisyui";
+@plugin "daisyui/theme" {
+  name: "light";
+  default: true;
+  --color-primary: #ff6600;
+  --color-secondary: #3a190b;
+  --color-accent: #402013;
+  --color-neutral: #ffffff;
+  --color-base-100: #f4f4f4;
+  --color-base-content: #222222;
+  --color-info: #223037;
 }
-
-/* #FF6600 */
-/* #3A190B */
-/* #402013 */
-
-/* #FFFFFF */
-/* #F4F4F4 */
-/* #222222 */
-/* #223037 */
