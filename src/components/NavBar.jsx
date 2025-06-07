@@ -136,7 +136,7 @@ function NavBar() {
               />
 
               {/* Hover box */}
-              <div className="absolute right-0 hidden group-hover:flex flex-col items-center justify-center bg-white border shadow-lg z-10 rounded-md w-40 py-5">
+              <div className="absolute right-0 hidden group-hover:flex flex-col items-center justify-center  bg-white border shadow-lg z-10 rounded-md w-40 py-5">
                 <span className="font-semibold text-zinc-900">
                   {user?.displayName || "User"}
                 </span>

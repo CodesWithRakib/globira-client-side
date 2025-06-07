@@ -5,8 +5,9 @@ import { MdDelete } from "react-icons/md";
 import { toast } from "react-hot-toast";
 import Swal from "sweetalert2";
 import defaultImage from "/default.jpg";
+import useAxios from "../hooks/useAxios";
 
-const MyProductCard = ({ product }) => {
+const MyProductCard = ({ product, setProducts, products }) => {
   const {
     brandName,
     productName,
@@ -18,6 +19,8 @@ const MyProductCard = ({ product }) => {
     category,
   } = product;
 
+  const axios = useAxios();
+
   const handleDelete = () => {
     Swal.fire({
       title: "Are you sure?",
@@ -28,41 +31,40 @@ const MyProductCard = ({ product }) => {
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
-      // if (result.isConfirmed) {
-      //   fetch(
-      //     `https://b11a10-server-side-codes-with-rakib.vercel.app/api/plants/${plant._id}`,
-      //     {
-      //       method: "DELETE",
-      //     }
-      //   )
-      //     .then((response) => response.json())
-      //     .then((data) => {
-      //       if (data.deletedCount > 0) {
-      //         toast.success("Plant deleted successfully", {
-      //           position: "top-center",
-      //           autoClose: 5000,
-      //           hideProgressBar: false,
-      //           closeOnClick: true,
-      //           pauseOnHover: true,
-      //           draggable: true,
-      //           progress: undefined,
-      //           theme: "light",
-      //         });
-      //       }
-      //     })
-      //     .catch((error) => {
-      //       toast.error(`Error deleting plant: ${error?.message}`, {
-      //         position: "top-center",
-      //         autoClose: 5000,
-      //         hideProgressBar: false,
-      //         closeOnClick: true,
-      //         pauseOnHover: true,
-      //         draggable: true,
-      //         progress: undefined,
-      //         theme: "light",
-      //       });
-      //     });
-      // }
+      if (result.isConfirmed) {
+        axios
+          .delete(`/api/products/${product._id}`)
+          .then((res) => {
+            if (res.data.result.deletedCount > 0) {
+              toast.success("Plant deleted successfully", {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+              });
+              const remainingProducts = products.filter(
+                (p) => p._id !== product._id
+              );
+              setProducts(remainingProducts);
+            }
+          })
+          .catch((error) => {
+            toast.error(`Error deleting plant: ${error?.message}`, {
+              position: "top-center",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+            });
+          });
+      }
     });
   };
   return (
@@ -73,7 +75,7 @@ const MyProductCard = ({ product }) => {
     >
       <a href="#">
         <img
-          className=" w-full h-80 rounded-t-lg"
+          className=" w-full h-60 rounded-t-lg"
           src={product.productImage ? product.productImage : defaultImage}
           onError={(e) => {
             e.target.onerror = null; // prevents looping
