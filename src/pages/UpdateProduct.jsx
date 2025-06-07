@@ -171,16 +171,29 @@ const UpdateProduct = () => {
                   name="category"
                   required
                 >
-                  <option disabled={true} selected>
-                    Pick a category
+                  <option defaultValue={"electronics-gadgets"}>
+                    Electronics & Gadgets
                   </option>
-                  <option>Electronics & Gadgets</option>
-                  <option>Home & Kitchen Appliances</option>
-                  <option>Fashion & Apparel</option>
-                  <option>Health & Beauty</option>
-                  <option>Industrial Machinery & Tools</option>
-                  <option> Automotive Parts & Accessories</option>
-                  <option> Office Supplies & Stationery</option>
+                  <option defaultValue={"home-kitchen-appliances"}>
+                    Home & Kitchen Appliances
+                  </option>
+                  <option defaultValue={"fashion-apparel"}>
+                    Fashion & Apparel
+                  </option>
+                  <option defaultValue={"health-beauty"}>
+                    Health & Beauty
+                  </option>
+                  <option defaultValue={"industrial-machinery-tools"}>
+                    Industrial Machinery & Tools
+                  </option>
+                  <option defaultValue={"automotive-parts-accessories"}>
+                    {" "}
+                    Automotive Parts & Accessories
+                  </option>
+                  <option defaultValue={"office-supplies-stationery"}>
+                    {" "}
+                    Office Supplies & Stationery
+                  </option>
                 </select>
               </div>
             </fieldset>
@@ -353,14 +366,15 @@ const UpdateProduct = () => {
                     name="rating"
                     defaultValue={rating}
                     className={`  w-full `}
-                    min={1}
-                    max={5}
-                    placeholder="product rating"
+                    min="1"
+                    max="5"
+                    step="1"
+                    placeholder="1-5 rating"
                     required
                   />
                 </label>
                 <div className="validator-hint hidden">
-                  Enter valid product name
+                  Enter 1-5 only rating
                 </div>
               </div>
             </div>

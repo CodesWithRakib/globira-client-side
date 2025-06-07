@@ -1,5 +1,6 @@
 import React from "react";
 import noImage from "/default.jpg";
+import { useNavigate } from "react-router";
 
 const ProductCard = ({ product }) => {
   const {
@@ -11,6 +12,7 @@ const ProductCard = ({ product }) => {
     minimumQuantity,
     rating,
   } = product;
+  const navigate = useNavigate();
   return (
     <div className="bg-white rounded-lg p-4 border border-gray-600">
       <img
@@ -31,6 +33,12 @@ const ProductCard = ({ product }) => {
             <p>Rating: {rating}</p>
           </div>
         </div>
+        <button
+          onClick={() => navigate(`/product/${product._id}`)}
+          className="bg-primary text-white px-4 py-2 rounded w-full"
+        >
+          Details
+        </button>
       </div>
     </div>
   );

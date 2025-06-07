@@ -1,18 +1,15 @@
 import React, { useState } from "react";
 import AllProductsCard from "../components/AllProductsCard";
+import { useLoaderData } from "react-router";
 
 const AllProducts = () => {
   const [showAvailableOnly, setShowAvailableOnly] = useState(false);
   const [viewType, setViewType] = useState("card"); // 'card' or 'table'
+  const products = useLoaderData();
 
-  const products = [
-    { id: 1, name: "Product A", price: 50, Minimum_selling_quantity: 200 },
-    { id: 2, name: "Product B", price: 80, Minimum_selling_quantity: 50 },
-    { id: 3, name: "Product C", price: 120, Minimum_selling_quantity: 150 },
-  ];
   // Filter logic
   const filteredProducts = showAvailableOnly
-    ? products.filter((product) => product.Minimum_selling_quantity > 100)
+    ? products.filter((product) => product.minimumQuantity > 100)
     : products;
 
   return (
@@ -42,7 +39,7 @@ const AllProducts = () => {
       {viewType === "card" ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           {filteredProducts.map((product) => (
-            <AllProductsCard key={product.id} product={product} />
+            <AllProductsCard key={product._id} product={product} />
           ))}
         </div>
       ) : (

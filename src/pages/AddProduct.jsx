@@ -434,14 +434,15 @@ Usage Tips:
                     type="number"
                     name="rating"
                     className={`  w-full `}
-                    min={1}
-                    max={5}
-                    placeholder="product rating"
+                    min="1"
+                    max="5"
+                    step="1"
+                    placeholder="minimum 1 and maximum 5"
                     required
                   />
                 </label>
                 <div className="validator-hint hidden">
-                  Enter valid product name
+                  Enter 1-5 only rating
                 </div>
               </div>
             </div>
