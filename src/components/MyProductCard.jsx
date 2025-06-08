@@ -36,16 +36,7 @@ const MyProductCard = ({ product, setProducts, products }) => {
           .delete(`/api/products/${product._id}`)
           .then((res) => {
             if (res.data.result.deletedCount > 0) {
-              toast.success("Plant deleted successfully", {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-              });
+              toast.success("Product deleted successfully");
               const remainingProducts = products.filter(
                 (p) => p._id !== product._id
               );
@@ -53,16 +44,8 @@ const MyProductCard = ({ product, setProducts, products }) => {
             }
           })
           .catch((error) => {
-            toast.error(`Error deleting plant: ${error?.message}`, {
-              position: "top-center",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "light",
-            });
+            console.log(error);
+            toast.error(`Error deleting Product!!`);
           });
       }
     });
@@ -101,11 +84,11 @@ const MyProductCard = ({ product, setProducts, products }) => {
             </div>
             <div className="flex items-center gap-5">
               <p>Main Quantity:</p>
-              <h3 className="font-semibold">{mainQuantity.toUpperCase()}</h3>
+              <h3 className="font-semibold">{mainQuantity}</h3>
             </div>
             <div className="flex items-center gap-5">
               <p>Minimum Quantity:</p>
-              <h3 className="font-semibold">{minimumQuantity.toUpperCase()}</h3>
+              <h3 className="font-semibold">{minimumQuantity}</h3>
             </div>
           </div>
         </div>

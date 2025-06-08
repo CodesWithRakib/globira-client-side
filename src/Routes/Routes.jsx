@@ -22,6 +22,7 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <Home></Home>,
+        loader: () => fetch(`http://localhost:5000/api/products`),
       },
       {
         path: "categories",
@@ -77,6 +78,7 @@ const router = createBrowserRouter([
       {
         path: "cart",
         element: <Cart></Cart>,
+        loader: () => fetch("http://localhost:5000/api/carts"),
       },
       {
         path: "profile",

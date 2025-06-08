@@ -84,21 +84,15 @@ const Categories = () => {
           <div className="flex items-center justify-center h-[calc(100vh-441px)]">
             <Loader className="w-20 h-20 animate-spin"></Loader>
           </div>
+        ) : filteredProducts.length > 0 ? (
+          <div className="grid grid-cols-1  md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 p-5 items-center justify-center">
+            {filteredProducts?.map((product) => (
+              <ProductCard key={product._id} product={product} />
+            ))}
+          </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 items-center">
-            {filteredProducts.length > 0
-              ? filteredProducts.map((product) => (
-                  <ProductCard
-                    key={product._id}
-                    product={product}
-                  ></ProductCard>
-                ))
-              : products.map((product) => (
-                  <ProductCard
-                    key={product._id}
-                    product={product}
-                  ></ProductCard>
-                ))}
+          <div className="flex items-center justify-center h-[calc(100vh-441px)]">
+            <h1 className="text-2xl font-bold">No products found</h1>
           </div>
         )}
       </div>

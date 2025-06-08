@@ -39,7 +39,7 @@ const ProductDetails = () => {
       email: user?.email,
       name: user?.displayName,
       photoURL: user?.photoURL,
-    }
+    };
 
     if (
       userQuantity >= minimumSellingQuantity &&
@@ -50,13 +50,14 @@ const ProductDetails = () => {
       axios
         .post(`/api/buy-product/${product._id}`, {
           quantity: userQuantity,
-          userInfo
+          userInfo,
         })
         .then((res) => {
           console.log(res);
           toast.success("Product ordered successfully!");
         })
         .catch((error) => {
+          toast.error(`Error ordering Product: ${error?.message}`);
           console.log(error);
         });
     }
