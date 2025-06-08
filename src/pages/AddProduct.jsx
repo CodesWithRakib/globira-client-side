@@ -13,7 +13,7 @@ const AddProduct = () => {
   const { user } = use(AuthContext);
 
   const productContent = {
-    electronics_gadgets: `Includes:
+    electronics: `Includes:
 - Device unit
 - Charging cable
 - User manual
@@ -29,7 +29,7 @@ Care Instructions:
 - Use original charger only
 - Clean screen with microfiber cloth`,
 
-    home_kitchen_appliances: `Includes:
+    home: `Includes:
 - Appliance unit
 - User manual
 - Warranty card
@@ -44,7 +44,7 @@ Care Instructions:
 - Follow manufacturer maintenance guidelines
 - Keep away from flammable materials`,
 
-    fashion_apparel: `Materials:
+    fashion: `Materials:
 - Premium cotton/polyester blend
 - Eco-friendly dyes
 
@@ -58,7 +58,7 @@ Care Instructions:
 - Do not bleach
 - Tumble dry low or air dry`,
 
-    industrial_machinery_tools: `Includes:
+    industrial: `Includes:
 - Main machine unit
 - Instruction manual
 - Safety gear (where applicable)
@@ -74,7 +74,7 @@ Safety Instructions:
 - Keep out of reach of children
 - Regular maintenance required for optimal performance`,
 
-    health_beauty: `Includes:
+    health: `Includes:
 - Skincare and wellness products
 - Dermatologist tested items
 
@@ -88,7 +88,7 @@ Care Instructions:
 - Avoid direct sunlight
 - Follow usage guidelines on packaging`,
 
-    automotive_parts_accessories: `Includes:
+    automotive: `Includes:
 - Car parts and accessories
 - Installation manuals where applicable
 
@@ -102,7 +102,7 @@ Safety Instructions:
 - Follow safety guidelines during use
 - Keep away from children`,
 
-    office_supplies_stationery: `Includes:
+    office: `Includes:
 - Stationery items like pens, papers, organizers
 - Office supplies essentials
 
@@ -126,7 +126,7 @@ Usage Tips:
     productInfo.sellerName = user.displayName;
     productInfo.sellerPhotoURL = user.photoURL;
 
-    const selectedCategory = productInfo.category;
+    const selectedCategory = productInfo.category.split("-")[0];
     productInfo.productContent = productContent[selectedCategory] || "";
 
     axios
@@ -302,7 +302,7 @@ Usage Tips:
                   />
                 </label>
                 <div className="validator-hint hidden">
-                  Enter valid main quantity
+                  Enter valid product image
                 </div>
               </div>
             </div>
@@ -331,6 +331,9 @@ Usage Tips:
                   </svg>
                   <input
                     type="number"
+                    min={1}
+                    max={1000}
+                    step={1}
                     name="mainQuantity"
                     className={`  w-full `}
                     placeholder="1000"
@@ -365,9 +368,11 @@ Usage Tips:
                   </svg>
                   <input
                     type="number"
+                    min={1}
+                    max={100}
                     name="minimumQuantity"
                     className={`  w-full `}
-                    placeholder="500"
+                    placeholder="minimum quantity below 100"
                     required
                   />
                 </label>
@@ -437,7 +442,7 @@ Usage Tips:
                     min="1"
                     max="5"
                     step="1"
-                    placeholder="minimum 1 and maximum 5"
+                    placeholder="maximum 1 - 5"
                     required
                   />
                 </label>
