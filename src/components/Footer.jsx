@@ -44,7 +44,7 @@ const Footer = () => {
         </nav>
       </section>
 
-      <section className="footer sm:footer-horizontal bg-neutral text-neutral-content items-center p-4">
+      <section className="footer sm:footer-horizontal bg-base-300 text-base-content items-center p-4">
         <aside className="grid-flow-col items-center">
           <svg
             width="36"

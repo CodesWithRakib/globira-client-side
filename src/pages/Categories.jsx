@@ -7,9 +7,9 @@ const Categories = () => {
   const [selectedCategory, setSelectedCategory] = React.useState(
     "electronics-gadgets"
   );
-  const productsData = useLoaderData();
+  const { data } = useLoaderData();
   const { state } = useNavigation();
-  const [products, setProducts] = React.useState(productsData);
+  const [products, setProducts] = React.useState(data);
 
   const filteredProducts = products.filter(
     (product) => product.category === selectedCategory

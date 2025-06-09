@@ -13,7 +13,7 @@ const RecentProduct = ({ products }) => {
         {products.map((product) => (
           <div key={product._id} className=" bg-zinc-900  rounded-xl  ">
             <img
-              className="w-full h-[400px] object-cover rounded-lg"
+              className="w-full h-200px] object-cover rounded-lg"
               src={product.productImage ? product.productImage : noImage}
               onError={(e) => (e.target.src = noImage)}
               alt=""

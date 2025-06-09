@@ -13,6 +13,7 @@ import Profile from "../pages/Profile";
 import UpdateProduct from "../pages/UpdateProduct";
 import ProductDetails from "../pages/ProductDetails";
 import PrivateRoute from "../Auth/PrivateRoute";
+import CategoryProducts from "../pages/CategoryProducts";
 
 const router = createBrowserRouter([
   {
@@ -22,12 +23,21 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <Home></Home>,
-        loader: () => fetch(`http://localhost:5000/api/products`),
+        loader: () =>
+          fetch(`http://localhost:5000/api/products?sortBy=newest&limit=10`),
       },
       {
         path: "categories",
         element: <Categories></Categories>,
         loader: () => fetch(`http://localhost:5000/api/products`),
+      },
+      {
+        path: "/category/:category",
+        element: <CategoryProducts></CategoryProducts>,
+        loader: ({ params }) =>
+          fetch(
+            `http://localhost:5000/api/products?category=${params.category}`
+          ),
       },
       {
         path: "/all-products",

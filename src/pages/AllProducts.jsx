@@ -1,16 +1,21 @@
 import React, { useState } from "react";
 import AllProductsCard from "../components/AllProductsCard";
-import { useLoaderData } from "react-router";
+import { useLoaderData, useNavigate } from "react-router";
 
 const AllProducts = () => {
   const [showAvailableOnly, setShowAvailableOnly] = useState(false);
   const [viewType, setViewType] = useState("card"); // 'card' or 'table'
-  const products = useLoaderData();
+  const { data } = useLoaderData();
 
   // Filter logic
   const filteredProducts = showAvailableOnly
-    ? products.filter((product) => product.minimumQuantity > 100)
-    : products;
+    ? data.filter((product) => product.minimumQuantity > 100)
+    : data;
+
+  const navigate = useNavigate();
+  const handleProductUpdate = (productId) => {
+    navigate(`/update-product/${productId}`);
+  };
 
   return (
     <div className="p-4">
@@ -37,7 +42,7 @@ const AllProducts = () => {
 
       {/* Products Display */}
       {viewType === "card" ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {filteredProducts.map((product) => (
             <AllProductsCard key={product._id} product={product} />
           ))}
@@ -83,10 +88,10 @@ const AllProducts = () => {
                       />
                     </td>
                     <td className="p-3">
-                      <p>97412378923</p>
+                      <p>{product.brandName}</p>
                     </td>
                     <td className="p-3">
-                      <p>Nvidia Corporation</p>
+                      <p>{product.productName}</p>
                     </td>
                     <td className="p-3">
                       <p>14 Jan 2022</p>
@@ -97,9 +102,12 @@ const AllProducts = () => {
                       <p className="dark:text-gray-600">Tuesday</p>
                     </td>
                     <td className="p-3 ">
-                      <p>$98,218</p>
+                      <p>${product.price}</p>
                     </td>
-                    <td className="p-3 ">
+                    <td
+                      onClick={() => handleProductUpdate(product._id)}
+                      className="p-3 "
+                    >
                       <span className="px-3 py-1 font-semibold rounded-md  bg-zinc-900 text-white dark:bg-violet-600 dark:text-gray-50">
                         <span>Update</span>
                       </span>
