@@ -13,7 +13,7 @@ const UpdateProduct = () => {
   const [loading, setLoading] = React.useState(true);
 
   const { id } = useParams();
-  const axios = useAxios();
+  const axiosSecure = useAxios();
   const navigate = useNavigate();
 
   const handleSubmit = (event) => {
@@ -23,7 +23,7 @@ const UpdateProduct = () => {
     const formData = new FormData(form);
     const productInfo = Object.fromEntries(formData.entries());
 
-    axios
+    axiosSecure
       .put(`/api/products/${id}`, productInfo)
       .then((response) => {
         console.log(response.data);
@@ -51,7 +51,7 @@ const UpdateProduct = () => {
 
   useEffect(() => {
     setLoading(true);
-    axios
+    axiosSecure
       .get(`/api/products/${id}`)
       .then((response) => {
         setProduct(response.data);

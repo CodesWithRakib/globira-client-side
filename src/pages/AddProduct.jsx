@@ -9,7 +9,7 @@ import { AuthContext } from "../Auth/AuthProvider";
 const AddProduct = () => {
   const [isAdded, setIsAdded] = useState(false);
 
-  const axios = useAxios();
+  const axiosSecure = useAxios();
   const { user } = use(AuthContext);
 
   const productContent = {
@@ -129,7 +129,7 @@ Usage Tips:
     const selectedCategory = productInfo.category.split("-")[0];
     productInfo.productContent = productContent[selectedCategory] || "";
 
-    axios
+    axiosSecure
       .post("/api/products", productInfo)
       .then((response) => {
         console.log(response.data);

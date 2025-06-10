@@ -9,7 +9,7 @@ import useAxios from "../hooks/useAxios";
 const ProductDetails = () => {
   const [userQuantity, setUserQuantity] = useState(1);
   const { user } = use(AuthContext);
-  const axios = useAxios();
+  const axiosSecure = useAxios();
   const product = useLoaderData();
 
   const {
@@ -47,7 +47,7 @@ const ProductDetails = () => {
     ) {
       // toast.success("Product ordered successfully!");
 
-      axios
+      axiosSecure
         .post(`/api/buy-product/${product._id}`, {
           quantity: userQuantity,
           userInfo,

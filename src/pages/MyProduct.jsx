@@ -8,8 +8,8 @@ import Loading from "../components/Loading";
 import { useState } from "react";
 
 const MyProduct = () => {
-  const product = useLoaderData();
-  const [products, setProducts] = useState(product);
+  const { data } = useLoaderData();
+  const [products, setProducts] = useState(data);
   const state = useNavigation();
 
   const { user } = use(AuthContext);

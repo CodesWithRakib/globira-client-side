@@ -9,7 +9,7 @@ const Profile = () => {
   const [isUpdatingProfile, setIsUpdatingProfile] = useState(false);
 
   const { user, updateUser } = use(AuthContext);
-  const axios = useAxios();
+  const axiosSecure = useAxios();
   console.log(user);
 
   const handleImageUpload = async (e) => {
@@ -25,7 +25,7 @@ const Profile = () => {
       setSelectedImg(base64Image);
 
       setIsUpdatingProfile(true);
-      axios
+      axiosSecure
         .patch(`/api/users/${user?.email}`, { photoURL: base64Image })
         .then((res) => {
           console.log(res);

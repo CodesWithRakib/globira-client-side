@@ -54,13 +54,13 @@ const Categories = () => {
   ];
   return (
     <div className="flex gap-5 min-h-screen h-screen   p-5 overflow-y-auto">
-      <div className=" w-1/4 max-w-[300px] bg-white p-2 overflow-auto">
+      <div className=" w-1/4 max-w-[300px]  p-2 overflow-auto">
         <div className="flex rounded-md  ">
           <input
             type="search"
-            className="w-full border-primary border-1 rounded-l-xl "
+            className="w-full border-zinc-300 border-1 rounded-l-xl "
           />
-          <button className="bg-primary text-white rounded-r-xl px-3 ">
+          <button className="bg-primary dark:bg-amber-700 dark:text-white rounded-r-xl px-3 ">
             Search
           </button>
         </div>
@@ -70,16 +70,19 @@ const Categories = () => {
           {categories.map((category) => (
             <div
               key={category.id}
-              className="my-2 bg-red-400 flex items-center  p-4 rounded-2xl"
+              className="my-2   px-2 py-2 rounded-2xl bg-orange-600 dark:bg-zinc-950 text-white text-sm sm:text-base md:text-lg"
             >
-              <button onClick={() => setSelectedCategory(category.slug)}>
+              <button
+                className="text-center"
+                onClick={() => setSelectedCategory(category.slug)}
+              >
                 {category.name}
               </button>
             </div>
           ))}
         </div>
       </div>
-      <div className="w-full bg-white  p-2 overflow-auto">
+      <div className="w-full   p-2 overflow-auto">
         {state === "loading" ? (
           <div className="flex items-center justify-center h-[calc(100vh-441px)]">
             <Loader className="w-20 h-20 animate-spin"></Loader>

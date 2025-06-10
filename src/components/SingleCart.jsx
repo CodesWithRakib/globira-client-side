@@ -17,7 +17,9 @@ const SingleCart = ({ cart, setCarts, carts }) => {
     buyerQuantity,
   } = cart;
 
-  const axios = useAxios();
+  console.log(_id);
+
+  const axiosSecure = useAxios();
   const handleRemove = () => {
     Swal.fire({
       title: "Are you sure?",
@@ -29,7 +31,7 @@ const SingleCart = ({ cart, setCarts, carts }) => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        axios
+        axiosSecure
           .delete(`/api/carts/${_id}`)
           .then((res) => {
             console.log(res);

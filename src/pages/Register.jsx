@@ -1,18 +1,7 @@
 import React, { use } from "react";
 import AuthImagePattern from "../components/AuthImagePattern";
 import { Link, useLocation, useNavigate } from "react-router";
-import {
-  Loader2,
-  MessageSquare,
-  Mail,
-  EyeOff,
-  Eye,
-  Lock,
-  User,
-  EyeOffIcon,
-  EyeIcon,
-  GlobeLock,
-} from "lucide-react";
+import { Loader2, EyeOffIcon, EyeIcon, GlobeLock } from "lucide-react";
 import { AuthContext } from "../Auth/AuthProvider";
 import toast from "react-hot-toast";
 import useAxios from "../hooks/useAxios";
@@ -23,7 +12,7 @@ const Register = () => {
 
   const { createUser, updateUser, setUser } = use(AuthContext);
 
-  const axios = useAxios();
+  const axiosSecure = useAxios();
   const navigate = useNavigate();
   const { state } = useLocation();
   console.log(state);
@@ -44,7 +33,7 @@ const Register = () => {
         console.log(user);
         setUser(user);
         toast.success("Account created successfully!");
-        axios.post("/api/users", { name, email, password, photoURL });
+        axiosSecure.post("/api/users", { name, email, password, photoURL });
         updateUser({ displayName: name, photoURL: photoURL })
           .then(() => {
             toast.success("Account updated successfully!");

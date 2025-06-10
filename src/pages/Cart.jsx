@@ -3,7 +3,8 @@ import { useLoaderData } from "react-router";
 import SingleCart from "../components/SingleCart";
 
 const Cart = () => {
-  const allCarts = useLoaderData();
+  const { result: allCarts } = useLoaderData();
+  console.log(allCarts);
   const [carts, setCarts] = React.useState(allCarts);
 
   return (

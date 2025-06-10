@@ -19,7 +19,7 @@ const MyProductCard = ({ product, setProducts, products }) => {
     category,
   } = product;
 
-  const axios = useAxios();
+  const axiosSecure = useAxios();
 
   const handleDelete = () => {
     Swal.fire({
@@ -32,7 +32,7 @@ const MyProductCard = ({ product, setProducts, products }) => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        axios
+        axiosSecure
           .delete(`/api/products/${product._id}`)
           .then((res) => {
             if (res.data.result.deletedCount > 0) {
