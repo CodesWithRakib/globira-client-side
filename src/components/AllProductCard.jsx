@@ -2,7 +2,7 @@ import React from "react";
 import noImage from "/default.jpg";
 import { useNavigate } from "react-router";
 
-const ProductCard = ({ product }) => {
+const AllProductCard = ({ product }) => {
   const {
     productName,
     brandName,
@@ -43,13 +43,13 @@ const ProductCard = ({ product }) => {
         </div>
       </div>
       <button
-        onClick={() => navigate(`/product/${product._id}`)}
+        onClick={() => navigate(`/update-product/${product._id}`)}
         className="bg-primary dark:bg-amber-700 text-white px-4 py-2 rounded w-full"
       >
-        Details
+        Update
       </button>
     </div>
   );
 };
 
-export default ProductCard;
+export default AllProductCard;

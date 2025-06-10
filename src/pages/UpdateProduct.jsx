@@ -26,7 +26,7 @@ const UpdateProduct = () => {
     axiosSecure
       .put(`/api/products/${id}`, productInfo)
       .then((response) => {
-        console.log(response.data);
+        console.log(response);
         toast.success("Product updated successfully!");
         setIsUpdated(false);
         form.reset();
@@ -54,7 +54,7 @@ const UpdateProduct = () => {
     axiosSecure
       .get(`/api/products/${id}`)
       .then((response) => {
-        setProduct(response.data);
+        setProduct(response);
         setLoading(false);
       })
       .catch((error) => {

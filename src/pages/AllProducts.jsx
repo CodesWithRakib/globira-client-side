@@ -1,23 +1,40 @@
 import React, { useState } from "react";
-import AllProductsCard from "../components/AllProductsCard";
-import { useLoaderData, useNavigate } from "react-router";
+
+import { useNavigate } from "react-router";
+import ProductCard from "../components/ProductCard";
+import AllProductCard from "../components/AllProductCard";
+import useAxios from "../hooks/useAxios";
+import { useEffect } from "react";
+import Loading from "../components/Loading";
 
 const AllProducts = () => {
+  const [loading, setLoading] = useState(true);
+  const [products, setProducts] = useState([]);
   const [showAvailableOnly, setShowAvailableOnly] = useState(false);
   const [viewType, setViewType] = useState("card"); // 'card' or 'table'
-  const { data } = useLoaderData();
 
   // Filter logic
   const filteredProducts = showAvailableOnly
-    ? data.filter((product) => product.minimumQuantity > 100)
-    : data;
+    ? products.filter((product) => product.minimumQuantity > 100)
+    : products;
 
   const navigate = useNavigate();
   const handleProductUpdate = (productId) => {
     navigate(`/update-product/${productId}`);
   };
 
-  return (
+  const axiosSecure = useAxios();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    axiosSecure.get("/api/products").then((res) => {
+      setProducts(res.data.data);
+      setLoading(false);
+    });
+  });
+  return loading ? (
+    <Loading></Loading>
+  ) : (
     <div className="p-4">
       {/* Controls */}
       <div className="flex items-center justify-between mb-4">
@@ -42,9 +59,9 @@ const AllProducts = () => {
 
       {/* Products Display */}
       {viewType === "card" ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
           {filteredProducts.map((product) => (
-            <AllProductsCard key={product._id} product={product} />
+            <AllProductCard key={product._id} product={product} />
           ))}
         </div>
       ) : (

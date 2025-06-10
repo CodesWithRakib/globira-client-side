@@ -5,7 +5,6 @@ import toast from "react-hot-toast";
 import Swal from "sweetalert2";
 
 const SingleCart = ({ cart, setCarts, carts }) => {
-  console.log(cart);
   const {
     _id,
     productName,
@@ -16,8 +15,6 @@ const SingleCart = ({ cart, setCarts, carts }) => {
     description,
     buyerQuantity,
   } = cart;
-
-  console.log(_id);
 
   const axiosSecure = useAxios();
   const handleRemove = () => {
@@ -34,7 +31,6 @@ const SingleCart = ({ cart, setCarts, carts }) => {
         axiosSecure
           .delete(`/api/carts/${_id}`)
           .then((res) => {
-            console.log(res);
             toast.success(
               `${
                 res.data.message

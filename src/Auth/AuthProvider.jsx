@@ -45,32 +45,32 @@ const AuthProvider = ({ children }) => {
     return signInWithPopup(auth, provider);
   };
 
-  const axiosSecure = useAxios();
+  // const axiosSecure = useAxios();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       setUser(currentUser);
       setLoading(false);
 
-      if (currentUser?.email) {
-        try {
-          await axiosSecure.post(
-            "/jwt",
-            { email: currentUser.email },
-            { withCredentials: true }
-          );
-          console.log("JWT cookie set successfully");
-        } catch (error) {
-          console.error("Error setting JWT:", error);
-        }
-      } else {
-        try {
-          await axiosSecure.post("/logout", {}, { withCredentials: true });
-          console.log("JWT cookie cleared");
-        } catch (error) {
-          console.error("Error clearing JWT:", error);
-        }
-      }
+      // if (currentUser?.email) {
+      //   try {
+      //     await axiosSecure.post(
+      //       "/jwt",
+      //       { email: currentUser.email },
+      //       { withCredentials: true }
+      //     );
+      //     console.log("JWT cookie set successfully");
+      //   } catch (error) {
+      //     console.error("Error setting JWT:", error);
+      //   }
+      // } else {
+      //   try {
+      //     await axiosSecure.post("/logout", {}, { withCredentials: true });
+      //     console.log("JWT cookie cleared");
+      //   } catch (error) {
+      //     console.error("Error clearing JWT:", error);
+      //   }
+      // }
     });
 
     return () => {

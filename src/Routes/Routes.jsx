@@ -23,21 +23,14 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <Home></Home>,
-        loader: () =>
-          fetch(`http://localhost:5000/api/products?sortBy=newest&limit=10`),
       },
       {
         path: "categories",
         element: <Categories></Categories>,
-        loader: () => fetch(`http://localhost:5000/api/products`),
       },
       {
         path: "/category/:category",
         element: <CategoryProducts></CategoryProducts>,
-        loader: ({ params }) =>
-          fetch(
-            `http://localhost:5000/api/products?category=${params.category}`
-          ),
       },
       {
         path: "/all-products",
@@ -46,7 +39,6 @@ const router = createBrowserRouter([
             <AllProducts></AllProducts>
           </PrivateRoute>
         ),
-        loader: () => fetch(`http://localhost:5000/api/products`),
       },
       {
         path: "/add-product",
@@ -64,7 +56,6 @@ const router = createBrowserRouter([
             <MyProduct></MyProduct>{" "}
           </PrivateRoute>
         ),
-        loader: () => fetch("http://localhost:5000/api/products"),
       },
       {
         path: "product/:id",
@@ -74,8 +65,6 @@ const router = createBrowserRouter([
             <ProductDetails></ProductDetails>{" "}
           </PrivateRoute>
         ),
-        loader: ({ params }) =>
-          fetch(`http://localhost:5000/api/products/${params.id}`),
       },
       {
         path: "update-product/:id",
@@ -88,7 +77,6 @@ const router = createBrowserRouter([
       {
         path: "cart",
         element: <Cart></Cart>,
-        loader: () => fetch("http://localhost:5000/api/carts"),
       },
       {
         path: "profile",

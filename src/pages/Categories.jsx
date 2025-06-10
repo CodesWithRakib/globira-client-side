@@ -1,16 +1,18 @@
 import React from "react";
-import { useLoaderData, useNavigation } from "react-router";
+import { useNavigation } from "react-router";
 import ProductCard from "../components/ProductCard";
 import { Loader } from "lucide-react";
+import { useEffect } from "react";
+import useAxios from "../hooks/useAxios";
+import Loading from "../components/Loading";
 
 const Categories = () => {
   const [selectedCategory, setSelectedCategory] = React.useState(
     "electronics-gadgets"
   );
-  const { data } = useLoaderData();
+  const [loading, setLoading] = React.useState(true);
   const { state } = useNavigation();
-  const [products, setProducts] = React.useState(data);
-
+  const [products, setProducts] = React.useState([]);
   const filteredProducts = products.filter(
     (product) => product.category === selectedCategory
   );
@@ -52,7 +54,18 @@ const Categories = () => {
       slug: "office-supplies-stationery",
     },
   ];
-  return (
+
+  const axiosSecure = useAxios();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    axiosSecure.get(`/api/products`).then((res) => {
+      setProducts(res.data.data);
+      setLoading(false);
+    });
+  }, []);
+  return loading ? (
+    <Loading></Loading>
+  ) : (
     <div className="flex gap-5 min-h-screen h-screen   p-5 overflow-y-auto">
       <div className=" w-1/4 max-w-[300px]  p-2 overflow-auto">
         <div className="flex rounded-md  ">

@@ -1,13 +1,25 @@
 import React from "react";
-import { useLoaderData } from "react-router";
 import SingleCart from "../components/SingleCart";
+import useAxios from "../hooks/useAxios";
+import { useEffect } from "react";
+import Loading from "../components/Loading";
 
 const Cart = () => {
-  const { result: allCarts } = useLoaderData();
-  console.log(allCarts);
-  const [carts, setCarts] = React.useState(allCarts);
+  const [loading, setLoading] = React.useState(true);
+  const [carts, setCarts] = React.useState([]);
 
-  return (
+  const axiosSecure = useAxios();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    axiosSecure.get("/api/carts").then((res) => {
+      setCarts(res.data.result);
+      setLoading(false);
+    });
+  }, []);
+  return loading ? (
+    <Loading></Loading>
+  ) : (
     <div className="bg-red-400 py-10">
       <div className="text-center p-10 ">
         <h3 className="text-3xl">Your Shopping Cart </h3>

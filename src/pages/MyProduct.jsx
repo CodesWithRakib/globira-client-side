@@ -1,16 +1,15 @@
 import React, { use } from "react";
-
 import { AuthContext } from "../Auth/AuthProvider";
 import MyProductCard from "../components/MyProductCard";
 import NoProduct from "../components/NoProduct";
-import { useLoaderData, useNavigation } from "react-router";
 import Loading from "../components/Loading";
 import { useState } from "react";
+import useAxios from "../hooks/useAxios";
+import { useEffect } from "react";
 
 const MyProduct = () => {
-  const { data } = useLoaderData();
-  const [products, setProducts] = useState(data);
-  const state = useNavigation();
+  const [loading, setLoading] = useState(true);
+  const [products, setProducts] = useState([]);
 
   const { user } = use(AuthContext);
   const userAddedProducts = products?.filter(
@@ -20,11 +19,18 @@ const MyProduct = () => {
   //  const updatedProducts = products.filter(product => product._id !== id);
   // setProducts(updatedProducts);
 
-  if (state.state === "loading") {
-    return <Loading></Loading>;
-  }
+  const axiosSecure = useAxios();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    axiosSecure.get("/api/products").then((res) => {
+      setProducts(res.data.data);
+      setLoading(false);
+    });
+  }, []);
 
-  return (
+  return loading ? (
+    <Loading></Loading>
+  ) : (
     <div>
       {userAddedProducts?.length === 0 ? (
         <NoProduct></NoProduct>

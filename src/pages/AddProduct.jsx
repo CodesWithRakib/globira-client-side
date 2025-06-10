@@ -131,8 +131,7 @@ Usage Tips:
 
     axiosSecure
       .post("/api/products", productInfo)
-      .then((response) => {
-        console.log(response.data);
+      .then(() => {
         toast.success("Product added successfully!");
         setIsAdded(false);
         form.reset();
@@ -331,9 +330,6 @@ Usage Tips:
                   </svg>
                   <input
                     type="number"
-                    min={1}
-                    max={1000}
-                    step={1}
                     name="mainQuantity"
                     className={`  w-full `}
                     placeholder="1000"
@@ -346,7 +342,9 @@ Usage Tips:
               </div>
 
               <div className="w-full">
-                <legend className="fieldset-legend">Minimum Quantity</legend>
+                <legend className="fieldset-legend">
+                  Minimum Selling Quantity
+                </legend>
 
                 <label className="input validator w-full">
                   <svg
@@ -368,11 +366,9 @@ Usage Tips:
                   </svg>
                   <input
                     type="number"
-                    min={1}
-                    max={100}
                     name="minimumQuantity"
                     className={`  w-full `}
-                    placeholder="minimum quantity below 100"
+                    placeholder="minimum  selling quantity "
                     required
                   />
                 </label>

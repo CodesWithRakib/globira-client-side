@@ -35,7 +35,7 @@ const MyProductCard = ({ product, setProducts, products }) => {
         axiosSecure
           .delete(`/api/products/${product._id}`)
           .then((res) => {
-            if (res.data.result.deletedCount > 0) {
+            if (res.result.deletedCount > 0) {
               toast.success("Product deleted successfully");
               const remainingProducts = products.filter(
                 (p) => p._id !== product._id
