@@ -1,31 +1,59 @@
 import React from "react";
+import { motion } from "motion/react";
 
-const ExclusiveCard = () => {
+const ExclusiveCard = ({ offer }) => {
+  const {
+    image,
+    title,
+    description,
+    discount,
+    expiry,
+    buttonLabel = "View Offer",
+  } = offer || {};
   return (
-    <div className="card bg-base-100 image-full w-96 shadow-sm">
+    <motion.div
+      whileHover={{ scale: 1.03 }}
+      whileTap={{ scale: 0.98 }}
+      className="card bg-base-100 image-full w-full shadow-md overflow-hidden"
+    >
       <figure>
         <img
-          src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-          alt="Shoes"
+          src={
+            image ||
+            "https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
+          }
+          alt={title || "Offer Image"}
+          className="w-full h-full object-cover"
         />
       </figure>
-      <div className="card-body items-start">
-        <p className="bg-white text-zinc-800 px-4 py-0.5 rounded-full flex items-center font-medium text-xs">
-          25% OFF
+
+      <div className="card-body items-start justify-end bg-gradient-to-t from-black/80 to-transparent p-5">
+        {discount && (
+          <p className="bg-white text-zinc-800 px-3 py-1 rounded-full text-xs font-semibold mb-2 shadow">
+            {discount} OFF
+          </p>
+        )}
+
+        <h2 className="card-title text-white text-lg sm:text-xl">
+          {title || "Exclusive Deal"}
+        </h2>
+
+        <p className="text-sm text-gray-200">
+          {description ||
+            "Don't miss this limited-time deal on our best-selling products."}
         </p>
 
-        <h2 className="card-title">Card Title</h2>
-        <p>
-          A card component has a figure, a body part, and inside body there are
-          title and actions parts
-        </p>
+        {expiry && (
+          <p className="text-xs text-gray-400 mt-1">Expires on: {expiry}</p>
+        )}
 
-        <p>Expires on: 12/07/2025</p>
-        <div className="card-actions ">
-          <button className="btn btn-primary">View Offers</button>
+        <div className="card-actions mt-4">
+          <button className="btn btn-sm bg-[#FF6600] hover:bg-[#e65c00] text-white px-4">
+            {buttonLabel}
+          </button>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

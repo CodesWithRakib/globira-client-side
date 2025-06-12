@@ -2,23 +2,85 @@ import React from "react";
 import ExclusiveCard from "./ExclusiveCard";
 
 const ExclusiveOffers = () => {
+  const offers = [
+    {
+      image:
+        "https://images.unsplash.com/photo-1720424742704-ceb95856fa22?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fFNraW5jYXJlJTIwRXNzZW50aWFsc3xlbnwwfHwwfHx8MA%3D%3D",
+      title: "Skincare Essentials",
+      description: "Get glowing with our dermatologist-approved beauty kits.",
+      discount: "30%",
+      expiry: "2025-07-01",
+      buttonLabel: "Shop Now",
+    },
+    {
+      image:
+        "https://images.unsplash.com/photo-1691097913713-2e3ce8123a5b?q=80&w=2065&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      title: "Fitness Gear",
+      description: "Save big on resistance bands, yoga mats & more.",
+      discount: "40%",
+      expiry: "2025-07-10",
+      buttonLabel: "Grab Deal",
+    },
+    {
+      image:
+        "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      title: "Wireless Headphones",
+      description: "Experience crystal clear audio with up to 50% off.",
+      discount: "50%",
+      expiry: "2025-07-20",
+      buttonLabel: "Explore",
+    },
+    {
+      image:
+        "https://plus.unsplash.com/premium_photo-1661499280481-8b8ffb4585b6?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8SG9tZSUyMERlY29yJTIwU2FsZXxlbnwwfHwwfHx8MA%3D%3D",
+      title: "Home Decor Sale",
+      description: "Transform your space with modern, cozy aesthetics.",
+      discount: "20%",
+      expiry: "2025-07-15",
+      buttonLabel: "View Items",
+    },
+    {
+      image:
+        "https://images.unsplash.com/photo-1628454787246-cd6e6accc352?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8RXhjbHVzaXZlJTIwTWVuJUUyJTgwJTk5cyUyMFdlYXJ8ZW58MHwwfDB8fHww",
+      title: "Exclusive Men’s Wear",
+      description: "Trendy shirts & formalwear at discounted prices.",
+      discount: "35%",
+      expiry: "2025-08-01",
+      buttonLabel: "Buy Now",
+    },
+    {
+      image:
+        "https://images.unsplash.com/photo-1692645214212-ea7fdb37ca6d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8TGFwdG9wJTIwQ2xlYXJhbmNlfGVufDB8MHwwfHx8MA%3D%3D",
+      title: "Laptop Clearance",
+      description: "Limited stock of top laptops with unbeatable prices.",
+      discount: "45%",
+      expiry: "2025-07-30",
+      buttonLabel: "Claim Offer",
+    },
+  ];
+
   return (
-    <div className="p-5">
-      <div>
-        <div className="flex justify-between gap-5 items-center">
-          <h4>Exclusive Offers</h4>
-          <p>View All Offers</p>
+    <div className="px-5 py-8 bg-white dark:bg-zinc-900 text-zinc-800 dark:text-zinc-100">
+      <div className="mb-6">
+        <div className="flex justify-between items-center gap-5 mb-2">
+          <h2 className="text-2xl font-bold text-[#FF6600]">
+            Exclusive Offers
+          </h2>
+          <button className="text-sm md:text-base font-medium text-blue-600 hover:underline hover:text-blue-800 transition">
+            View All Offers
+          </button>
         </div>
-        <p>
-          Take advantage of our exclusive offers and get up to 50% off on select
+        <p className="text-sm text-gray-600 dark:text-gray-400 max-w-2xl">
+          Take advantage of our exclusive offers and get up to{" "}
+          <span className="font-semibold text-red-500">50% off</span> on select
           products.
         </p>
       </div>
 
-      <div className="grid grid-cols-1   md:grid-cols-2 lg:grid-cols-3 gap-5">
-        <ExclusiveCard></ExclusiveCard>
-        <ExclusiveCard></ExclusiveCard>
-        <ExclusiveCard></ExclusiveCard>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+        {offers.map((offer) => (
+          <ExclusiveCard key={offer._id} offer={offer}></ExclusiveCard>
+        ))}
       </div>
     </div>
   );
