@@ -67,9 +67,8 @@ const ProductDetails = () => {
   };
 
   useEffect(() => {
-    window.scrollTo(0, 0);
     axiosSecure.get(`/api/products/${id}`).then((res) => {
-      setProduct(res.data.data);
+      setProduct(res.data);
       setLoading(false);
     });
   });

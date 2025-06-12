@@ -14,14 +14,13 @@ import Loading from "../components/Loading";
 
 const Home = () => {
   const [loading, setLoading] = React.useState(true);
-  const axiosSecure = useAxios();
 
   const [products, setProducts] = React.useState([]);
+  const axiosSecure = useAxios();
 
   console.log(products);
 
   useEffect(() => {
-    window.scrollTo(0, 0);
     axiosSecure.get(`/api/products?sortBy=newest&limit=10`).then((res) => {
       setProducts(res.data.data);
       setLoading(false);

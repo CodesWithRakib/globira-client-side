@@ -26,7 +26,6 @@ const AllProducts = () => {
   const axiosSecure = useAxios();
 
   useEffect(() => {
-    window.scrollTo(0, 0);
     axiosSecure.get("/api/products").then((res) => {
       setProducts(res.data.data);
       setLoading(false);

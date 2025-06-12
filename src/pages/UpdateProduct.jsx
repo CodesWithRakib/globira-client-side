@@ -26,10 +26,11 @@ const UpdateProduct = () => {
     axiosSecure
       .put(`/api/products/${id}`, productInfo)
       .then((response) => {
-        console.log(response);
-        toast.success("Product updated successfully!");
-        setIsUpdated(false);
-        form.reset();
+        if (response.data.result.modifiedCount > 0) {
+          toast.success("Product updated successfully!");
+          setIsUpdated(false);
+          form.reset();
+        }
       })
       .catch((error) => {
         toast.error("Product update failed!");
@@ -54,7 +55,8 @@ const UpdateProduct = () => {
     axiosSecure
       .get(`/api/products/${id}`)
       .then((response) => {
-        setProduct(response);
+        setProduct(response.data);
+        console.log(response.data);
         setLoading(false);
       })
       .catch((error) => {

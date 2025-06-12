@@ -45,32 +45,24 @@ const AuthProvider = ({ children }) => {
     return signInWithPopup(auth, provider);
   };
 
-  // const axiosSecure = useAxios();
+  const axiosSecure = useAxios();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       setUser(currentUser);
-      setLoading(false);
 
-      // if (currentUser?.email) {
-      //   try {
-      //     await axiosSecure.post(
-      //       "/jwt",
-      //       { email: currentUser.email },
-      //       { withCredentials: true }
-      //     );
-      //     console.log("JWT cookie set successfully");
-      //   } catch (error) {
-      //     console.error("Error setting JWT:", error);
-      //   }
-      // } else {
-      //   try {
-      //     await axiosSecure.post("/logout", {}, { withCredentials: true });
-      //     console.log("JWT cookie cleared");
-      //   } catch (error) {
-      //     console.error("Error clearing JWT:", error);
-      //   }
-      // }
+      if (currentUser && currentUser.email) {
+        axiosSecure
+          .post("/jwt", { email: currentUser.email }, { withCredentials: true })
+          .then((data) => {
+            console.log(data.message);
+            setLoading(false);
+          })
+          .catch((error) => {
+            console.log(error);
+            setLoading(false);
+          });
+      }
     });
 
     return () => {
@@ -89,7 +81,9 @@ const AuthProvider = ({ children }) => {
     resetPassword,
     logInWithGoogle,
   };
-  return <AuthContext value={authData}>{children}</AuthContext>;
+  return (
+    <AuthContext.Provider value={authData}>{children}</AuthContext.Provider>
+  );
 };
 
 export default AuthProvider;

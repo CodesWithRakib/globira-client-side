@@ -15,7 +15,6 @@ const Register = () => {
   const axiosSecure = useAxios();
   const navigate = useNavigate();
   const { state } = useLocation();
-  console.log(state);
 
   const handleSubmit = (event) => {
     event.preventDefault();
