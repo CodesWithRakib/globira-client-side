@@ -55,7 +55,7 @@ const AuthProvider = ({ children }) => {
         axiosSecure
           .post("/jwt", { email: currentUser.email }, { withCredentials: true })
           .then((data) => {
-            console.log(data.message);
+            console.log(data.data.message);
             setLoading(false);
           })
           .catch((error) => {

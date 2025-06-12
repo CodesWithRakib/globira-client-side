@@ -99,7 +99,11 @@ const router = createBrowserRouter([
   },
   {
     path: "*",
-    element: <ErrorPage></ErrorPage>,
+    element: (
+      <ErrorPage
+        message={"Looks like our services are currently offline"}
+      ></ErrorPage>
+    ),
   },
 ]);
 
