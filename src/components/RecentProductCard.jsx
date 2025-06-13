@@ -3,6 +3,7 @@ import Rating from "react-rating";
 import { FaStar, FaRegStar } from "react-icons/fa";
 import { formatDistanceToNow } from "date-fns";
 import noImage from "/default.jpg";
+import { useNavigate } from "react-router";
 
 const RecentProductCard = ({ product }) => {
   const {
@@ -19,6 +20,8 @@ const RecentProductCard = ({ product }) => {
     sellerPhotoURL,
     createdAt,
   } = product;
+
+  const navigate = useNavigate();
   return (
     <div className="bg-white dark:bg-zinc-800 rounded-xl shadow hover:shadow-md transition overflow-hidden">
       <img
@@ -69,7 +72,7 @@ const RecentProductCard = ({ product }) => {
         </p>
 
         <button
-          onClick={() => console.log("navigate to details", _id)}
+          onClick={() => navigate(`/product/${_id}`)}
           className="mt-2 w-full bg-[#FF6600] hover:bg-[#e65c00] text-white py-1.5 rounded text-sm"
         >
           View Details

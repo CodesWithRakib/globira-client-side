@@ -1,46 +1,38 @@
 import React from "react";
+import { FiPackage } from "react-icons/fi";
+import { Link } from "react-router";
 
-const NoProduct = () => {
+const NoProduct = ({
+  message = "No products available",
+  actionText = "Browse Products",
+  actionLink = "/products",
+}) => {
   return (
-    <section className="flex items-center h-full sm:p-16 dark:bg-gray-50 dark:text-gray-800">
-      <div className="container flex flex-col items-center justify-center px-5 mx-auto my-8 space-y-8 text-center sm:max-w-md">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 512 512"
-          className="w-40 h-40 dark:text-gray-400"
-        >
-          <path
-            fill="currentColor"
-            d="M256,16C123.452,16,16,123.452,16,256S123.452,496,256,496,496,388.548,496,256,388.548,16,256,16ZM403.078,403.078a207.253,207.253,0,1,1,44.589-66.125A207.332,207.332,0,0,1,403.078,403.078Z"
-          ></path>
-          <rect
-            width="176"
-            height="32"
-            x="168"
-            y="320"
-            fill="currentColor"
-          ></rect>
-          <polygon
-            fill="currentColor"
-            points="210.63 228.042 186.588 206.671 207.958 182.63 184.042 161.37 162.671 185.412 138.63 164.042 117.37 187.958 141.412 209.329 120.042 233.37 143.958 254.63 165.329 230.588 189.37 251.958 210.63 228.042"
-          ></polygon>
-          <polygon
-            fill="currentColor"
-            points="383.958 182.63 360.042 161.37 338.671 185.412 314.63 164.042 293.37 187.958 317.412 209.329 296.042 233.37 319.958 254.63 341.329 230.588 365.37 251.958 386.63 228.042 362.588 206.671 383.958 182.63"
-          ></polygon>
-        </svg>
-        <p className="text-3xl">
-          Looks like our services are currently offline
-        </p>
-        <a
-          rel="noopener noreferrer"
-          href="#"
-          className="px-8 py-3 font-semibold rounded bg-zinc-900 text-white dark:bg-violet-600 dark:text-gray-50"
-        >
-          Back to homepage
-        </a>
+    <div className="flex flex-col items-center justify-center py-12 px-4 text-center">
+      {/* Icon with primary color circle */}
+      <div className="bg-base-100 p-6 rounded-full mb-6">
+        <FiPackage className="w-10 h-10 text-primary" />
       </div>
-    </section>
+
+      {/* Heading with base-content color */}
+      <h3 className="text-xl font-medium text-base-content mb-2">{message}</h3>
+
+      {/* Description with info color */}
+      <p className="text-info max-w-md mb-6">
+        It seems there are no products to display at the moment. Check back
+        later or explore our collection.
+      </p>
+
+      {/* Button with primary color */}
+      {actionText && actionLink && (
+        <Link
+          to={actionLink}
+          className="btn btn-primary hover:bg-accent text-neutral"
+        >
+          {actionText}
+        </Link>
+      )}
+    </div>
   );
 };
 

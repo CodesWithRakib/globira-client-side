@@ -8,6 +8,8 @@ import useAxios from "../hooks/useAxios";
 import Loading from "../components/Loading";
 
 const ProductDetails = () => {
+  const [mainImage, setMainImage] = useState(noImage);
+  const [activeThumbnail, setActiveThumbnail] = useState(0);
   const [loading, setLoading] = useState(true);
   const [product, setProduct] = useState({});
   const [userQuantity, setUserQuantity] = useState(1);
@@ -23,6 +25,7 @@ const ProductDetails = () => {
     productName,
     category = "",
     productImage,
+
     productContent,
     description,
     price,
@@ -31,6 +34,21 @@ const ProductDetails = () => {
     createdAt,
     _id,
   } = product;
+
+  // Sample placeholder images if no product images are available
+  const placeholderImages = [
+    productImage,
+    "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&auto=format&fit=crop",
+  ];
+
+  const displayImages = placeholderImages;
+
+  const handleThumbnailClick = (img, index) => {
+    setMainImage(img);
+    setActiveThumbnail(index);
+  };
 
   useEffect(() => {
     axiosSecure.get(`/api/products/${id}`).then((res) => {
@@ -140,28 +158,41 @@ const ProductDetails = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Left Side - Product Images */}
         <div className="space-y-4">
+          {/* Main Image */}
           <div className="bg-white dark:bg-zinc-950 rounded-xl shadow-lg overflow-hidden">
             <img
-              src={productImage || noImage}
+              src={mainImage}
               onError={(e) => (e.target.src = noImage)}
               alt={productName}
-              className="w-full h-96 object-contain p-4"
+              className="w-full h-96 object-contain p-4 bg-gray-50 dark:bg-zinc-900"
             />
           </div>
+
+          {/* Thumbnail Gallery */}
           <div className="grid grid-cols-4 gap-2">
-            {[1, 2, 3, 4].map((i) => (
+            {displayImages.slice(0, 4).map((img, index) => (
               <div
-                key={i}
-                className="bg-white dark:bg-gray-800 rounded-lg p-2 cursor-pointer border"
+                key={index}
+                className={`rounded-lg p-2 cursor-pointer border transition-all ${
+                  activeThumbnail === index
+                    ? "border-primary dark:border-primary ring-2 ring-primary/30"
+                    : "border-gray-200 dark:border-gray-700"
+                }`}
+                onClick={() => handleThumbnailClick(img, index)}
               >
                 <img
-                  src={productImage || noImage}
+                  src={img}
                   onError={(e) => (e.target.src = noImage)}
-                  alt={`${productName} thumbnail ${i}`}
-                  className="w-full h-20 object-contain"
+                  alt={`${productName} thumbnail ${index + 1}`}
+                  className="w-full h-20 object-contain bg-gray-50 dark:bg-zinc-900 rounded"
                 />
               </div>
             ))}
+          </div>
+
+          {/* Image Sources */}
+          <div className="text-xs text-gray-500 dark:text-gray-400 mt-2">
+            <p>Product images from "demo collection"</p>
           </div>
         </div>
 
@@ -525,7 +556,11 @@ const ProductDetails = () => {
               <div className="text-right">
                 <p className="text-sm text-gray-500">Total Price</p>
                 <p className="text-xl font-bold">
-                  ${(price * userQuantity).toFixed(2)}
+                  $
+                  {(price * userQuantity).toLocaleString("en-IN", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}
                 </p>
               </div>
             </div>
