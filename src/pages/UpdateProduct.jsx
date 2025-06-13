@@ -1,43 +1,105 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router";
 import AuthImagePattern from "../components/AuthImagePattern";
 import { AiFillProduct } from "react-icons/ai";
+import { FiUpload } from "react-icons/fi";
 import useAxios from "../hooks/useAxios";
 import { Loader2 } from "lucide-react";
 import toast from "react-hot-toast";
-import { useNavigate, useParams } from "react-router";
 import Loading from "../components/Loading";
 
+const cloudName = import.meta.env.VITE_CLOUD_NAME;
+const uploadPreset = "codeswithrakib";
 const UpdateProduct = () => {
-  const [isUpdated, setIsUpdated] = React.useState(false);
-  const [product, setProduct] = React.useState({});
-  const [loading, setLoading] = React.useState(true);
-
+  const [isUpdating, setIsUpdating] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [product, setProduct] = useState(null);
+  const [previewImage, setPreviewImage] = useState(null);
   const { id } = useParams();
   const axiosSecure = useAxios();
   const navigate = useNavigate();
 
-  const handleSubmit = (event) => {
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        setLoading(true);
+        const response = await axiosSecure.get(`/api/products/${id}`);
+        setProduct(response.data);
+        setPreviewImage(response.data.productImage);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching product:", error);
+        toast.error("Product not found or invalid ID");
+        navigate("/my-products");
+        setLoading(false);
+      }
+    };
+
+    fetchProduct();
+  }, [id, axiosSecure, navigate]);
+
+  const handleImageChange = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    try {
+      toast.loading("Uploading image...");
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", uploadPreset);
+
+      const res = await fetch(
+        `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      const data = await res.json();
+      setPreviewImage(data.secure_url);
+      toast.dismiss();
+      toast.success("Image uploaded!");
+    } catch (err) {
+      toast.dismiss();
+      toast.error("Image upload failed");
+      console.error(err);
+    }
+  };
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    setIsUpdated(true);
+    if (!product) return;
+
+    setIsUpdating(true);
     const form = event.target;
     const formData = new FormData(form);
-    const productInfo = Object.fromEntries(formData.entries());
 
-    axiosSecure
-      .put(`/api/products/${id}`, productInfo)
-      .then((response) => {
-        if (response.data.result.modifiedCount > 0) {
-          toast.success("Product updated successfully!");
-          setIsUpdated(false);
-          form.reset();
-        }
-      })
-      .catch((error) => {
-        toast.error("Product update failed!");
-        console.log(error);
-        setIsUpdated(false);
-      });
+    const productInfo = {
+      ...Object.fromEntries(formData.entries()),
+      productImage: previewImage,
+    };
+
+    try {
+      const response = await axiosSecure.put(
+        `/api/products/${id}`,
+        productInfo
+      );
+      if (response.data.result.modifiedCount > 0) {
+        toast.success("Product updated successfully!");
+      }
+    } catch (error) {
+      console.error("Error updating product:", error);
+      toast.error("Failed to update product");
+    } finally {
+      setIsUpdating(false);
+    }
   };
+
+  if (loading) return <Loading />;
+  if (!product)
+    return <div className="text-center py-10">Product not found</div>;
+
   const {
     brandName,
     productName,
@@ -47,377 +109,221 @@ const UpdateProduct = () => {
     mainQuantity,
     minimumQuantity,
     rating,
-    productImage,
   } = product;
 
-  useEffect(() => {
-    setLoading(true);
-    axiosSecure
-      .get(`/api/products/${id}`)
-      .then((response) => {
-        setProduct(response.data);
-        console.log(response.data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        setLoading(false);
-        toast.error("Product id incorrect or not found!");
-        navigate("/");
-        console.log(error);
-      });
-  }, [id]);
-  return loading ? (
-    <Loading></Loading>
-  ) : (
-    <div className="min-h-screen grid lg:grid-cols-2">
-      {/* left side */}
+  return (
+    <div className="min-h-screen grid lg:grid-cols-2 bg-gray-50 dark:bg-gray-900">
       <div className="flex flex-col justify-center items-center p-6 sm:p-12">
-        <div className="w-full max-w-lg space-y-8">
-          {/* LOGO */}
-          <div className="text-center mb-8">
-            <div className="flex flex-col items-center gap-2 group">
-              <div
-                className="size-12 rounded-xl bg-primary/10 flex items-center justify-center 
-              group-hover:bg-primary/20 transition-colors"
-              >
-                <AiFillProduct className="size-6 text-primary" />
+        <div className="w-full max-w-lg space-y-6">
+          <div className="text-center">
+            <div className="flex flex-col items-center gap-2">
+              <div className="size-14 rounded-xl bg-blue-100 dark:bg-blue-900/50 flex items-center justify-center mb-3">
+                <AiFillProduct className="size-6 text-blue-600 dark:text-blue-400" />
               </div>
-              <h1 className="text-2xl font-bold mt-2">Update Product</h1>
-              <p className="text-base-content/60">
-                Update your product details
+              <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+                Update Product
+              </h1>
+              <p className="text-gray-500 dark:text-gray-400">
+                Modify your product details
               </p>
             </div>
           </div>
 
-          {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-2 ">
-            <div className="form-control flex items-center justify-center gap-5 w-full">
-              <div className="w-full">
-                <legend className="fieldset-legend">Brand</legend>
-                <label className="input validator w-full">
-                  <svg
-                    className="h-[2em] opacity-50"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                  >
-                    <g
-                      strokeLinejoin="round"
-                      strokeLinecap="round"
-                      strokeWidth="2.5"
-                      fill="none"
-                      stroke="currentColor"
-                    >
-                      <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z" />
-                      <path d="m9 12 2 2 4-4" />
-                    </g>
-                  </svg>
-                  <input
-                    type="text"
-                    name="brandName"
-                    defaultValue={brandName}
-                    className={`  w-full `}
-                    placeholder="Nike"
-                    required
-                  />
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  Brand Name
                 </label>
-                <div className="validator-hint hidden">
-                  Enter valid brand name
-                </div>
-              </div>
-
-              <div className="w-full">
-                <legend className="fieldset-legend">Product Name</legend>
-
-                <label className="input validator w-full">
-                  <svg
-                    className="h-[2em] opacity-50"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                  >
-                    <g
-                      strokeLinejoin="round"
-                      strokeLinecap="round"
-                      strokeWidth="2.5"
-                      fill="none"
-                      stroke="currentColor"
-                    >
-                      <path d="m15 11-1 9" />
-                      <path d="m19 11-4-7" />
-                      <path d="M2 11h20" />
-                      <path d="m3.5 11 1.6 7.4a2 2 0 0 0 2 1.6h9.8a2 2 0 0 0 2-1.6l1.7-7.4" />
-                      <path d="M4.5 15.5h15" />
-                      <path d="m5 11 4-7" />
-                      <path d="m9 11 1 9" />
-                    </g>
-                  </svg>
-                  <input
-                    type="text"
-                    defaultValue={productName}
-                    name="productName"
-                    className={`  w-full `}
-                    placeholder="Nike"
-                    required
-                  />
-                </label>
-                <div className="validator-hint hidden">
-                  Enter valid product name
-                </div>
-              </div>
-            </div>
-            <fieldset className="form-control flex  items-center justify-center w-full">
-              <div className="w-full">
-                <legend className="fieldset-legend">Category</legend>
-                <select
-                  defaultValue={category}
-                  className="select w-full"
-                  name="category"
+                <input
+                  type="text"
+                  name="brandName"
+                  defaultValue={brandName}
                   required
-                >
-                  <option defaultValue={"electronics-gadgets"}>
-                    Electronics & Gadgets
-                  </option>
-                  <option defaultValue={"home-kitchen-appliances"}>
-                    Home & Kitchen Appliances
-                  </option>
-                  <option defaultValue={"fashion-apparel"}>
-                    Fashion & Apparel
-                  </option>
-                  <option defaultValue={"health-beauty"}>
-                    Health & Beauty
-                  </option>
-                  <option defaultValue={"industrial-machinery-tools"}>
-                    Industrial Machinery & Tools
-                  </option>
-                  <option defaultValue={"automotive-parts-accessories"}>
-                    {" "}
-                    Automotive Parts & Accessories
-                  </option>
-                  <option defaultValue={"office-supplies-stationery"}>
-                    {" "}
-                    Office Supplies & Stationery
-                  </option>
-                </select>
+                  className="w-full px-4 py-2 border dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white"
+                />
               </div>
-            </fieldset>
-
-            <div className="form-control flex items-center justify-center gap-5 w-full">
-              <div className="w-full">
-                <legend className="fieldset-legend">Product Image</legend>
-                <label className="input validator w-full">
-                  <svg
-                    className="h-[2em] opacity-50"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                  >
-                    <g
-                      strokeLinejoin="round"
-                      strokeLinecap="round"
-                      strokeWidth="2.5"
-                      fill="none"
-                      stroke="currentColor"
-                    >
-                      <path d="M16 5h6" />
-                      <path d="M19 2v6" />
-                      <path d="M21 11.5V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7.5" />
-                      <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" />
-                      <circle cx="9" cy="9" r="2" />
-                    </g>
-                  </svg>
-                  <input
-                    type="text"
-                    defaultValue={productImage}
-                    name="productImage"
-                    className={`  w-full `}
-                    placeholder="https://example.com/image.jpg"
-                    required
-                  />
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  Product Name
                 </label>
-                <div className="validator-hint hidden">
-                  Enter valid main quantity
-                </div>
-              </div>
-            </div>
-            <div className="form-control flex items-center justify-center gap-5 w-full">
-              <div className="w-full">
-                <legend className="fieldset-legend">Main Quantity</legend>
-                <label className="input validator w-full">
-                  <svg
-                    className="h-[2em] opacity-50"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                  >
-                    <g
-                      strokeLinejoin="round"
-                      strokeLinecap="round"
-                      strokeWidth="2.5"
-                      fill="none"
-                      stroke="currentColor"
-                    >
-                      <path d="m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7" />
-                      <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" />
-                      <path d="M15 22v-4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v4" />
-                      <path d="M2 7h20" />
-                      <path d="M22 7v3a2 2 0 0 1-2 2a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 16 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 12 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 8 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 4 12a2 2 0 0 1-2-2V7" />
-                    </g>
-                  </svg>
-                  <input
-                    type="number"
-                    defaultValue={mainQuantity}
-                    name="mainQuantity"
-                    className={`  w-full `}
-                    placeholder="1000"
-                    required
-                  />
-                </label>
-                <div className="validator-hint hidden">
-                  Enter valid main quantity
-                </div>
-              </div>
-
-              <div className="w-full">
-                <legend className="fieldset-legend">Minimum Quantity</legend>
-
-                <label className="input validator w-full">
-                  <svg
-                    className="h-[2em] opacity-50"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                  >
-                    <g
-                      strokeLinejoin="round"
-                      strokeLinecap="round"
-                      strokeWidth="2.5"
-                      fill="none"
-                      stroke="currentColor"
-                    >
-                      <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" />
-                      <path d="M12 9v4" />
-                      <path d="M12 17h.01" />
-                    </g>
-                  </svg>
-                  <input
-                    type="number"
-                    defaultValue={minimumQuantity}
-                    name="minimumQuantity"
-                    className={`  w-full `}
-                    placeholder="500"
-                    required
-                  />
-                </label>
-                <div className="validator-hint hidden">
-                  Enter valid minimum quantity
-                </div>
+                <input
+                  type="text"
+                  name="productName"
+                  defaultValue={productName}
+                  required
+                  className="w-full px-4 py-2 border dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white"
+                />
               </div>
             </div>
 
-            <div className="form-control flex items-center justify-center gap-5 w-full">
-              <div className="w-full">
-                <legend className="fieldset-legend">Price</legend>
-                <label className="input validator w-full">
-                  <svg
-                    className="h-[2em] opacity-50"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                  >
-                    <g
-                      strokeLinejoin="round"
-                      strokeLinecap="round"
-                      strokeWidth="2.5"
-                      fill="none"
-                      stroke="currentColor"
-                    >
-                      <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z" />
-                      <path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8" />
-                      <path d="M12 18V6" />
-                    </g>
-                  </svg>
-                  <input
-                    type="number"
-                    name="price"
-                    defaultValue={price}
-                    className={`  w-full `}
-                    placeholder="product price"
-                    required
-                  />
-                </label>
-                <div className="validator-hint hidden">
-                  Enter valid product price
-                </div>
-              </div>
-              <div className="w-full">
-                <legend className="fieldset-legend">Rating</legend>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                Category
+              </label>
+              <select
+                name="category"
+                defaultValue={category}
+                required
+                className="w-full px-4 py-2 border dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white"
+              >
+                <option value="electronics-gadgets">
+                  Electronics & Gadgets
+                </option>
+                <option value="home-kitchen-appliances">
+                  Home & Kitchen Appliances
+                </option>
+                <option value="fashion-apparel">Fashion & Apparel</option>
+                <option value="health-beauty">Health & Beauty</option>
+                <option value="industrial-machinery-tools">
+                  Industrial Machinery & Tools
+                </option>
+                <option value="automotive-parts-accessories">
+                  Automotive Parts & Accessories
+                </option>
+                <option value="office-supplies-stationery">
+                  Office Supplies & Stationery
+                </option>
+              </select>
+            </div>
 
-                <label className="input validator w-full">
-                  <svg
-                    className="h-[2em] opacity-50"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                  >
-                    <g
-                      strokeLinejoin="round"
-                      strokeLinecap="round"
-                      strokeWidth="2.5"
-                      fill="none"
-                      stroke="currentColor"
-                    >
-                      <path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z" />
-                    </g>
-                  </svg>
+            {/* Image Upload */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                Product Image
+              </label>
+              <div className="flex items-center gap-4">
+                <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                  <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                    <FiUpload className="w-8 h-8 text-gray-400" />
+                    <p className="text-sm text-gray-500 dark:text-gray-400">
+                      Click to upload or drag and drop
+                    </p>
+                  </div>
                   <input
-                    type="number"
-                    name="rating"
-                    defaultValue={rating}
-                    className={`  w-full `}
-                    min="1"
-                    max="5"
-                    step="1"
-                    placeholder="1-5 rating"
-                    required
+                    type="file"
+                    className="hidden"
+                    onChange={handleImageChange}
                   />
                 </label>
-                <div className="validator-hint hidden">
-                  Enter 1-5 only rating
-                </div>
+                {previewImage && (
+                  <div className="w-32 h-32 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-600">
+                    <img
+                      src={previewImage}
+                      alt="Preview"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                )}
+              </div>
+              <input
+                type="text"
+                name="productImage"
+                value={previewImage || ""}
+                onChange={(e) => setPreviewImage(e.target.value)}
+                className="mt-2 w-full px-4 py-2 border dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white"
+                placeholder="Or enter image URL"
+                required
+                readOnly={previewImage?.startsWith(
+                  "https://res.cloudinary.com"
+                )}
+              />
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  Main Quantity
+                </label>
+                <input
+                  type="number"
+                  name="mainQuantity"
+                  defaultValue={mainQuantity}
+                  min="1"
+                  required
+                  className="w-full px-4 py-2 border dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  Minimum Quantity
+                </label>
+                <input
+                  type="number"
+                  name="minimumQuantity"
+                  defaultValue={minimumQuantity}
+                  min="1"
+                  required
+                  className="w-full px-4 py-2 border dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white"
+                />
               </div>
             </div>
 
-            <fieldset className="form-control flex  items-center justify-center w-full">
-              <div className="w-full">
-                <legend className="fieldset-legend">Description</legend>
-                <textarea
-                  name="description"
-                  defaultValue={description}
-                  className="textarea w-full h-24"
-                  placeholder="Product description"
-                ></textarea>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  Price ($)
+                </label>
+                <input
+                  type="number"
+                  name="price"
+                  defaultValue={price}
+                  min="0.01"
+                  step="0.01"
+                  required
+                  className="w-full px-4 py-2 border dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white"
+                />
               </div>
-            </fieldset>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  Rating (1-5)
+                </label>
+                <input
+                  type="number"
+                  name="rating"
+                  defaultValue={rating}
+                  min="1"
+                  max="5"
+                  required
+                  className="w-full px-4 py-2 border dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                Description
+              </label>
+              <textarea
+                name="description"
+                defaultValue={description}
+                rows="4"
+                className="w-full px-4 py-2 border dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white"
+                placeholder="Detailed product description..."
+              ></textarea>
+            </div>
 
             <button
               type="submit"
-              className="btn btn-primary w-full"
-              disabled={isUpdated}
+              disabled={isUpdating}
+              className="w-full flex justify-center items-center py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
             >
-              {isUpdated ? (
+              {isUpdating ? (
                 <>
-                  <Loader2 className="w-4 h-4 mr-2 animate-spin">
-                    Updating...
-                  </Loader2>
+                  <Loader2 className="h-5 w-5 animate-spin mr-2" />
+                  Updating Product...
                 </>
               ) : (
-                "Update"
+                "Update Product"
               )}
             </button>
           </form>
         </div>
       </div>
 
-      {/* right side */}
-
       <AuthImagePattern
-        title="Start Your Business Journey"
-        subtitle="Create your free account to connect with verified buyers and suppliers.
-Whether you’re sourcing or selling—your global growth starts here."
+        title="Manage Your Products"
+        subtitle="Update your product details to keep your listings accurate and appealing to potential buyers."
       />
     </div>
   );
