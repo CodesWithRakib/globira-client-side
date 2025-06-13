@@ -4,6 +4,7 @@ import useAxios from "../hooks/useAxios";
 import Loading from "../components/Loading";
 import { FiShoppingCart } from "react-icons/fi";
 import { toast } from "react-hot-toast";
+import EmptyState from "../components/EmptyState";
 
 const Cart = () => {
   const [loading, setLoading] = useState(true);

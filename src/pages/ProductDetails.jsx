@@ -1,7 +1,15 @@
 import React, { useState, useEffect, useContext } from "react";
 import noImage from "/default.jpg";
 import { AuthContext } from "../Auth/AuthProvider";
-import { CircleMinus, CirclePlus, Star, StarHalf } from "lucide-react";
+import {
+  BadgeCheck,
+  CircleMinus,
+  CirclePlus,
+  Layers3,
+  Star,
+  PencilLine,
+  StarHalf,
+} from "lucide-react";
 import { useParams } from "react-router";
 import toast from "react-hot-toast";
 import useAxios from "../hooks/useAxios";
@@ -55,6 +63,17 @@ const ProductDetails = () => {
       setProduct(res.data);
       setLoading(false);
     });
+
+    const fetchReviews = async () => {
+      try {
+        const response = await axiosSecure.get(`/api/reviews/${id}`);
+        setReviews(response.data);
+      } catch (error) {
+        console.error("Error fetching reviews:", error);
+      }
+    };
+
+    fetchReviews();
 
     const mockReviews = [
       {
@@ -119,28 +138,27 @@ const ProductDetails = () => {
       });
   };
 
-  const handleReviewSubmit = (e) => {
+  const handleReviewSubmit = async (e) => {
     e.preventDefault();
-    if (!newReview.trim()) {
-      toast.error("Please write a review");
-      return;
-    }
+    if (!user || !rating || !newReview) return;
 
     const reviewData = {
-      productId: _id,
-      userId: user?.uid,
-      userName: user?.displayName,
-      userPhoto: user?.photoURL,
+      userId: user.uid,
+      user: user.displayName,
+      image: user.photoURL,
       rating,
       comment: newReview,
-      date: new Date().toISOString().split("T")[0],
+      productId: product._id, // or your dynamic product ID
+      date: new Date().toISOString(),
     };
 
-    // In a real app, you would post this to your API
-    toast.success("Review submitted successfully!");
-    setReviews([reviewData, ...reviews]);
-    setNewReview("");
-    setRating(5);
+    try {
+      await axiosSecure.post("/api/reviews", reviewData);
+      setReviews((prevReviews) => [...prevReviews, reviewData]);
+      setNewReview("");
+    } catch (err) {
+      console.error("Submit error:", err);
+    }
   };
 
   if (loading) return <Loading />;
@@ -197,93 +215,153 @@ const ProductDetails = () => {
         </div>
 
         {/* Right Side - Product Info */}
-        <div className="space-y-6">
-          <div>
-            <h1 className="text-3xl font-bold">{productName}</h1>
-            <div className="flex items-center mt-2 space-x-4">
+        <div className="space-y-8">
+          {/* Product Header */}
+          <div className="border-b border-gray-200 dark:border-gray-700 pb-6">
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+              {productName}
+            </h1>
+
+            <div className="mt-4 flex flex-wrap items-center gap-4">
+              {/* Rating */}
               <div className="flex items-center">
-                {[1, 2, 3, 4, 5].map((star) => (
-                  <Star
-                    key={star}
-                    size={18}
-                    className={`${
-                      star <= 4.5
-                        ? "fill-yellow-400 text-yellow-400"
-                        : "text-gray-300"
-                    }`}
-                  />
-                ))}
-                <span className="ml-2 text-sm text-gray-600 dark:text-gray-300">
-                  4.5 (24 reviews)
+                <div className="flex items-center mr-2">
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <svg
+                      key={star}
+                      className={`w-5 h-5 ${
+                        star <= 4.5
+                          ? "text-yellow-400 fill-yellow-400"
+                          : "text-gray-300 fill-gray-300"
+                      }`}
+                      viewBox="0 0 20 20"
+                    >
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    </svg>
+                  ))}
+                </div>
+                <span className="text-sm font-medium text-gray-600 dark:text-gray-300">
+                  4.5 <span className="text-gray-500">(24 reviews)</span>
                 </span>
               </div>
-              <span className="text-sm text-gray-500">
-                SKU: {_id?.slice(0, 8)}
-              </span>
+
+              {/* SKU */}
+              <div className="flex items-center text-sm">
+                <span className="text-gray-500 mr-1">SKU:</span>
+                <span className="font-mono bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded">
+                  {_id?.slice(0, 8).toUpperCase()}
+                </span>
+              </div>
             </div>
           </div>
 
-          <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
-            <div className="flex items-center justify-between">
+          {/* Price and Availability */}
+          <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <p className="text-2xl font-bold text-primary dark:text-amber-500">
-                  ${price}
-                </p>
-                <p className="text-sm text-gray-500">Per unit price</p>
+                <div className="flex items-end gap-2">
+                  <p className="text-3xl font-bold text-primary dark:text-amber-500">
+                    ${price}
+                  </p>
+                  <p className="text-gray-500 text-sm mb-1">per unit</p>
+                </div>
+                <div className="mt-2 flex items-center gap-2">
+                  <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                  <span className="text-sm text-gray-600 dark:text-gray-300">
+                    In stock ({mainQuantity} available)
+                  </span>
+                </div>
               </div>
-              <div className="text-right">
-                <p className="text-green-600 font-medium">
-                  In Stock: <span>{mainQuantity}</span>
-                </p>
-                <p className="text-sm text-gray-500">
-                  Min. Order:{" "}
-                  <span className="text-red-500">{minimumQuantity}</span>
-                </p>
+
+              <div>
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-gray-600 dark:text-gray-300">
+                      Minimum order:
+                    </span>
+                    <span className="font-medium">{minimumQuantity} units</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-gray-600 dark:text-gray-300">
+                      Lead time:
+                    </span>
+                    <span className="font-medium">2-3 business days</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
 
-          <div>
-            <h3 className="text-lg font-semibold mb-2">Product Details</h3>
-            <p className="text-gray-700 dark:text-gray-300">{description}</p>
+          {/* Product Description */}
+          <div className="prose max-w-none dark:prose-invert">
+            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+              Product Description
+            </h3>
+            <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+              {description}
+            </p>
           </div>
 
-          <div className="space-y-3">
-            <h3 className="text-lg font-semibold">Key Specifications</h3>
-            <ul className="space-y-2">
-              <li className="flex">
-                <span className="w-40 text-gray-500">Brand</span>
-                <span className="font-medium">{brandName}</span>
-              </li>
-              <li className="flex">
-                <span className="w-40 text-gray-500">Category</span>
-                <span className="font-medium">
-                  {category.split("-").join(" ")}
-                </span>
-              </li>
-              <li className="flex">
-                <span className="w-40 text-gray-500">Material</span>
-                <span className="font-medium">
-                  High-grade industrial materials
-                </span>
-              </li>
-              <li className="flex">
-                <span className="w-40 text-gray-500">Dimensions</span>
-                <span className="font-medium">Standard industry size</span>
-              </li>
-              <li className="flex">
-                <span className="w-40 text-gray-500">Added On</span>
-                <span className="font-medium">
-                  {new Date(createdAt).toLocaleDateString()}
-                </span>
-              </li>
-            </ul>
+          {/* Specifications */}
+          <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700">
+            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+              Specifications
+            </h3>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-3">
+                <div className="flex">
+                  <span className="w-40 text-gray-600 dark:text-gray-400">
+                    Brand
+                  </span>
+                  <span className="font-medium">{brandName}</span>
+                </div>
+                <div className="flex">
+                  <span className="w-40 text-gray-600 dark:text-gray-400">
+                    Category
+                  </span>
+                  <span className="font-medium capitalize">
+                    {category.split("-").join(" ")}
+                  </span>
+                </div>
+              </div>
+
+              <div className="space-y-3">
+                <div className="flex">
+                  <span className="w-40 text-gray-600 dark:text-gray-400">
+                    Material
+                  </span>
+                  <span className="font-medium">
+                    High-grade industrial materials
+                  </span>
+                </div>
+                <div className="flex">
+                  <span className="w-40 text-gray-600 dark:text-gray-400">
+                    Dimensions
+                  </span>
+                  <span className="font-medium">Standard industry size</span>
+                </div>
+              </div>
+            </div>
           </div>
 
-          <div className="pt-4">
+          {/* Additional Info */}
+          <div className="text-sm text-gray-500 dark:text-gray-400">
+            <p>
+              Added on{" "}
+              {new Date(createdAt).toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
+            </p>
+          </div>
+
+          {/* CTA Button */}
+          <div className="sticky bottom-0 bg-white dark:bg-gray-900 pt-4 pb-6 border-t border-gray-200 dark:border-gray-700 -mx-4 px-4">
             <button
               onClick={() => window.my_modal_3.showModal()}
-              className="w-full bg-primary hover:bg-secondary dark:bg-amber-700 text-white py-3 rounded-xl font-bold transition duration-300"
+              className="w-full bg-primary hover:bg-primary/90 dark:bg-amber-600 dark:hover:bg-amber-700 text-white py-4 rounded-xl font-bold transition-colors duration-200 shadow-md hover:shadow-lg"
             >
               Order Now
             </button>
@@ -293,23 +371,36 @@ const ProductDetails = () => {
 
       {/* Product Tabs */}
       <div className="mt-12">
-        <div className="tabs">
-          <a className="tab tab-bordered tab-active">Description</a>
-          <a className="tab tab-bordered">Specifications</a>
-          <a className="tab tab-bordered">Reviews ({reviews.length})</a>
+        <div className="flex flex-wrap justify-center gap-2 md:gap-4">
+          <button className="tab tab-bordered tab-active text-blue-600 font-medium transition-all duration-300">
+            Description
+          </button>
+          <button className="tab tab-bordered text-gray-600 hover:text-blue-600 transition-all duration-300">
+            Specifications
+          </button>
+          <button className="tab tab-bordered text-gray-600 hover:text-blue-600 transition-all duration-300">
+            Reviews <span className="ml-1">({reviews.length})</span>
+          </button>
         </div>
 
-        <div className="mt-6 p-4 bg-white dark:bg-gray-800 rounded-lg">
+        <div className="mt-6 bg-white/80 dark:bg-gray-800/80 backdrop-blur-md shadow-xl rounded-2xl p-6 border border-gray-200 dark:border-gray-700">
           <div>
-            <h3 className="text-xl font-semibold mb-4">Product Description</h3>
-            <p className="text-gray-700 dark:text-gray-300 mb-6">
+            <h3 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-4">
+              <BadgeCheck className="inline w-6 h-6 text-blue-500 mr-2" />
+              Product Description
+            </h3>
+            <p className="text-gray-700 dark:text-gray-300 mb-6 leading-relaxed">
               {productContent}
             </p>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {/* Key Features */}
               <div>
-                <h4 className="font-medium mb-2">Key Features</h4>
-                <ul className="list-disc pl-5 space-y-1 text-gray-700 dark:text-gray-300">
+                <h4 className="flex items-center gap-2 text-lg font-semibold text-blue-600 dark:text-blue-400 mb-3">
+                  <Layers3 className="w-5 h-5" />
+                  Key Features
+                </h4>
+                <ul className="list-disc list-inside space-y-2 text-gray-700 dark:text-gray-300">
                   <li>Premium industrial-grade materials for durability</li>
                   <li>Precision engineered for optimal performance</li>
                   <li>Compatible with standard industry equipment</li>
@@ -317,9 +408,14 @@ const ProductDetails = () => {
                   <li>Long service life with minimal maintenance</li>
                 </ul>
               </div>
+
+              {/* Applications */}
               <div>
-                <h4 className="font-medium mb-2">Applications</h4>
-                <ul className="list-disc pl-5 space-y-1 text-gray-700 dark:text-gray-300">
+                <h4 className="flex items-center gap-2 text-lg font-semibold text-blue-600 dark:text-blue-400 mb-3">
+                  <Star className="w-5 h-5" />
+                  Applications
+                </h4>
+                <ul className="list-disc list-inside space-y-2 text-gray-700 dark:text-gray-300">
                   <li>Industrial manufacturing processes</li>
                   <li>Factory production lines</li>
                   <li>Heavy machinery components</li>
@@ -333,15 +429,21 @@ const ProductDetails = () => {
       </div>
 
       {/* Reviews Section */}
-      <div className="mt-12">
-        <h2 className="text-2xl font-bold mb-6">Customer Reviews</h2>
+      <div className="mt-16">
+        <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center">
+          What Our Customers Say
+        </h2>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Review Summary */}
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
-            <h3 className="text-xl font-semibold mb-4">Overall Rating</h3>
-            <div className="flex items-center mb-2">
-              <div className="text-4xl font-bold mr-4">4.5</div>
+          <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md border border-gray-200 dark:border-gray-700 p-6 rounded-2xl shadow-xl">
+            <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-4">
+              Overall Rating
+            </h3>
+            <div className="flex items-center mb-4">
+              <span className="text-4xl font-extrabold text-blue-600 dark:text-blue-400 mr-4">
+                4.5
+              </span>
               <div>
                 <div className="flex">
                   {[1, 2, 3, 4, 5].map((star) => (
@@ -362,52 +464,43 @@ const ProductDetails = () => {
               </div>
             </div>
 
-            <div className="mt-6 space-y-2">
-              {[5, 4, 3, 2, 1].map((rating) => (
-                <div key={rating} className="flex items-center">
-                  <span className="w-10 text-sm">{rating} star</span>
-                  <div className="flex-1 mx-2 h-2 bg-gray-200 rounded-full">
-                    <div
-                      className="h-2 bg-yellow-400 rounded-full"
-                      style={{
-                        width: `${
-                          rating === 5
-                            ? 70
-                            : rating === 4
-                            ? 20
-                            : rating === 3
-                            ? 7
-                            : rating === 2
-                            ? 2
-                            : 1
-                        }%`,
-                      }}
-                    ></div>
+            <div className="space-y-3">
+              {[5, 4, 3, 2, 1].map((rating) => {
+                const percentages = { 5: 70, 4: 20, 3: 7, 2: 2, 1: 1 };
+                return (
+                  <div key={rating} className="flex items-center">
+                    <span className="w-10 text-sm font-medium text-gray-600">
+                      {rating}★
+                    </span>
+                    <div className="flex-1 h-2 mx-2 bg-gray-200 dark:bg-gray-700 rounded-full">
+                      <div
+                        className="h-2 bg-yellow-400 rounded-full"
+                        style={{ width: `${percentages[rating]}%` }}
+                      ></div>
+                    </div>
+                    <span className="text-sm text-gray-500 w-8 text-right">
+                      {percentages[rating]}%
+                    </span>
                   </div>
-                  <span className="text-sm text-gray-500 w-8 text-right">
-                    {rating === 5
-                      ? "70%"
-                      : rating === 4
-                      ? "20%"
-                      : rating === 3
-                      ? "7%"
-                      : rating === 2
-                      ? "2%"
-                      : "1%"}
-                  </span>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
 
           {/* Reviews List */}
           <div className="lg:col-span-2 space-y-6">
+            {/* Write Review Form */}
             {user && (
-              <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
-                <h3 className="text-lg font-semibold mb-4">Write a Review</h3>
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow">
+                <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+                  <PencilLine className="w-5 h-5 text-blue-600" />
+                  Write a Review
+                </h3>
                 <form onSubmit={handleReviewSubmit}>
                   <div className="mb-4">
-                    <label className="block mb-2">Your Rating</label>
+                    <label className="block mb-2 font-medium">
+                      Your Rating
+                    </label>
                     <div className="flex">
                       {[1, 2, 3, 4, 5].map((star) => (
                         <button
@@ -430,7 +523,7 @@ const ProductDetails = () => {
                   </div>
                   <div className="mb-4">
                     <textarea
-                      className="textarea textarea-bordered w-full"
+                      className="textarea textarea-bordered w-full resize-none"
                       placeholder="Share your experience with this product..."
                       value={newReview}
                       onChange={(e) => setNewReview(e.target.value)}
@@ -444,14 +537,15 @@ const ProductDetails = () => {
               </div>
             )}
 
+            {/* Render Reviews */}
             {reviews.map((review) => (
               <div
                 key={review.id}
-                className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow"
+                className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow"
               >
                 <div className="flex items-start">
                   <div className="avatar mr-4">
-                    <div className="w-12 h-12 rounded-full">
+                    <div className="w-12 h-12 rounded-full overflow-hidden">
                       <img
                         src={review.image}
                         alt={review.user}
@@ -465,7 +559,9 @@ const ProductDetails = () => {
                   <div className="flex-1">
                     <div className="flex justify-between items-start">
                       <div>
-                        <h4 className="font-semibold">{review.user}</h4>
+                        <h4 className="font-semibold text-gray-800 dark:text-white">
+                          {review.user}
+                        </h4>
                         <div className="flex items-center mt-1">
                           <div className="flex mr-2">
                             {[1, 2, 3, 4, 5].map((star) => (
