@@ -93,7 +93,7 @@ const AllProductCard = ({ product }) => {
       <div className="px-4 pb-4">
         <button
           onClick={() => navigate(`/update-product/${_id}`)}
-          className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 dark:bg-amber-600 dark:hover:bg-amber-700 text-white py-2 px-4 rounded transition-colors duration-300"
+          className="w-full flex items-center justify-center gap-2 bg-primary hover:bg-blue-700 dark:bg-amber-600 dark:hover:bg-amber-700 text-white py-2 px-4 rounded transition-colors duration-300"
         >
           <FaEdit /> Update Product
         </button>

@@ -14,29 +14,36 @@ const AddProduct = () => {
   const { user } = useContext(AuthContext);
 
   const productContent = {
-    electronics: `Includes:
+    electronics: `
+  Includes: 
 - Device unit
 - Charging cable
 - User manual
 - Warranty card`,
-    home: `Includes:
+    home: `
+  Includes:
 - Appliance unit
 - User manual
 - Warranty card`,
-    fashion: `Materials:
+    fashion: `
+  Materials:
 - Premium cotton/polyester blend
 - Eco-friendly dyes`,
-    industrial: `Includes:
+    industrial: `
+  Includes:
 - Main machine unit
 - Instruction manual
 - Safety gear (where applicable)`,
-    health: `Includes:
+    health: `
+  Includes:
 - Skincare and wellness products
 - Dermatologist tested items`,
-    automotive: `Includes:
+    automotive: `
+  Includes:
 - Car parts and accessories
 - Installation manuals`,
-    office: `Includes:
+    office: `
+  Includes:
 - Stationery items like pens, papers, organizers
 - Office supplies essentials`,
   };
@@ -303,6 +310,7 @@ const AddProduct = () => {
                 Description
               </label>
               <textarea
+                required
                 name="description"
                 rows="4"
                 className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white"

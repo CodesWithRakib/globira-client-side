@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import noImage from "/default.jpg";
-import { AuthContext } from "../Auth/AuthProvider";
 import {
   BadgeCheck,
   CircleMinus,
@@ -14,6 +13,7 @@ import { useParams } from "react-router";
 import toast from "react-hot-toast";
 import useAxios from "../hooks/useAxios";
 import Loading from "../components/Loading";
+import useAuth from "../hooks/useAuth";
 
 const ProductDetails = () => {
   const [mainImage, setMainImage] = useState(noImage);
@@ -24,7 +24,8 @@ const ProductDetails = () => {
   const [reviews, setReviews] = useState([]);
   const [newReview, setNewReview] = useState("");
   const [rating, setRating] = useState(5);
-  const { user } = useContext(AuthContext);
+  // const { user } = useContext(AuthContext);
+  const { user } = useAuth();
   const { id } = useParams();
   const axiosSecure = useAxios();
 
@@ -67,7 +68,7 @@ const ProductDetails = () => {
     const fetchReviews = async () => {
       try {
         const response = await axiosSecure.get(`/api/reviews/${id}`);
-        setReviews(response.data);
+        setReviews(response.data.reviews);
       } catch (error) {
         console.error("Error fetching reviews:", error);
       }
@@ -151,11 +152,22 @@ const ProductDetails = () => {
       productId: product._id, // or your dynamic product ID
       date: new Date().toISOString(),
     };
+    console.log(reviewData);
 
     try {
-      await axiosSecure.post("/api/reviews", reviewData);
-      setReviews((prevReviews) => [...prevReviews, reviewData]);
-      setNewReview("");
+      await axiosSecure
+        .post(`/api/reviews/${product._id}`, reviewData)
+        .then((res) => {
+          setReviews((prevReviews) => [...prevReviews, res.data]);
+          setNewReview("");
+          toast.success("Review submitted successfully!");
+        })
+        .catch((error) => {
+          console.log(error.response.data.message);
+          toast.error(
+            `Error submitting review: ${error?.response.data.message}`
+          );
+        });
     } catch (err) {
       console.error("Submit error:", err);
     }
@@ -538,9 +550,9 @@ const ProductDetails = () => {
             )}
 
             {/* Render Reviews */}
-            {reviews.map((review) => (
+            {reviews?.map((review) => (
               <div
-                key={review.id}
+                key={review._id}
                 className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow"
               >
                 <div className="flex items-start">

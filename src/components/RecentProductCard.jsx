@@ -28,7 +28,7 @@ const RecentProductCard = ({ product }) => {
         src={productImage || noImage}
         onError={(e) => (e.target.src = noImage)}
         alt={productName}
-        className="w-full h-[200px] object-cover"
+        className="w-full h-[300px] object-cover"
       />
 
       <div className="p-4 space-y-2 text-zinc-800 dark:text-zinc-100">
