@@ -14,6 +14,7 @@ import Loading from "../components/Loading";
 import Cta from "../components/Cta";
 import Contact from "../components/Contact";
 import GoogleMap from "../components/GoogleMap";
+import ErrorPage from "./ErrorPage";
 
 const Home = () => {
   const [loading, setLoading] = useState(true);

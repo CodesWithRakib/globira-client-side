@@ -4,6 +4,7 @@ import ExclusiveCard from "./ExclusiveCard";
 const ExclusiveOffers = () => {
   const offers = [
     {
+      id: 1,
       image:
         "https://images.unsplash.com/photo-1720424742704-ceb95856fa22?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fFNraW5jYXJlJTIwRXNzZW50aWFsc3xlbnwwfHwwfHx8MA%3D%3D",
       title: "Skincare Essentials",
@@ -13,6 +14,7 @@ const ExclusiveOffers = () => {
       buttonLabel: "Shop Now",
     },
     {
+      id: 2,
       image:
         "https://images.unsplash.com/photo-1691097913713-2e3ce8123a5b?q=80&w=2065&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       title: "Fitness Gear",
@@ -22,6 +24,7 @@ const ExclusiveOffers = () => {
       buttonLabel: "Grab Deal",
     },
     {
+      id: 3,
       image:
         "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       title: "Wireless Headphones",
@@ -31,6 +34,7 @@ const ExclusiveOffers = () => {
       buttonLabel: "Explore",
     },
     {
+      id: 4,
       image:
         "https://plus.unsplash.com/premium_photo-1661499280481-8b8ffb4585b6?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8SG9tZSUyMERlY29yJTIwU2FsZXxlbnwwfHwwfHx8MA%3D%3D",
       title: "Home Decor Sale",
@@ -40,6 +44,7 @@ const ExclusiveOffers = () => {
       buttonLabel: "View Items",
     },
     {
+      id: 5,
       image:
         "https://images.unsplash.com/photo-1628454787246-cd6e6accc352?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8RXhjbHVzaXZlJTIwTWVuJUUyJTgwJTk5cyUyMFdlYXJ8ZW58MHwwfDB8fHww",
       title: "Exclusive Men’s Wear",
@@ -49,6 +54,7 @@ const ExclusiveOffers = () => {
       buttonLabel: "Buy Now",
     },
     {
+      id: 6,
       image:
         "https://images.unsplash.com/photo-1692645214212-ea7fdb37ca6d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8TGFwdG9wJTIwQ2xlYXJhbmNlfGVufDB8MHwwfHx8MA%3D%3D",
       title: "Laptop Clearance",
@@ -79,7 +85,7 @@ const ExclusiveOffers = () => {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
         {offers.map((offer) => (
-          <ExclusiveCard key={offer._id} offer={offer}></ExclusiveCard>
+          <ExclusiveCard key={offer.id} offer={offer}></ExclusiveCard>
         ))}
       </div>
     </div>

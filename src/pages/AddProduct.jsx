@@ -7,7 +7,6 @@ import { Loader2 } from "lucide-react";
 import toast from "react-hot-toast";
 import { AuthContext } from "../Auth/AuthProvider";
 
-
 const AddProduct = () => {
   const [isAdded, setIsAdded] = useState(false);
   const [previewImage, setPreviewImage] = useState(null);
@@ -88,7 +87,6 @@ const AddProduct = () => {
     const selectedCategory = productInfo.category.split("-")[0];
     productInfo.productContent = productContent[selectedCategory] || "";
 
-
     let imageUrl = productInfo.productImage; // From text input
 
     // If a file was selected for upload
@@ -96,8 +94,8 @@ const AddProduct = () => {
     if (fileInput.files[0]) {
       try {
         imageUrl = await uploadImageToCloudinary(fileInput.files[0]);
-      } catch () {
-        toast.error("Image upload failed.");
+      } catch (error) {
+        toast.error("Image upload failed." + error);
         setIsAdded(false);
         return;
       }

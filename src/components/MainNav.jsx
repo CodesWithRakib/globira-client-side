@@ -181,6 +181,7 @@ const MainNav = () => {
         {user ? (
           <div className="relative group inline-block text-right">
             <img
+              onClick={() => navigate("/profile")}
               src={user?.photoURL || noImage}
               onError={(e) => (e.target.src = noImage)}
               alt={user?.displayName || "User"}

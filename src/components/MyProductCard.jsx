@@ -1,112 +1,158 @@
 import React from "react";
-import { Link } from "react-router";
-import { FaEdit } from "react-icons/fa";
+import { FaEdit, FaStar } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { toast } from "react-hot-toast";
 import Swal from "sweetalert2";
 import defaultImage from "/default.jpg";
 import useAxios from "../hooks/useAxios";
+import Rating from "react-rating";
+import { Link } from "react-router";
 
 const MyProductCard = ({ product, setProducts, products }) => {
   const {
+    _id,
     brandName,
     productName,
     price,
     mainQuantity,
     minimumQuantity,
     productImage,
-    rating,
+    rating = 0,
     category,
+    description,
   } = product;
 
   const axiosSecure = useAxios();
 
   const handleDelete = () => {
     Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
+      title: "Delete Product?",
+      text: "This action cannot be undone!",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Delete",
+      cancelButtonText: "Cancel",
+      reverseButtons: true,
+      background: localStorage.getItem("theme") === "dark" ? "#1a202c" : "#fff",
+      color: localStorage.getItem("theme") === "dark" ? "#fff" : "#1a202c",
     }).then((result) => {
-      console.log(result);
       if (result.isConfirmed) {
         axiosSecure
-          .delete(`/api/products/${product._id}`)
+          .delete(`/api/products/${_id}`)
           .then((res) => {
             if (res.data.result.deletedCount > 0) {
               toast.success("Product deleted successfully");
-              const remainingProducts = products.filter(
-                (p) => p._id !== product._id
-              );
+              const remainingProducts = products.filter((p) => p._id !== _id);
               setProducts(remainingProducts);
             }
           })
           .catch((error) => {
-            console.log(error);
-            toast.error(`Error deleting Product!!`);
+            console.error(error);
+            toast.error("Failed to delete product");
           });
       }
     });
   };
+
   return (
-    <div
-      className="w-full max-w-md mx-auto bg-white dark:bg-zinc-900 dark:text-white border border-gray-200 rounded-lg shadow-sm 
-    text-zinc-800
-    "
-    >
-      <a href="#">
+    <div className="w-full bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden border border-gray-200 dark:border-gray-700 transition-transform duration-300 hover:shadow-lg hover:-translate-y-1">
+      {/* Product Image */}
+      <div className="relative h-60 w-full overflow-hidden">
         <img
-          className=" w-full h-60 rounded-t-lg"
-          src={product.productImage ? product.productImage : defaultImage}
+          className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+          src={productImage || defaultImage}
           onError={(e) => {
-            e.target.onerror = null; // prevents looping
+            e.target.onerror = null;
             e.target.src = defaultImage;
           }}
-          alt="product image"
+          alt={productName}
         />
-      </a>
+        {/* Stock Status Badge */}
+        <span
+          className={`absolute top-2 right-2 px-2 py-1 rounded-full text-xs font-semibold ${
+            minimumQuantity > 100
+              ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
+              : "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
+          }`}
+        >
+          {minimumQuantity > 100 ? "In Stock" : "Low Stock"}
+        </span>
+      </div>
 
-      <div className="flex flex-col justify-between p-4 tracking-wide leading-tight space-y-8">
-        <div className="space-y-2">
+      {/* Product Details */}
+      <div className="p-4">
+        {/* Category */}
+        <span className="inline-block px-2 py-1 mb-2 text-xs font-semibold rounded bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300">
+          {category.split("-").join(" ").toUpperCase()}
+        </span>
+
+        {/* Product Name */}
+        <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-1 line-clamp-1">
+          {productName}
+        </h2>
+
+        {/* Brand */}
+        <p className="text-sm text-gray-600 dark:text-gray-300 mb-2">
+          Brand: <span className="font-medium">{brandName}</span>
+        </p>
+
+        {/* Description */}
+        <p className="text-gray-700 dark:text-gray-400 text-sm mb-3 line-clamp-2">
+          {description || "No description available"}
+        </p>
+
+        {/* Quantity Info */}
+        <div className="grid grid-cols-2 gap-2 mb-3">
           <div>
-            <h2 className="text-3xl font-semibold tracking-wide">
-              {productName}
-            </h2>
-            <h4>{category}</h4>
+            <p className="text-sm text-gray-600 dark:text-gray-300">
+              Main Qty:
+            </p>
+            <p className="font-medium">{mainQuantity}</p>
           </div>
-
           <div>
-            <div className="flex items-center gap-5">
-              <p>Brand:</p>
-              <h3 className="font-semibold">{brandName.toUpperCase()}</h3>
-            </div>
-            <div className="flex items-center gap-5">
-              <p>Main Quantity:</p>
-              <h3 className="font-semibold">{mainQuantity}</h3>
-            </div>
-            <div className="flex items-center gap-5">
-              <p>Minimum Quantity:</p>
-              <h3 className="font-semibold">{minimumQuantity}</h3>
-            </div>
+            <p className="text-sm text-gray-600 dark:text-gray-300">Min Qty:</p>
+            <p className="font-medium">{minimumQuantity}</p>
           </div>
         </div>
-      </div>
-      <div className="flex items-center justify-between p-5">
-        <Link
-          to={`/update-product/${product._id}`}
-          className="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center "
-        >
-          <FaEdit size={20} />
-        </Link>
-        <button
-          onClick={handleDelete}
-          className="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center "
-        >
-          <MdDelete size={20} />
-        </button>
+
+        {/* Price and Rating */}
+        <div className="flex justify-between items-center mb-4">
+          <div className="text-lg font-bold text-gray-900 dark:text-white">
+            ${price}
+          </div>
+          <div className="flex items-center">
+            <Rating
+              initialRating={rating}
+              readonly
+              emptySymbol={
+                <FaStar className="text-gray-300 dark:text-gray-600" />
+              }
+              fullSymbol={<FaStar className="text-yellow-400" />}
+              fractions={2}
+            />
+            <span className="ml-1 text-sm text-gray-600 dark:text-gray-300">
+              ({rating})
+            </span>
+          </div>
+        </div>
+
+        {/* Action Buttons */}
+        <div className="flex justify-between gap-3">
+          <Link
+            to={`/update-product/${_id}`}
+            className="flex-1 flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded transition-colors"
+          >
+            <FaEdit /> Edit
+          </Link>
+          <button
+            onClick={handleDelete}
+            className="flex-1 flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded transition-colors"
+          >
+            <MdDelete /> Delete
+          </button>
+        </div>
       </div>
     </div>
   );
