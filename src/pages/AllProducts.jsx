@@ -22,16 +22,24 @@ const AllProducts = () => {
   const navigate = useNavigate();
   const axiosSecure = useAxios();
 
+  console.log(viewType);
   useEffect(() => {
     const fetchProducts = async () => {
       setLoading(true);
       try {
-        let url = `/api/products?page=${page}&limit=${limit}`;
-        const response = await axiosSecure.get(url);
-        const { data, total } = response.data;
-        setProducts(data);
-        setTotalCount(total);
-        setTotalPages(Math.ceil(total / limit));
+        if (viewType === "card") {
+          const response = await axiosSecure.get(
+            `/api/products?page=${page}&limit=${limit}`
+          );
+          const { data, total } = response.data;
+          setProducts(data);
+          setTotalCount(total);
+          setTotalPages(Math.ceil(total / limit));
+        } else {
+          const response = await axiosSecure.get("/api/products");
+          setProducts(response.data.data);
+          setTotalCount(response.data.data.length);
+        }
       } catch (err) {
         console.error("Error fetching products:", err);
       } finally {
@@ -39,29 +47,8 @@ const AllProducts = () => {
       }
     };
 
-    if (viewType === "card") {
-      fetchProducts();
-    }
+    fetchProducts();
   }, [axiosSecure, page, viewType]);
-
-  // Fetch full data for table view
-  useEffect(() => {
-    const fetchAll = async () => {
-      setLoading(true);
-      try {
-        const response = await axiosSecure.get("/api/products");
-        setProducts(response.data.data);
-      } catch (err) {
-        console.error("Error fetching products:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (viewType === "table") {
-      fetchAll();
-    }
-  }, [axiosSecure, viewType]);
 
   const handleProductUpdate = (productId) => {
     navigate(`/update-product/${productId}`);
