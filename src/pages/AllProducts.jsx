@@ -214,7 +214,7 @@ const AllProducts = () => {
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center gap-3">
                         <img
-                          src={product.image || noImage}
+                          src={product.productImage || noImage}
                           alt={product.productName}
                           onError={(e) => (e.target.src = noImage)}
                           className="w-10 h-10 rounded-md border object-cover"
@@ -224,18 +224,33 @@ const AllProducts = () => {
                             {product.productName}
                           </div>
                           <div className="text-xs text-gray-500">
-                            SKU: {product.sku || "N/A"}
+                            SKU: {product._id.slice(0, 8) || "N/A"}
                           </div>
                         </div>
                       </div>
                     </td>
                     <td className="px-6 py-4">{product.brandName}</td>
-                    <td className="px-6 py-4">{product.category}</td>
+                    <td className="px-6 py-4">
+                      {product.category
+                        .split("-")
+                        .join(" ")
+                        .toLowerCase()
+                        .split(" ")
+                        .map(
+                          (word) => word.charAt(0).toUpperCase() + word.slice(1)
+                        )
+                        .join(" ")}
+                    </td>
                     <td className="px-6 py-4">{product.minimumQuantity}</td>
-                    <td className="px-6 py-4">${product.price}</td>
+                    <td className="px-6 py-4 text-primary dark:text-amber-800">
+                      $
+                      {product.price.toLocaleString("en-IN", {
+                        maximumFractionDigits: 2,
+                      })}
+                    </td>
                     <td className="px-6 py-4">
                       <span
-                        className={`px-3 py-1 inline-flex text-xs font-semibold rounded-full ${
+                        className={`px-3 py-1 inline-flex text-center text-xs font-semibold rounded-full ${
                           product.minimumQuantity > 100
                             ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
                             : "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
@@ -250,14 +265,14 @@ const AllProducts = () => {
                       <div className="flex space-x-2">
                         <button
                           onClick={() => handleProductUpdate(product._id)}
-                          className="text-blue-600 hover:text-blue-900 dark:text-blue-400"
+                          className="text-blue-600 hover:text-zinc-900  dark:hover:text-blue-500 dark:text-blue-400 cursor-pointer"
                         >
                           Edit
                         </button>
                         <span className="text-gray-300">|</span>
                         <button
                           onClick={() => handleViewDetails(product._id)}
-                          className="text-gray-600 hover:text-gray-900 dark:text-gray-400"
+                          className="text-primary hover:text-amber-700 dark:text-white cursor-pointer"
                         >
                           View
                         </button>
