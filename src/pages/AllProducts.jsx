@@ -3,7 +3,7 @@ import { useNavigate } from "react-router";
 import AllProductCard from "../components/AllProductCard";
 import useAxios from "../hooks/useAxios";
 import Loading from "../components/Loading";
-import { FaTh, FaList, FaFilter } from "react-icons/fa";
+import { FaTh, FaList, FaFilter, FaSearch } from "react-icons/fa";
 import noImage from "/noImage.jpg";
 
 const AllProducts = () => {
@@ -22,7 +22,6 @@ const AllProducts = () => {
   const navigate = useNavigate();
   const axiosSecure = useAxios();
 
-  console.log(viewType);
   useEffect(() => {
     const fetchProducts = async () => {
       setLoading(true);
@@ -88,7 +87,7 @@ const AllProducts = () => {
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
-            <FaFilter className="absolute left-3 top-3 text-gray-400" />
+            <FaSearch className="absolute left-3 top-3 text-gray-400" />
           </div>
 
           {/* View Toggle */}
@@ -179,81 +178,104 @@ const AllProducts = () => {
           )}
         </>
       ) : (
-        // TABLE VIEW
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden border border-gray-200 dark:border-gray-700">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden">
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
               <thead className="bg-gray-50 dark:bg-gray-700">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">
-                    Product
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">
-                    Brand
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">
-                    Category
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">
-                    Quantity
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">
-                    Price
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">
-                    Status
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">
-                    Actions
-                  </th>
+                  {[
+                    "Product",
+                    "Brand",
+                    "Category",
+                    "Quantity",
+                    "Price",
+                    "Status",
+                    "Actions",
+                  ].map((header) => (
+                    <th
+                      key={header}
+                      className="px-6 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-300 uppercase tracking-wider"
+                    >
+                      {header}
+                    </th>
+                  ))}
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
                 {filteredProducts.map((product) => (
-                  <tr key={product._id}>
+                  <tr
+                    key={product._id}
+                    className="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"
+                  >
+                    {/* Product Column */}
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex items-center gap-3">
-                        <img
-                          src={product.productImage || noImage}
-                          alt={product.productName}
-                          onError={(e) => (e.target.src = noImage)}
-                          className="w-10 h-10 rounded-md border object-cover"
-                        />
+                      <div className="flex items-center gap-4">
+                        <div className="flex-shrink-0 h-10 w-10 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-600">
+                          <img
+                            src={product.productImage || noImage}
+                            alt={product.productName}
+                            onError={(e) => (e.target.src = noImage)}
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
                         <div>
-                          <div className="text-sm font-medium text-gray-900 dark:text-white">
+                          <div className="font-medium text-gray-900 dark:text-white">
                             {product.productName}
                           </div>
-                          <div className="text-xs text-gray-500">
+                          <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                             SKU: {product._id.slice(0, 8) || "N/A"}
                           </div>
                         </div>
                       </div>
                     </td>
-                    <td className="px-6 py-4">{product.brandName}</td>
-                    <td className="px-6 py-4">
-                      {product.category
-                        .split("-")
-                        .join(" ")
-                        .toLowerCase()
-                        .split(" ")
-                        .map(
-                          (word) => word.charAt(0).toUpperCase() + word.slice(1)
-                        )
-                        .join(" ")}
+
+                    {/* Brand Column */}
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="text-sm text-gray-700 dark:text-gray-300">
+                        {product.brandName}
+                      </div>
                     </td>
-                    <td className="px-6 py-4">{product.minimumQuantity}</td>
-                    <td className="px-6 py-4 text-primary dark:text-amber-800">
-                      $
-                      {product.price.toLocaleString("en-IN", {
-                        maximumFractionDigits: 2,
-                      })}
+
+                    {/* Category Column */}
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="text-sm text-gray-700 dark:text-gray-300 capitalize">
+                        {product.category
+                          .split("-")
+                          .join(" ")
+                          .toLowerCase()
+                          .split(" ")
+                          .map(
+                            (word) =>
+                              word.charAt(0).toUpperCase() + word.slice(1)
+                          )
+                          .join(" ")}
+                      </div>
                     </td>
-                    <td className="px-6 py-4">
+
+                    {/* Quantity Column */}
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="text-sm text-gray-700 dark:text-gray-300">
+                        {product.minimumQuantity}
+                      </div>
+                    </td>
+
+                    {/* Price Column */}
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="text-sm font-medium text-primary dark:text-amber-500">
+                        $
+                        {product.price.toLocaleString("en-IN", {
+                          maximumFractionDigits: 2,
+                        })}
+                      </div>
+                    </td>
+
+                    {/* Status Column */}
+                    <td className="px-6 py-4 whitespace-nowrap">
                       <span
-                        className={`px-3 py-1 inline-flex text-center text-xs font-semibold rounded-full ${
+                        className={`px-2.5 py-1.5 inline-flex items-center text-xs font-medium rounded-full ${
                           product.minimumQuantity > 100
-                            ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
-                            : "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
+                            ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300"
+                            : "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300"
                         }`}
                       >
                         {product.minimumQuantity > 100
@@ -261,18 +283,19 @@ const AllProducts = () => {
                           : "Low Stock"}
                       </span>
                     </td>
-                    <td className="px-6 py-4">
-                      <div className="flex space-x-2">
+
+                    {/* Actions Column */}
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="flex items-center space-x-4">
                         <button
                           onClick={() => handleProductUpdate(product._id)}
-                          className="text-blue-600 hover:text-zinc-900  dark:hover:text-blue-500 dark:text-blue-400 cursor-pointer"
+                          className="text-sm font-medium text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 transition-colors"
                         >
                           Edit
                         </button>
-                        <span className="text-gray-300">|</span>
                         <button
                           onClick={() => handleViewDetails(product._id)}
-                          className="text-primary hover:text-amber-700 dark:text-white cursor-pointer"
+                          className="text-sm font-medium text-gray-600 hover:text-gray-800 dark:text-gray-300 dark:hover:text-gray-100 transition-colors"
                         >
                           View
                         </button>
