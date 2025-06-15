@@ -5,6 +5,7 @@ import { Loader2, EyeOffIcon, EyeIcon, GlobeLock } from "lucide-react";
 import { AuthContext } from "../Auth/AuthProvider";
 import toast from "react-hot-toast";
 import useAxios from "../hooks/useAxios";
+import useTitle from "../hooks/useTitle";
 
 const Register = () => {
   const [isSigningUp, setIsSigningUp] = React.useState(false);
@@ -15,6 +16,8 @@ const Register = () => {
   const axiosSecure = useAxios();
   const navigate = useNavigate();
   const { state } = useLocation();
+
+  useTitle(`Register`);
 
   const handleSubmit = (event) => {
     event.preventDefault();

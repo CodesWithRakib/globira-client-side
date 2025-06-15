@@ -7,6 +7,7 @@ import { Loader2 } from "lucide-react";
 import toast from "react-hot-toast";
 
 import useAuth from "../hooks/useAuth";
+import useTitle from "../hooks/useTitle";
 
 const AddProduct = () => {
   const [isAdded, setIsAdded] = useState(false);
@@ -14,6 +15,8 @@ const AddProduct = () => {
   const axiosSecure = useAxios();
 
   const { user } = useAuth();
+
+  useTitle(`Add Product `);
 
   const productContent = {
     electronics: `

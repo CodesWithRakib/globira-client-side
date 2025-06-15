@@ -5,12 +5,14 @@ import Loading from "../components/Loading";
 import { FiShoppingCart } from "react-icons/fi";
 import { toast } from "react-hot-toast";
 import EmptyState from "../components/EmptyState";
+import useTitle from "../hooks/useTitle";
 
 const Cart = () => {
   const [loading, setLoading] = useState(true);
   const [carts, setCarts] = useState([]);
   const axiosSecure = useAxios();
 
+  useTitle(`Cart`);
   useEffect(() => {
     const fetchCartItems = async () => {
       try {

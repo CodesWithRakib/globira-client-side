@@ -5,7 +5,7 @@ import { Link, useLocation, useNavigate } from "react-router";
 import { FaGlobeAmericas } from "react-icons/fa";
 import { AuthContext } from "../Auth/AuthProvider";
 import toast from "react-hot-toast";
-
+import useTitle from "../hooks/useTitle";
 
 function Login() {
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
@@ -13,6 +13,7 @@ function Login() {
 
   const { logIn, setUser, logInWithGoogle } = use(AuthContext);
 
+  useTitle(`Login`);
 
   const navigate = useNavigate();
   const location = useLocation();

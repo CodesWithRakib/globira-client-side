@@ -1,4 +1,4 @@
-import React, { useState, Head } from "react";
+import React, { useState } from "react";
 import Banner from "../components/Banner";
 import ProductCategory from "../components/ProductCategory";
 import RecentProduct from "../components/RecentProduct";
@@ -16,37 +16,16 @@ import Contact from "../components/Contact";
 import GoogleMap from "../components/GoogleMap";
 import ErrorPage from "./ErrorPage";
 import useAuth from "../hooks/useAuth";
+import useTitle from "../hooks/useTitle";
 
 const Home = () => {
-  const [loading, setLoading] = useState(true);
-  const [products, setProducts] = useState([]);
-  const [error, setError] = useState(null);
-
-  const axiosSecure = useAxios();
   const { user } = useAuth();
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const res = await axiosSecure.get(
-          `/api/products?sortBy=newest&page=1&limit=9`
-        );
-        setProducts(res.data.data);
-        console.log(res.data.data);
-      } catch (err) {
-        console.error("Error fetching products:", err);
-        setError("Something went wrong while loading products.");
-      } finally {
-        setLoading(false);
-      }
-    };
+  useTitle(`Home`);
 
-    fetchProducts();
-  }, [axiosSecure]);
-
-  if (loading) return <Loading />;
-  if (error)
-    return <ErrorPage message="Something went wrong while loading products." />;
+  // if (loading) return <Loading />;
+  // if (error)
+  //   return <ErrorPage message="Something went wrong while loading products." />;
 
   return (
     <>
@@ -54,7 +33,7 @@ const Home = () => {
         <Banner></Banner>
         <ProductCategory></ProductCategory>
         <ExclusiveOffers></ExclusiveOffers>
-        {user && <RecentProduct products={products}></RecentProduct>}
+        {user && <RecentProduct></RecentProduct>}
         <WhyBuyFromUs></WhyBuyFromUs>
         <BrandsCarousel></BrandsCarousel>
         <CustomerReviews></CustomerReviews>

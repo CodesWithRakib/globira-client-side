@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import Loading from "../components/Loading";
 import toast from "react-hot-toast";
 import { FiPackage } from "react-icons/fi";
+import useTitle from "../hooks/useTitle";
 
 const CategoryProducts = () => {
   const [loading, setLoading] = React.useState(true);
@@ -14,6 +15,7 @@ const CategoryProducts = () => {
 
   const axiosSecure = useAxios();
 
+  useTitle(`${category}`);
   useEffect(() => {
     axiosSecure
       .get(`/api/products?category=${category}`)

@@ -17,6 +17,7 @@ import useAxios from "../hooks/useAxios";
 import { toast } from "react-hot-toast";
 import Loading from "../components/Loading";
 import { Link } from "react-router";
+import useTitle from "../hooks/useTitle";
 
 const Profile = () => {
   const [selectedImg, setSelectedImg] = useState(null);
@@ -31,6 +32,7 @@ const Profile = () => {
   const { user, updateUser } = useContext(AuthContext);
   const axiosSecure = useAxios();
 
+  useTitle(`Profile`);
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
     if (!file) return;

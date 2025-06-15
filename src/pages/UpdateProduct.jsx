@@ -7,6 +7,7 @@ import useAxios from "../hooks/useAxios";
 import { Loader2 } from "lucide-react";
 import toast from "react-hot-toast";
 import Loading from "../components/Loading";
+import useTitle from "../hooks/useTitle";
 
 const cloudName = import.meta.env.VITE_CLOUD_NAME;
 const uploadPreset = "codeswithrakib";
@@ -19,6 +20,7 @@ const UpdateProduct = () => {
   const axiosSecure = useAxios();
   const navigate = useNavigate();
 
+  useTitle(`Update Product`);
   useEffect(() => {
     const fetchProduct = async () => {
       try {

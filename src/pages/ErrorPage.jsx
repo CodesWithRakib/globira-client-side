@@ -1,7 +1,9 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router";
+import useTitle from "../hooks/useTitle";
 
 const ErrorPage = ({ message = "Oops, something went wrong" }) => {
+  useTitle(`${message} `);
   useEffect(() => {
     document
       .querySelector("html")

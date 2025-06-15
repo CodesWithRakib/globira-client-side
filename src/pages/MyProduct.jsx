@@ -6,6 +6,7 @@ import Loading from "../components/Loading";
 import useAxios from "../hooks/useAxios";
 import { FiPlus } from "react-icons/fi";
 import { useNavigate } from "react-router";
+import useTitle from "../hooks/useTitle";
 
 const MyProduct = () => {
   const [loading, setLoading] = useState(true);
@@ -19,6 +20,7 @@ const MyProduct = () => {
   const limit = 10;
   const [totalPages, setTotalPages] = useState(0);
 
+  useTitle(`My Product`);
   useEffect(() => {
     const fetchProducts = async () => {
       if (!user?.email) return;

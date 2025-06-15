@@ -20,6 +20,7 @@ import {
   FaRegHeart,
   FaTimesCircle,
 } from "react-icons/fa";
+import useTitle from "../hooks/useTitle";
 
 const ProductDetails = () => {
   const [mainImage, setMainImage] = useState(noImage);
@@ -69,19 +70,24 @@ const ProductDetails = () => {
     setActiveThumbnail(index);
   };
 
-  useEffect(() => {
-    axiosSecure.get(`/api/products/${id}`).then((res) => {
-      if (!res.data) {
-        toast.error("Product not found");
-        return;
-      }
+  useTitle(`${productName} `);
 
-      if (res.data.productImage) {
-        setMainImage(res.data.productImage);
-        setProduct(res.data);
-        setLoading(false);
-      }
-    });
+  useEffect(() => {
+    axiosSecure.get(`/api/products/${id}`).then(
+      (res) => {
+        if (!res.data) {
+          toast.error("Product not found");
+          return;
+        }
+
+        if (res.data.productImage) {
+          setMainImage(res.data.productImage);
+          setProduct(res.data);
+          setLoading(false);
+        }
+      },
+      [axiosSecure, id]
+    );
 
     const fetchReviews = async () => {
       try {
@@ -756,9 +762,9 @@ const ProductDetails = () => {
             )}
 
             {/* Render Reviews */}
-            {reviews?.map((review) => (
+            {reviews?.map((review, index) => (
               <div
-                key={review._id}
+                key={review?._id || index}
                 className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow"
               >
                 <div className="flex items-start">

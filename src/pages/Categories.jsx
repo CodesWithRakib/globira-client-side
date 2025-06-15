@@ -3,6 +3,7 @@ import ProductCard from "../components/ProductCard";
 import useAxios from "../hooks/useAxios";
 import Loading from "../components/Loading";
 import SkeletonLoading from "../components/SkeletonLoading";
+import useTitle from "../hooks/useTitle";
 
 const Categories = () => {
   const [selectedCategory, setSelectedCategory] = useState(
@@ -41,6 +42,7 @@ const Categories = () => {
     },
   ];
 
+  useTitle(`Categories`);
   useEffect(() => {
     axiosSecure.get(`/api/products`).then((res) => {
       setProducts(res.data.data);

@@ -1,8 +1,37 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import RecentProductCard from "./RecentProductCard";
 import { FiPackage } from "react-icons/fi";
+import useAxios from "../hooks/useAxios";
+import Loading from "./Loading";
+import ErrorPage from "../pages/ErrorPage";
 
-const RecentProduct = ({ products }) => {
+const RecentProduct = () => {
+  const [loading, setLoading] = useState(true);
+  const [products, setProducts] = useState([]);
+  const [error, setError] = useState(null);
+
+  const axiosSecure = useAxios();
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const res = await axiosSecure.get(
+          `/api/products?sortBy=newest&page=1&limit=9`
+        );
+        setProducts(res.data.data);
+        console.log(res.data.data);
+      } catch (err) {
+        console.error("Error fetching products:", err);
+        setError("Something went wrong while loading products.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, [axiosSecure]);
+  if (loading) return <Loading></Loading>;
+  if (error) return <ErrorPage message={error}></ErrorPage>;
   return (
     <div className="text-zinc-800 dark:text-zinc-100 py-10 bg-gray-50 dark:bg-gray-900">
       <h1 className="text-2xl md:text-3xl font-bold px-5 mb-6 text-center">

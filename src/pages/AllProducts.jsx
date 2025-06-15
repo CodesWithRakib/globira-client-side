@@ -5,6 +5,7 @@ import useAxios from "../hooks/useAxios";
 import Loading from "../components/Loading";
 import { FaTh, FaList, FaFilter, FaSearch } from "react-icons/fa";
 import noImage from "/noImage.jpg";
+import useTitle from "../hooks/useTitle";
 
 const AllProducts = () => {
   const [loading, setLoading] = useState(true);
@@ -22,6 +23,7 @@ const AllProducts = () => {
   const navigate = useNavigate();
   const axiosSecure = useAxios();
 
+  useTitle(`All Products `);
   useEffect(() => {
     const fetchProducts = async () => {
       setLoading(true);
