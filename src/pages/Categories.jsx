@@ -10,6 +10,7 @@ const Categories = () => {
     "electronics-gadgets"
   );
   const [loading, setLoading] = useState(true);
+  const [categoryLoading, setCategoryLoading] = useState(false);
   const { state } = useNavigation();
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -58,6 +59,11 @@ const Categories = () => {
   const handleCategoryClick = (slug) => {
     setSelectedCategory(slug);
     setSearchTerm("");
+    setCategoryLoading(true);
+    axiosSecure.get(`/api/products?category=${slug}`).then((res) => {
+      setProducts(res.data.data);
+      setCategoryLoading(false);
+    });
   };
 
   return loading ? (
@@ -100,25 +106,27 @@ const Categories = () => {
       </aside>
 
       {/* Products */}
-      <main className="w-full p-2 md:p-5 ">
-        {state === "loading" ? (
-          <div className="flex items-center justify-center h-[300px]">
-            <Loader className="w-10 h-10 animate-spin text-orange-600" />
-          </div>
-        ) : filteredProducts.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-            {filteredProducts.map((product) => (
-              <ProductCard key={product._id} product={product} />
-            ))}
-          </div>
-        ) : (
-          <div className="flex items-center justify-center h-[300px]">
-            <p className="text-lg font-semibold opacity-70">
-              No products found in this category
-            </p>
-          </div>
-        )}
-      </main>
+      {categoryLoading ? (
+        <div className="flex items-center justify-center h-[600px] w-full">
+          <Loader className=" w-20 h-20 animate-spin" />
+        </div>
+      ) : (
+        <main className="w-full p-2 md:p-5 ">
+          {filteredProducts.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+              {filteredProducts.map((product) => (
+                <ProductCard key={product._id} product={product} />
+              ))}
+            </div>
+          ) : (
+            <div className="flex items-center justify-center h-[300px]">
+              <p className="text-lg font-semibold opacity-70">
+                No products found in this category
+              </p>
+            </div>
+          )}
+        </main>
+      )}
     </div>
   );
 };
