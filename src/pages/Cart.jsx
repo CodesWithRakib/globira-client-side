@@ -27,19 +27,6 @@ const Cart = () => {
     fetchCartItems();
   }, [axiosSecure]);
 
-  const handleClearAll = async () => {
-    try {
-      const response = await axiosSecure.delete("/api/carts/clear");
-      if (response.data.deletedCount > 0) {
-        setCarts([]);
-        toast.success("Cart cleared successfully");
-      }
-    } catch (error) {
-      console.error("Error clearing cart:", error);
-      toast.error("Failed to clear cart");
-    }
-  };
-
   const calculateTotal = () => {
     const total = carts.reduce((total, item) => {
       const price = parseFloat(item.unitPrice) || 0;
@@ -91,7 +78,11 @@ const Cart = () => {
                 Cart Items
               </h4>
               <button
-                onClick={handleClearAll}
+                onClick={() =>
+                  toast.success(
+                    "Cart Clear Functionality Will Be Added Soon ..."
+                  )
+                }
                 className="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300 font-medium text-sm"
               >
                 Clear All

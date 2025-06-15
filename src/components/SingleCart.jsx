@@ -76,7 +76,12 @@ const SingleCart = ({ cart, setCarts, carts }) => {
         />
         {/* Category Badge */}
         <span className="absolute top-3 left-3 px-2 py-1 bg-white dark:bg-gray-900 text-xs font-medium rounded-full shadow-sm">
-          {category}
+          {category
+            .split("-")
+            .join(" ")
+            .split(" ")
+            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(" ")}
         </span>
       </div>
 

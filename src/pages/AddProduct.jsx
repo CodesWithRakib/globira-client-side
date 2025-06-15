@@ -1,17 +1,19 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import AuthImagePattern from "../components/AuthImagePattern";
 import { AiFillProduct } from "react-icons/ai";
 import { FiUpload } from "react-icons/fi";
 import useAxios from "../hooks/useAxios";
 import { Loader2 } from "lucide-react";
 import toast from "react-hot-toast";
-import { AuthContext } from "../Auth/AuthProvider";
+
+import useAuth from "../hooks/useAuth";
 
 const AddProduct = () => {
   const [isAdded, setIsAdded] = useState(false);
   const [previewImage, setPreviewImage] = useState(null);
   const axiosSecure = useAxios();
-  const { user } = useContext(AuthContext);
+
+  const { user } = useAuth();
 
   const productContent = {
     electronics: `

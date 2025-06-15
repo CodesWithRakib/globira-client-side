@@ -29,11 +29,23 @@ const CategoryProducts = () => {
   return loading ? (
     <Loading></Loading>
   ) : products.length > 0 ? (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-      {products.map((product) => (
-        <ProductCard key={product._id} product={product}></ProductCard>
-      ))}
-    </div>
+    <>
+      <div className="text-zinc-800 dark:text-zinc-100 py-10 px-5">
+        <h1 className="text-2xl md:text-3xl font-bold px-5 mb-6 text-center">
+          {category
+            .split("-")
+            .join(" ")
+            .split(" ")
+            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(" ")}
+        </h1>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {products.map((product) => (
+            <ProductCard key={product._id} product={product}></ProductCard>
+          ))}
+        </div>
+      </div>
+    </>
   ) : (
     <div className="flex flex-col items-center justify-center py-12 px-4 text-center">
       <div className="bg-gray-100 dark:bg-gray-700 p-6 rounded-full mb-6">
