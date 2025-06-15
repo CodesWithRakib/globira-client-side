@@ -50,7 +50,6 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       setUser(currentUser);
-
       if (currentUser && currentUser.email) {
         axiosSecure
           .post("/jwt", { email: currentUser.email }, { withCredentials: true })
@@ -63,6 +62,7 @@ const AuthProvider = ({ children }) => {
             setLoading(false);
           });
       }
+      setLoading(false);
     });
 
     return () => {

@@ -25,7 +25,7 @@ const ProductCard = ({ product, loading }) => {
   }
 
   return (
-    <div className="relative rounded-xl border dark:border-zinc-800 shadow-sm dark:bg-zinc-950 bg-white flex flex-col overflow-hidden transition-all hover:shadow-lg group">
+    <div className="relative rounded-xl  shadow-sm dark:bg-zinc-950 bg-white flex flex-col overflow-hidden transition-all hover:shadow-lg group">
       {/* Wishlist icon */}
       <button
         onClick={() => setLiked(!liked)}

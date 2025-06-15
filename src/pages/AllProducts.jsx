@@ -15,7 +15,7 @@ const AllProducts = () => {
 
   // Pagination states
   const [page, setPage] = useState(1);
-  const limit = 8; // Number of items per page
+  const limit = 10; // Number of items per page
   const [totalPages, setTotalPages] = useState(0);
   const [totalCount, setTotalCount] = useState(0);
 

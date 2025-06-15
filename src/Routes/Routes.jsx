@@ -26,7 +26,12 @@ const router = createBrowserRouter([
       },
       {
         path: "categories",
-        element: <Categories></Categories>,
+        element: (
+          <PrivateRoute>
+            {" "}
+            <Categories></Categories>{" "}
+          </PrivateRoute>
+        ),
       },
       {
         path: "/category/:category",

@@ -14,7 +14,7 @@ const ExclusiveCard = ({ offer }) => {
     <motion.div
       whileHover={{ scale: 1.03 }}
       whileTap={{ scale: 0.98 }}
-      className="card bg-base-100 image-full w-full shadow-md overflow-hidden"
+      className="card bg-base-100 image-full w-full max-h-[400px] shadow-md overflow-hidden"
     >
       <figure>
         <img
@@ -27,9 +27,9 @@ const ExclusiveCard = ({ offer }) => {
         />
       </figure>
 
-      <div className="card-body items-start justify-end bg-gradient-to-t from-black/80 to-transparent p-5">
+      <div className="card-body items-start justify-center bg-gradient-to-t from-black/80 to-transparent p-5">
         {discount && (
-          <p className="bg-white text-zinc-800 px-3 py-1 rounded-full text-xs font-semibold mb-2 shadow">
+          <p className="bg-white text-zinc-800 px-3 py-1  flex items-center rounded-full text-xs font-semibold mb-2 shadow">
             {discount} OFF
           </p>
         )}

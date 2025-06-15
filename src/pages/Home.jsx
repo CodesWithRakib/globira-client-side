@@ -15,6 +15,7 @@ import Cta from "../components/Cta";
 import Contact from "../components/Contact";
 import GoogleMap from "../components/GoogleMap";
 import ErrorPage from "./ErrorPage";
+import useAuth from "../hooks/useAuth";
 
 const Home = () => {
   const [loading, setLoading] = useState(true);
@@ -22,14 +23,16 @@ const Home = () => {
   const [error, setError] = useState(null);
 
   const axiosSecure = useAxios();
+  const { user } = useAuth();
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         const res = await axiosSecure.get(
-          `/api/products?sortBy=newest&limit=10`
+          `/api/products?sortBy=newest&page=1&limit=9`
         );
         setProducts(res.data.data);
+        console.log(res.data.data);
       } catch (err) {
         console.error("Error fetching products:", err);
         setError("Something went wrong while loading products.");
@@ -51,7 +54,7 @@ const Home = () => {
         <Banner></Banner>
         <ProductCategory></ProductCategory>
         <ExclusiveOffers></ExclusiveOffers>
-        <RecentProduct products={products}></RecentProduct>
+        {user && <RecentProduct products={products}></RecentProduct>}
         <WhyBuyFromUs></WhyBuyFromUs>
         <BrandsCarousel></BrandsCarousel>
         <CustomerReviews></CustomerReviews>

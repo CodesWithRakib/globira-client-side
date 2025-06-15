@@ -31,7 +31,7 @@ const MainNav = () => {
     document.querySelector("html").setAttribute("data-theme", theme);
   }, [theme]);
   return (
-    <div className="navbar sticky top-0 z-50 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 shadow-md border-b border-gray-200 dark:border-gray-700 h-[100px] px-6 flex items-center justify-between py-4">
+    <div className="navbar sticky top-0 z-50 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 border-b border-gray-200 dark:border-gray-700 h-[100px] px-6 flex items-center justify-between py-4">
       <div className="flex items-center gap-4">
         <div className="dropdown flex sm:hidden">
           <label
