@@ -35,7 +35,7 @@ const MainNav = () => {
   }, [theme]);
 
   return (
-    <div className="navbar sticky top-0 z-50 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 border-b border-gray-200 dark:border-gray-700 h-[80px] px-4 sm:px-6 flex items-center justify-between py-0">
+    <div className="navbar sticky top-0 z-40 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 border-b border-gray-200 dark:border-gray-700 h-[80px] px-4 sm:px-6 flex items-center justify-between py-0">
       {/* Left Side - Logo & Mobile Menu */}
       <div className="flex items-center gap-2">
         <div className="dropdown flex sm:hidden">
