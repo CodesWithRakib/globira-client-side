@@ -215,7 +215,7 @@ function Login() {
               {isLoggedIn ? (
                 <>
                   <Loader2 className="h-5 w-5 animate-spin" />
-                  Loading...
+                  Login in...
                 </>
               ) : (
                 "Log In"

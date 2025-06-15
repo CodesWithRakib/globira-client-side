@@ -8,24 +8,19 @@ import CustomerReviews from "../components/CustomerReviews";
 import Faq from "../components/Faq";
 import BrandsCarousel from "../components/BrandsCarousel";
 import WhyBuyFromUs from "../components/WhyBuyFromUs";
-import { useEffect } from "react";
-import useAxios from "../hooks/useAxios";
 import Loading from "../components/Loading";
 import Cta from "../components/Cta";
 import Contact from "../components/Contact";
 import GoogleMap from "../components/GoogleMap";
-import ErrorPage from "./ErrorPage";
 import useAuth from "../hooks/useAuth";
 import useTitle from "../hooks/useTitle";
 
 const Home = () => {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
 
   useTitle(`Home`);
 
-  // if (loading) return <Loading />;
-  // if (error)
-  //   return <ErrorPage message="Something went wrong while loading products." />;
+  if (loading) return <Loading />;
 
   return (
     <>

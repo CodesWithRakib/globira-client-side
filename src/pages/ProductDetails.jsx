@@ -8,6 +8,17 @@ import {
   Star,
   PencilLine,
   StarHalf,
+  FileText,
+  MessageSquare,
+  ThumbsUp,
+  ChevronDown,
+  CheckCircle,
+  MoreHorizontal,
+  ListChecks,
+  Tag,
+  Folder,
+  Box,
+  Ruler,
 } from "lucide-react";
 import { useParams } from "react-router";
 import toast from "react-hot-toast";
@@ -86,6 +97,7 @@ const ProductDetails = () => {
           setLoading(false);
         }
       },
+
       [axiosSecure, id]
     );
 
@@ -392,105 +404,44 @@ const ProductDetails = () => {
             </p>
           </div>
 
-          {/* Specifications */}
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700">
-            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5 mr-2 text-blue-500"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
-                  clipRule="evenodd"
-                />
-              </svg>
+          <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700">
+            <h3 className="flex items-center text-xl font-semibold text-gray-900 dark:text-white mb-4">
+              <ListChecks className="w-5 h-5 text-blue-500 mr-2" />
               Specifications
             </h3>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-3">
-                <div className="flex items-center">
-                  <span className="w-40 text-gray-600 dark:text-gray-400 flex items-center">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-4 w-4 mr-2 text-blue-500"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    Brand
-                  </span>
-                  <span className="font-medium">{brandName}</span>
-                </div>
-                <div className="flex items-center">
-                  <span className="w-40 text-gray-600 dark:text-gray-400 flex items-center">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-4 w-4 mr-2 text-blue-500"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M17.707 9.293a1 1 0 010 1.414l-7 7a1 1 0 01-1.414 0l-7-7A.997.997 0 012 10V5a3 3 0 013-3h5c.256 0 .512.098.707.293l7 7zM5 6a1 1 0 100-2 1 1 0 000 2z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    Category
-                  </span>
-                  <span className="font-medium capitalize">
-                    {category.split("-").join(" ")}
-                  </span>
-                </div>
+            <div className="space-y-4">
+              <div className="flex">
+                <span className="w-40 text-gray-600 dark:text-gray-400 flex items-center">
+                  <Tag className="w-4 h-4 text-blue-500 mr-2" />
+                  Brand
+                </span>
+                <span className="font-medium">{brandName}</span>
               </div>
-
-              <div className="space-y-3">
-                <div className="flex items-center">
-                  <span className="w-40 text-gray-600 dark:text-gray-400 flex items-center">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-4 w-4 mr-2 text-blue-500"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    Material
-                  </span>
-                  <span className="font-medium">
-                    High-grade industrial materials
-                  </span>
-                </div>
-                <div className="flex items-center">
-                  <span className="w-40 text-gray-600 dark:text-gray-400 flex items-center">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-4 w-4 mr-2 text-blue-500"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm3 2h6v4H7V5zm8 8v2h1v-2h-1zm-2-8h1V5h-1v2zm2 4h1V9h-1v2zm-4-4h1V5h-1v2zm4 4h1v-2h-1v2zm-8 0h1v-2H7v2zm4 4h1v-2h-1v2zm-4 0h1v-2H7v2zm4-4h1V9h-1v2z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    Dimensions
-                  </span>
-                  <span className="font-medium">Standard industry size</span>
-                </div>
+              <div className="flex">
+                <span className="w-40 text-gray-600 dark:text-gray-400 flex items-center">
+                  <Folder className="w-4 h-4 text-blue-500 mr-2" />
+                  Category
+                </span>
+                <span className="font-medium capitalize">
+                  {category.split("-").join(" ")}
+                </span>
+              </div>
+              <div className="flex">
+                <span className="w-40 text-gray-600 dark:text-gray-400 flex items-center">
+                  <Box className="w-4 h-4 text-blue-500 mr-2" />
+                  Material
+                </span>
+                <span className="font-medium">
+                  High-grade industrial materials
+                </span>
+              </div>
+              <div className="flex">
+                <span className="w-40 text-gray-600 dark:text-gray-400 flex items-center">
+                  <Ruler className="w-4 h-4 text-blue-500 mr-2" />
+                  Dimensions
+                </span>
+                <span className="font-medium">Standard industry size</span>
               </div>
             </div>
           </div>
@@ -595,56 +546,75 @@ const ProductDetails = () => {
 
       {/* Product Tabs */}
       <div className="mt-12">
-        <div className="flex flex-wrap justify-center gap-2 md:gap-4">
-          <button className="tab tab-bordered tab-active text-blue-600 font-medium transition-all duration-300">
+        <div className="flex flex-wrap justify-center gap-2 md:gap-4 border-b border-gray-200 dark:border-gray-700 pb-1">
+          <button className="px-4 py-2 font-medium text-blue-600 border-b-2 border-blue-600 transition-all duration-300">
             Description
           </button>
-          <button className="tab tab-bordered text-gray-600 hover:text-blue-600 transition-all duration-300">
+          <button className="px-4 py-2 font-medium text-gray-600 hover:text-blue-600 transition-all duration-300">
             Specifications
           </button>
-          <button className="tab tab-bordered text-gray-600 hover:text-blue-600 transition-all duration-300">
-            Reviews <span className="ml-1">({reviews.length})</span>
+          <button className="px-4 py-2 font-medium text-gray-600 hover:text-blue-600 transition-all duration-300">
+            Reviews{" "}
+            <span className="ml-1 bg-blue-100 text-blue-800 text-xs font-semibold px-2 py-0.5 rounded-full">
+              {reviews.length}
+            </span>
           </button>
         </div>
 
-        <div className="mt-6 bg-white/80 dark:bg-gray-800/80 backdrop-blur-md shadow-xl rounded-2xl p-6 border border-gray-200 dark:border-gray-700">
+        <div className="mt-6 bg-white dark:bg-gray-800 shadow-lg rounded-xl p-6 md:p-8 border border-gray-100 dark:border-gray-700">
           <div>
-            <h3 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-4">
-              <BadgeCheck className="inline w-6 h-6 text-blue-500 mr-2" />
-              Product Description
-            </h3>
-            <p className="text-gray-700 dark:text-gray-300 mb-6 leading-relaxed">
+            <div className="flex items-center mb-6">
+              <BadgeCheck className="w-8 h-8 text-blue-500 mr-3" />
+              <h3 className="text-2xl font-bold text-gray-800 dark:text-gray-100">
+                Product Description
+              </h3>
+            </div>
+            <p className="text-gray-700 dark:text-gray-300 mb-8 leading-relaxed text-lg">
               {productContent}
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {/* Key Features */}
-              <div>
-                <h4 className="flex items-center gap-2 text-lg font-semibold text-blue-600 dark:text-blue-400 mb-3">
-                  <Layers3 className="w-5 h-5" />
+              <div className="bg-blue-50/50 dark:bg-gray-700/50 p-5 rounded-xl">
+                <h4 className="flex items-center gap-3 text-lg font-semibold text-blue-600 dark:text-blue-400 mb-4">
+                  <Layers3 className="w-6 h-6" />
                   Key Features
                 </h4>
-                <ul className="list-disc list-inside space-y-2 text-gray-700 dark:text-gray-300">
-                  <li>Premium industrial-grade materials for durability</li>
-                  <li>Precision engineered for optimal performance</li>
-                  <li>Compatible with standard industry equipment</li>
-                  <li>Manufactured under strict quality control</li>
-                  <li>Long service life with minimal maintenance</li>
+                <ul className="space-y-3 text-gray-700 dark:text-gray-300">
+                  {[
+                    "Premium industrial-grade materials for durability",
+                    "Precision engineered for optimal performance",
+                    "Compatible with standard industry equipment",
+                    "Manufactured under strict quality control",
+                    "Long service life with minimal maintenance",
+                  ].map((feature, index) => (
+                    <li key={index} className="flex items-start">
+                      <CheckCircle className="w-5 h-5 text-green-500 mt-0.5 mr-2 flex-shrink-0" />
+                      <span>{feature}</span>
+                    </li>
+                  ))}
                 </ul>
               </div>
 
               {/* Applications */}
-              <div>
-                <h4 className="flex items-center gap-2 text-lg font-semibold text-blue-600 dark:text-blue-400 mb-3">
-                  <Star className="w-5 h-5" />
+              <div className="bg-blue-50/50 dark:bg-gray-700/50 p-5 rounded-xl">
+                <h4 className="flex items-center gap-3 text-lg font-semibold text-blue-600 dark:text-blue-400 mb-4">
+                  <Star className="w-6 h-6" />
                   Applications
                 </h4>
-                <ul className="list-disc list-inside space-y-2 text-gray-700 dark:text-gray-300">
-                  <li>Industrial manufacturing processes</li>
-                  <li>Factory production lines</li>
-                  <li>Heavy machinery components</li>
-                  <li>Equipment maintenance and repair</li>
-                  <li>Large-scale construction projects</li>
+                <ul className="space-y-3 text-gray-700 dark:text-gray-300">
+                  {[
+                    "Industrial manufacturing processes",
+                    "Factory production lines",
+                    "Heavy machinery components",
+                    "Equipment maintenance and repair",
+                    "Large-scale construction projects",
+                  ].map((app, index) => (
+                    <li key={index} className="flex items-start">
+                      <CheckCircle className="w-5 h-5 text-green-500 mt-0.5 mr-2 flex-shrink-0" />
+                      <span>{app}</span>
+                    </li>
+                  ))}
                 </ul>
               </div>
             </div>
@@ -655,37 +625,35 @@ const ProductDetails = () => {
       {/* Reviews Section */}
       <div className="mt-16">
         <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center">
-          What Our Customers Say
+          Customer Reviews
+          <span className="block text-lg font-normal text-gray-500 mt-2">
+            Hear from our satisfied customers
+          </span>
         </h2>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Review Summary */}
-          <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md border border-gray-200 dark:border-gray-700 p-6 rounded-2xl shadow-xl">
-            <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-4">
-              Overall Rating
-            </h3>
-            <div className="flex items-center mb-4">
-              <span className="text-4xl font-extrabold text-blue-600 dark:text-blue-400 mr-4">
+          <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-6 rounded-xl shadow-lg">
+            <div className="text-center mb-6">
+              <div className="inline-flex items-center justify-center bg-blue-100 text-blue-800 text-5xl font-extrabold w-32 h-32 rounded-full mb-4">
                 4.5
-              </span>
-              <div>
-                <div className="flex">
-                  {[1, 2, 3, 4, 5].map((star) => (
-                    <Star
-                      key={star}
-                      size={20}
-                      className={`${
-                        star <= 4.5
-                          ? "fill-yellow-400 text-yellow-400"
-                          : "text-gray-300"
-                      }`}
-                    />
-                  ))}
-                </div>
-                <p className="text-sm text-gray-500 mt-1">
-                  Based on 24 reviews
-                </p>
               </div>
+              <div className="flex justify-center mb-2">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <Star
+                    key={star}
+                    size={24}
+                    className={`mx-0.5 ${
+                      star <= 4.5
+                        ? "fill-yellow-400 text-yellow-400"
+                        : "text-gray-300 dark:text-gray-600"
+                    }`}
+                  />
+                ))}
+              </div>
+              <p className="text-sm text-gray-500">
+                Based on {reviews.length} reviews
+              </p>
             </div>
 
             <div className="space-y-3">
@@ -693,16 +661,17 @@ const ProductDetails = () => {
                 const percentages = { 5: 70, 4: 20, 3: 7, 2: 2, 1: 1 };
                 return (
                   <div key={rating} className="flex items-center">
-                    <span className="w-10 text-sm font-medium text-gray-600">
-                      {rating}★
+                    <span className="w-8 text-sm font-medium text-gray-600 dark:text-gray-300">
+                      {rating}
                     </span>
-                    <div className="flex-1 h-2 mx-2 bg-gray-200 dark:bg-gray-700 rounded-full">
+                    <Star className="w-5 h-5 text-yellow-400 ml-1" />
+                    <div className="flex-1 h-2.5 mx-3 bg-gray-200 dark:bg-gray-700 rounded-full">
                       <div
-                        className="h-2 bg-yellow-400 rounded-full"
+                        className="h-2.5 bg-yellow-400 rounded-full"
                         style={{ width: `${percentages[rating]}%` }}
                       ></div>
                     </div>
-                    <span className="text-sm text-gray-500 w-8 text-right">
+                    <span className="text-sm text-gray-500 dark:text-gray-400 w-10 text-right">
                       {percentages[rating]}%
                     </span>
                   </div>
@@ -715,30 +684,34 @@ const ProductDetails = () => {
           <div className="lg:col-span-2 space-y-6">
             {/* Write Review Form */}
             {user && (
-              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow">
-                <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-                  <PencilLine className="w-5 h-5 text-blue-600" />
-                  Write a Review
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700">
+                <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
+                  <PencilLine className="w-6 h-6 text-blue-600" />
+                  Share Your Experience
                 </h3>
                 <form onSubmit={handleReviewSubmit}>
                   <div className="mb-4">
-                    <label className="block mb-2 font-medium">
+                    <label className="block mb-2 font-medium text-gray-700 dark:text-gray-300">
                       Your Rating
                     </label>
-                    <div className="flex">
+                    <div className="flex space-x-1">
                       {[1, 2, 3, 4, 5].map((star) => (
                         <button
                           key={star}
                           type="button"
                           onClick={() => setRating(star)}
-                          className="focus:outline-none"
+                          className={`p-1 rounded-full transition-all ${
+                            star <= rating
+                              ? "bg-yellow-100 dark:bg-yellow-900/30"
+                              : "hover:bg-gray-100 dark:hover:bg-gray-700"
+                          }`}
                         >
                           <Star
-                            size={24}
+                            size={28}
                             className={`${
                               star <= rating
                                 ? "fill-yellow-400 text-yellow-400"
-                                : "text-gray-300"
+                                : "text-gray-300 dark:text-gray-600"
                             }`}
                           />
                         </button>
@@ -747,72 +720,125 @@ const ProductDetails = () => {
                   </div>
                   <div className="mb-4">
                     <textarea
-                      className="textarea textarea-bordered w-full resize-none"
-                      placeholder="Share your experience with this product..."
+                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+                      placeholder="Share your honest thoughts about this product..."
                       value={newReview}
                       onChange={(e) => setNewReview(e.target.value)}
-                      rows="3"
+                      rows="4"
                     ></textarea>
                   </div>
-                  <button type="submit" className="btn btn-primary">
+                  <button
+                    type="submit"
+                    className="w-full md:w-auto px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors shadow-md"
+                  >
                     Submit Review
                   </button>
                 </form>
               </div>
             )}
 
+            {/* Reviews Sorting */}
+            <div className="flex justify-between items-center">
+              <h4 className="text-lg font-semibold text-gray-800 dark:text-white">
+                {reviews.length} Customer Reviews
+              </h4>
+              <div className="relative">
+                <select className="appearance-none bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-white py-2 pl-4 pr-8 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                  <option>Most Recent</option>
+                  <option>Highest Rated</option>
+                  <option>Lowest Rated</option>
+                </select>
+                <ChevronDown className="w-5 h-5 text-gray-400 absolute right-3 top-2.5 pointer-events-none" />
+              </div>
+            </div>
+
             {/* Render Reviews */}
-            {reviews?.map((review, index) => (
-              <div
-                key={review?._id || index}
-                className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow"
-              >
-                <div className="flex items-start">
-                  <div className="avatar mr-4">
-                    <div className="w-12 h-12 rounded-full overflow-hidden">
-                      <img
-                        src={review.image}
-                        alt={review.user}
-                        onError={(e) => {
-                          e.target.src =
-                            "https://randomuser.me/api/portraits/lego/1.jpg";
-                        }}
-                      />
-                    </div>
-                  </div>
-                  <div className="flex-1">
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <h4 className="font-semibold text-gray-800 dark:text-white">
-                          {review.user}
-                        </h4>
-                        <div className="flex items-center mt-1">
-                          <div className="flex mr-2">
-                            {[1, 2, 3, 4, 5].map((star) => (
-                              <Star
-                                key={star}
-                                size={16}
-                                className={`${
-                                  star <= review.rating
-                                    ? "fill-yellow-400 text-yellow-400"
-                                    : "text-gray-300"
-                                }`}
-                              />
-                            ))}
-                          </div>
-                          <span className="text-sm text-gray-500">
-                            {review.date}
-                          </span>
-                        </div>
+            {reviews?.length > 0 ? (
+              reviews.map((review, index) => (
+                <div
+                  key={review?._id || index}
+                  className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow border border-gray-100 dark:border-gray-700"
+                >
+                  <div className="flex items-start">
+                    <div className="avatar mr-4">
+                      <div className="w-12 h-12 rounded-full overflow-hidden bg-gray-100">
+                        <img
+                          src={review.image}
+                          alt={review.user}
+                          className="w-full h-full object-cover"
+                          onError={(e) => {
+                            e.target.src =
+                              "https://randomuser.me/api/portraits/lego/1.jpg";
+                          }}
+                        />
                       </div>
                     </div>
-                    <p className="mt-3 text-gray-700 dark:text-gray-300">
-                      {review.comment}
-                    </p>
+                    <div className="flex-1">
+                      <div className="flex justify-between items-start flex-wrap">
+                        <div>
+                          <h4 className="font-semibold text-gray-800 dark:text-white">
+                            {review.user}
+                          </h4>
+                          <div className="flex items-center mt-1">
+                            <div className="flex mr-2">
+                              {[1, 2, 3, 4, 5].map((star) => (
+                                <Star
+                                  key={star}
+                                  size={18}
+                                  className={`${
+                                    star <= review.rating
+                                      ? "fill-yellow-400 text-yellow-400"
+                                      : "text-gray-300 dark:text-gray-600"
+                                  }`}
+                                />
+                              ))}
+                            </div>
+                            <span className="text-sm text-gray-500 dark:text-gray-400">
+                              {review?.date
+                                ? new Date(review.date).toLocaleDateString(
+                                    "en-US",
+                                    {
+                                      year: "numeric",
+                                      month: "long",
+                                      day: "numeric",
+                                    }
+                                  )
+                                : "No date"}
+                            </span>
+                          </div>
+                        </div>
+                        <button className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 mt-1">
+                          <MoreHorizontal className="w-5 h-5" />
+                        </button>
+                      </div>
+                      <p className="mt-3 text-gray-700 dark:text-gray-300">
+                        {review.comment}
+                      </p>
+                      <div className="mt-4 flex space-x-4">
+                        <button className="flex items-center text-sm text-gray-500 hover:text-blue-600 dark:hover:text-blue-400">
+                          <ThumbsUp className="w-4 h-4 mr-1" />
+                          Helpful ({review.helpful || 0})
+                        </button>
+                        <button className="flex items-center text-sm text-gray-500 hover:text-gray-700 dark:hover:text-gray-300">
+                          <MessageSquare className="w-4 h-4 mr-1" />
+                          Reply
+                        </button>
+                      </div>
+                    </div>
                   </div>
                 </div>
+              ))
+            ) : (
+              <div className="bg-white dark:bg-gray-800 p-8 rounded-xl shadow border border-gray-100 dark:border-gray-700 text-center">
+                <FileText className="w-12 h-12 mx-auto text-gray-400 mb-4" />
+                <h4 className="text-lg font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  No reviews yet
+                </h4>
+                <p className="text-gray-500 dark:text-gray-400">
+                  Be the first to share your thoughts about this product
+                </p>
               </div>
-            ))}
+            )}
           </div>
         </div>
       </div>
