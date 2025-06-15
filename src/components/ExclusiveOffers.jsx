@@ -1,4 +1,5 @@
 import React from "react";
+import { motion } from "motion/react";
 import ExclusiveCard from "./ExclusiveCard";
 
 const ExclusiveOffers = () => {
@@ -69,25 +70,47 @@ const ExclusiveOffers = () => {
     <div className="px-5 py-8 bg-white dark:bg-zinc-900 text-zinc-800 dark:text-zinc-100">
       <div className="mb-6">
         <div className="flex justify-between items-center gap-5 mb-2">
-          <h2 className="text-2xl font-bold text-[#FF6600]">
+          <motion.h2
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5 }}
+            className="text-2xl font-bold text-[#FF6600]"
+          >
             Exclusive Offers
-          </h2>
-          <button className="text-sm md:text-base font-medium text-blue-600 hover:underline hover:text-blue-800 transition">
+          </motion.h2>
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="text-sm md:text-base font-medium text-blue-600 hover:underline hover:text-blue-800 transition"
+          >
             View All Offers
-          </button>
+          </motion.button>
         </div>
-        <p className="text-sm text-gray-600 dark:text-gray-400 max-w-2xl">
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.2 }}
+          className="text-sm text-gray-600 dark:text-gray-400 max-w-2xl"
+        >
           Take advantage of our exclusive offers and get up to{" "}
           <span className="font-semibold text-red-500">50% off</span> on select
           products.
-        </p>
+        </motion.p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
-        {offers.map((offer) => (
-          <ExclusiveCard key={offer.id} offer={offer}></ExclusiveCard>
+      <motion.div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+        {offers.map((offer, index) => (
+          <motion.div
+            key={offer.id}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: index * 0.05 }}
+            viewport={{ once: true }}
+          >
+            <ExclusiveCard offer={offer} />
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
     </div>
   );
 };
