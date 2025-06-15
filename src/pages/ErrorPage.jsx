@@ -1,54 +1,134 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router";
 import useTitle from "../hooks/useTitle";
+import { motion } from "motion/react";
 
-const ErrorPage = ({ message = "Oops, something went wrong" }) => {
-  useTitle(`${message} `);
+const ErrorPage = ({
+  message = "Oops! Something went wrong",
+  statusCode = 404,
+  showHomeButton = true,
+}) => {
+  useTitle(`${statusCode} | ${message}`);
+
   useEffect(() => {
-    document
-      .querySelector("html")
-      .setAttribute("data-theme", localStorage.getItem("theme"));
+    document.documentElement.setAttribute(
+      "data-theme",
+      localStorage.getItem("theme") || "light"
+    );
   }, []);
+
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+        delayChildren: 0.3,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        type: "spring",
+        stiffness: 100,
+        damping: 10,
+      },
+    },
+  };
+
   return (
-    <section className="flex items-center justify-center h-screen px-4 bg-white dark:bg-gray-900">
+    <motion.section
+      className="flex items-center justify-center min-h-screen px-4 bg-white dark:bg-gray-900"
+      initial="hidden"
+      animate="visible"
+      variants={containerVariants}
+    >
       <div className="text-center max-w-md mx-auto space-y-6">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 512 512"
-          className="w-40 h-40 mx-auto text-gray-400 dark:text-gray-600"
-        >
-          <path
-            fill="currentColor"
-            d="M256,16C123.452,16,16,123.452,16,256S123.452,496,256,496,496,388.548,496,256,388.548,16,256,16ZM403.078,403.078a207.253,207.253,0,1,1,44.589-66.125A207.332,207.332,0,0,1,403.078,403.078Z"
-          ></path>
-          <rect width="176" height="32" x="168" y="320" fill="currentColor" />
-          <polygon
-            fill="currentColor"
-            points="210.63 228.042 186.588 206.671 207.958 182.63 184.042 161.37 162.671 185.412 138.63 164.042 117.37 187.958 141.412 209.329 120.042 233.37 143.958 254.63 165.329 230.588 189.37 251.958 210.63 228.042"
-          />
-          <polygon
-            fill="currentColor"
-            points="383.958 182.63 360.042 161.37 338.671 185.412 314.63 164.042 293.37 187.958 317.412 209.329 296.042 233.37 319.958 254.63 341.329 230.588 365.37 251.958 386.63 228.042 362.588 206.671 383.958 182.63"
-          />
-        </svg>
+        {/* Animated error illustration */}
+        <motion.div variants={itemVariants} className="relative">
+          <div className="absolute inset-0 bg-red-100 dark:bg-red-900/20 rounded-full blur-2xl opacity-70 animate-pulse"></div>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            className="w-32 h-32 mx-auto text-red-500 dark:text-red-400 relative"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <circle cx="12" cy="12" r="10" />
+            <line x1="12" y1="8" x2="12" y2="12" />
+            <line x1="12" y1="16" x2="12.01" y2="16" />
+          </svg>
+        </motion.div>
 
-        <h1 className="text-3xl font-bold text-zinc-950 dark:text-white">
+        {/* Status code */}
+        <motion.div variants={itemVariants}>
+          <span className="inline-block px-3 py-1 text-sm font-mono bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-full">
+            Error {statusCode}
+          </span>
+        </motion.div>
+
+        {/* Message */}
+        <motion.h1
+          variants={itemVariants}
+          className="text-4xl font-bold text-gray-900 dark:text-white"
+        >
           {message}
-        </h1>
+        </motion.h1>
 
-        <p className="text-gray-600 dark:text-gray-400">
-          The page you're looking for doesn’t exist or an unexpected error
-          occurred.
-        </p>
-
-        <Link
-          to="/"
-          className="inline-block px-6 py-3 mt-4 text-white bg-green-600 rounded-lg hover:bg-green-700 transition-colors duration-200"
+        {/* Description */}
+        <motion.p
+          variants={itemVariants}
+          className="text-gray-600 dark:text-gray-400 text-lg"
         >
-          Go Back Home
-        </Link>
+          {statusCode === 404
+            ? "The page you're looking for doesn't exist or has been moved."
+            : "An unexpected error occurred. Please try again later."}
+        </motion.p>
+
+        {/* Actions */}
+        <motion.div
+          variants={itemVariants}
+          className="flex flex-col sm:flex-row justify-center gap-3 pt-4"
+        >
+          {showHomeButton && (
+            <Link
+              to="/"
+              className="px-6 py-3 font-medium text-white bg-primary hover:bg-primary/80 dark:bg-amber-800 dark:hover:bg-amber-700 rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg"
+            >
+              Return Home
+            </Link>
+          )}
+          <button
+            onClick={() => window.location.reload()}
+            className="px-6 py-3 font-medium text-gray-700 dark:text-gray-300 bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 rounded-lg transition-colors duration-200"
+          >
+            Try Again
+          </button>
+        </motion.div>
+
+        {/* Support link */}
+        <motion.div variants={itemVariants} className="pt-6">
+          <p className="text-sm text-gray-500 dark:text-gray-400">
+            Need help?{" "}
+            <a
+              href="mailto:support@example.com"
+              className="text-primary hover:text-amber-700 hover:underline"
+            >
+              Contact support
+            </a>
+          </p>
+        </motion.div>
       </div>
-    </section>
+    </motion.section>
   );
 };
 
