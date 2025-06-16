@@ -34,9 +34,17 @@ Globira is a full-stack B2B wholesale marketplace inspired by platforms like Ali
 
 ## 📸 Screenshots
 
-| Home Page                     | Product Details                     | Dashboard                               |
-| ----------------------------- | ----------------------------------- | --------------------------------------- |
-| ![Home](screenshots/home.png) | ![Details](screenshots/details.png) | ![Dashboard](screenshots/dashboard.png) |
+| 🏠 Home Page                                                            | 📄 Product Details                                                                  | 📊 Add Product                                                                        |
+| ----------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| ![Home](https://i.ibb.co/6Jtj4wc9/b11a11-globira-site-web-app-home.png) | ![Categories](https://i.ibb.co/mr04jVHn/b11a11-globira-site-web-app-categories.png) | ![Add Product](https://i.ibb.co/C5cMnTZN/b11a11-globira-site-web-app-add-product.png) |
+
+| 📦 My Products                                                                          | 🛍️ All Products                                             | 🔐 Login Page                                                             |
+| --------------------------------------------------------------------------------------- | ----------------------------------------------------------- | ------------------------------------------------------------------------- |
+| ![My Products](https://i.ibb.co/S4nmsYvp/b11a11-globira-site-web-app-add-product-1.png) | ![All Products](https://i.ibb.co/7tLg3NJJ/all-products.png) | ![Login](https://i.ibb.co/SXDKTztr/b11a11-globira-site-web-app-login.png) |
+
+| 📝 Register Page                                                                     |
+| ------------------------------------------------------------------------------------ |
+| ![Register Page](https://i.ibb.co/M5BMC30L/b11a11-globira-site-web-app-register.png) |
 
 ---
 
@@ -61,36 +69,30 @@ Globira is a full-stack B2B wholesale marketplace inspired by platforms like Ali
 
 ---
 
-## 🧑‍💻 Features
-
-### 🌐 Public
-
-- Home Page
-- Browse by Categories
-- View All Products (with search/filter/pagination)
-- Product Details
-
-### 🔐 Auth (Firebase)
-
-- Register/Login
-- Protected Routes
-
-### 🙍‍♂️ Authenticated Users
-
-- My Products
-- Add New Product
-- Update Product
-- Submit 1 Review per Product
-- Cart Page
-
 ---
 
-## 🌙 UI Features
+## ✨ Key Features
 
-- Light & Dark Theme toggle
-- Fully responsive (Mobile, Tablet, Desktop)
-- Marquee banners and custom animations
-- Star-based product rating & reviews
+### 🔓 Authentication & Security
+
+- Firebase authentication (email/password & Google)
+- JWT token system stored in cookies
+- Secure API with protected routes
+
+### 🛍️ Product Features
+
+- Browse by category
+- Product details page with reviews
+- Add, update, and manage own products
+- Filter, search, and paginate products
+- Rate and review products (1 per user)
+
+### 🎨 UI Highlights
+
+- Dark/Light mode toggle
+- Responsive layout (mobile, tablet, desktop)
+- Marquee banners, custom icons & transitions
+- Rating stars, image sliders, and toast notifications
 
 ---
 
@@ -136,11 +138,16 @@ Globira is a full-stack B2B wholesale marketplace inspired by platforms like Ali
 
 ---
 
-## ⚙️ Installation
+## ⚙️ Installation & Setup
+
+### 🔧 Clone Repositories
 
 ```bash
-# Clone repo
-https://github.com/yourusername/globira.git
+# Clone Frontend
+git clone https://github.com/Programming-Hero-Web-Course4/b11a11-client-side-CodesWithRakib.git
+
+# Clone Backend
+git clone https://github.com/Programming-Hero-Web-Course4/b11a11-server-side-CodesWithRakib.git
 
 # Frontend Setup
 npm install
@@ -160,8 +167,15 @@ npm run dev
 ### Frontend
 
 ```
-VITE_FIREBASE_API_KEY=xxx
-VITE_FIREBASE_AUTH_DOMAIN=xxx
+VITE_API_KEY=your_firebase_key
+VITE_AUTH_DOMAIN=your_firebase_auth
+VITE_PROJECT_ID=your_project_id
+VITE_STORAGE_BUCKET=your_storage_bucket
+VITE_MESSAGING_SENDER_ID=your_sender_id
+VITE_APP_ID=your_app_id
+VITE_API_URL=https://backend-eta-five-56.vercel.app
+VITE_CLOUD_NAME=your_cloudinary_name
+
 ```
 
 ### Backend
@@ -176,6 +190,14 @@ CLOUDINARY_API_SECRET=xxx
 ```
 
 ---
+
+## 🔒 Protected Routes
+
+🔹JWT token is issued on login and stored in cookies
+
+🔹Backend verifies token on each protected request using middleware
+
+🔹Logout clears the token from cookies securely
 
 ## 📸 Image Upload
 

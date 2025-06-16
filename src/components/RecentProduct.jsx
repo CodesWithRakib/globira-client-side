@@ -19,7 +19,6 @@ const RecentProduct = () => {
           `/api/products?sortBy=newest&page=1&limit=9`
         );
         setProducts(res.data.data);
-        console.log(res.data.data);
       } catch (err) {
         console.error("Error fetching products:", err);
         setError("Something went wrong while loading products.");

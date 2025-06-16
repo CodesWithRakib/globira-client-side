@@ -42,11 +42,6 @@ const Cart = () => {
     });
   };
 
-  console.log(calculateTotal());
-  console.log(
-    carts.map((item) => console.log(item.buyerQuantity, item.UnitPrice))
-  );
-
   if (loading) return <Loading />;
 
   return (
