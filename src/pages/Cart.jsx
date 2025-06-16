@@ -20,7 +20,7 @@ const Cart = () => {
         setCarts(response.data.result);
       } catch (error) {
         console.error("Error fetching cart items:", error);
-        toast.error("Failed to load cart items");
+        toast.error("Failed to load cart items ,Please log in first.");
       } finally {
         setLoading(false);
       }

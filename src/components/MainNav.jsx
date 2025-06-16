@@ -35,9 +35,9 @@ const MainNav = () => {
   }, [theme]);
 
   return (
-    <div className="navbar sticky top-0 z-40 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 border-b border-gray-200 dark:border-gray-700 h-[80px] px-4 sm:px-6 flex items-center justify-between py-0">
+    <div className="navbar sticky top-0 z-40 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 border-b border-gray-200 dark:border-gray-700 h-[80px] px-2 sm:px-6 flex items-center justify-between py-0">
       {/* Left Side - Logo & Mobile Menu */}
-      <div className="flex items-center gap-2">
+      <div className="flex items-center ">
         <div className="dropdown flex sm:hidden">
           <label
             tabIndex={0}
@@ -46,7 +46,7 @@ const MainNav = () => {
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-8 w-8"
+              className="sm:h-8 w-6 h-6 sm:w-8"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -93,7 +93,7 @@ const MainNav = () => {
 
         <div
           onClick={() => navigate("/")}
-          className="text-xl font-bold text-[#FF6600] cursor-pointer select-none"
+          className="text-lg sm:text-xl font-bold text-[#FF6600] cursor-pointer select-none"
         >
           Globira
         </div>
@@ -126,7 +126,7 @@ const MainNav = () => {
       </ul>
 
       {/* Right Side - Actions */}
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-2 sm:gap-4">
         {/* Theme Toggle */}
         <button
           onClick={toggleTheme}
@@ -148,7 +148,7 @@ const MainNav = () => {
         >
           <FaShoppingCart size={18} />
           <span className="hidden md:inline text-sm">Cart</span>
-          <span className="absolute -top-2 -right-2 bg-[#FF6600] text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+          <span className="absolute -top-2 -right-2 bg-[#FF6600] text-white text-xs font-bold rounded-full w-4 h-4 sm:w-5 sm:h-5 flex items-center justify-center">
             9+
           </span>
         </NavLink>
@@ -212,14 +212,14 @@ const MainNav = () => {
           <div className="flex gap-2 items-center">
             <NavLink
               to="/login"
-              className="flex items-center gap-1 bg-green-500 hover:bg-green-600 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm text-white transition-colors"
+              className="flex items-center gap-1 bg-green-500 hover:bg-green-600 px-1 py-0.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm text-white transition-colors"
             >
               <FaUser size={14} />
               <span>Log In</span>
             </NavLink>
             <NavLink
               to="/register"
-              className="flex items-center gap-1 bg-[#FF6600] hover:bg-[#e65c00] px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm text-white transition-colors"
+              className="flex items-center gap-1 bg-[#FF6600] hover:bg-[#e65c00] px-1 py-0.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm text-white transition-colors"
             >
               <FaUserPlus size={14} />
               <span>Register</span>

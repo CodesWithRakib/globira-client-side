@@ -25,9 +25,19 @@ const AuthProvider = ({ children }) => {
     return signInWithEmailAndPassword(auth, email, password);
   };
 
-  const logOut = () => {
-    return signOut(auth);
-  };
+ const logOut = async () => {
+  try {
+    await signOut(auth);
+    
+    await axiosSecure.post("/logout");
+
+    setUser(null); 
+  } catch (error) {
+    console.error("Error during logout:", error);
+    throw error;
+  }
+};
+
 
   const createUser = (email, password) => {
     return createUserWithEmailAndPassword(auth, email, password);
