@@ -119,7 +119,7 @@ const ProductCard = ({ product, loading }) => {
 
           <div className="flex justify-between items-center pt-2">
             <p className="text-lg font-bold text-primary dark:text-amber-400">
-              ${price}
+              ${price.toLocaleString("en-IN")}
             </p>
             <button
               onClick={() => navigate(`/product/${_id}`)}

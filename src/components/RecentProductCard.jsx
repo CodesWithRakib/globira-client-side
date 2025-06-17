@@ -73,7 +73,7 @@ const RecentProductCard = ({ product }) => {
         {/* Price and Rating */}
         <div className="flex items-center justify-between">
           <span className="text-xl font-bold text-orange-600 dark:text-amber-500">
-            ${price.toLocaleString("en-US", { minimumFractionDigits: 2 })}
+            ${price.toLocaleString("en-IN")}
           </span>
           <div className="flex items-center gap-1">
             <Rating

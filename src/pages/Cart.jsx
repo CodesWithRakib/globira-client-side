@@ -36,10 +36,7 @@ const Cart = () => {
       return total + price * quantity;
     }, 0);
 
-    return total.toLocaleString("en-IN", {
-      maximumFractionDigits: 2,
-      minimumFractionDigits: 2,
-    });
+    return total.toLocaleString("en-IN");
   };
 
   if (loading) return <Loading />;

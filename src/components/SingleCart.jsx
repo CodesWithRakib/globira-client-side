@@ -10,6 +10,7 @@ import {
   FiTag,
   FiDollarSign,
 } from "react-icons/fi";
+import { formatCategory } from "../Utils/formatCategory";
 
 const SingleCart = ({ cart, setCarts, carts }) => {
   const {
@@ -76,12 +77,7 @@ const SingleCart = ({ cart, setCarts, carts }) => {
         />
         {/* Category Badge */}
         <span className="absolute top-3 left-3 px-2 py-1 bg-white dark:bg-gray-900 text-xs font-medium rounded-full shadow-sm">
-          {category
-            .split("-")
-            .join(" ")
-            .split(" ")
-            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-            .join(" ")}
+          {formatCategory(category)}
         </span>
       </div>
 
@@ -130,14 +126,11 @@ const SingleCart = ({ cart, setCarts, carts }) => {
           <div className="flex items-center">
             <FiDollarSign className="text-gray-500 dark:text-gray-400 mr-1" />
             <span className="text-lg font-bold text-gray-900 dark:text-white">
-              {(unitPrice * buyerQuantity).toLocaleString("en-IN", {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              })}
+              {(unitPrice * buyerQuantity).toLocaleString("en-IN")}
             </span>
             {buyerQuantity > 1 && (
               <span className="text-xs text-gray-500 dark:text-gray-400 ml-1">
-                (${unitPrice} each)
+                (${unitPrice.toLocaleString("en-IN")} each)
               </span>
             )}
           </div>

@@ -121,7 +121,7 @@ const MyProductCard = ({ product, setProducts, products }) => {
         {/* Price and Rating */}
         <div className="flex justify-between items-center mb-4">
           <div className="text-lg font-bold text-gray-900 dark:text-white">
-            ${price}
+            ${price.toLocaleString("en-In")}
           </div>
           <div className="flex items-center">
             <Rating
