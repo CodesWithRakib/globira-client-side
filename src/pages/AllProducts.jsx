@@ -3,9 +3,10 @@ import { useNavigate } from "react-router";
 import AllProductCard from "../components/AllProductCard";
 import useAxios from "../hooks/useAxios";
 import Loading from "../components/Loading";
-import { FaTh, FaList, FaFilter, FaSearch } from "react-icons/fa";
+import { FaSearch } from "react-icons/fa";
 import noImage from "/noImage.jpg";
 import useTitle from "../hooks/useTitle";
+import { formatCategory } from "../Utils/formatCategory";
 
 const AllProducts = () => {
   const [loading, setLoading] = useState(true);
@@ -13,34 +14,27 @@ const AllProducts = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [showAvailableOnly, setShowAvailableOnly] = useState(false);
   const [viewType, setViewType] = useState("card");
-
-  // Pagination states
   const [page, setPage] = useState(1);
-  const limit = 10; // Number of items per page
+  const limit = 10;
   const [totalPages, setTotalPages] = useState(0);
   const [totalCount, setTotalCount] = useState(0);
 
   const navigate = useNavigate();
   const axiosSecure = useAxios();
 
-  useTitle(`All Products `);
+  useTitle(`All Products`);
+
   useEffect(() => {
     const fetchProducts = async () => {
       setLoading(true);
       try {
-        if (viewType === "card") {
-          const response = await axiosSecure.get(
-            `/api/products?page=${page}&limit=${limit}`
-          );
-          const { data, total } = response.data;
-          setProducts(data);
-          setTotalCount(total);
-          setTotalPages(Math.ceil(total / limit));
-        } else {
-          const response = await axiosSecure.get("/api/products");
-          setProducts(response.data.data);
-          setTotalCount(response.data.data.length);
-        }
+        const response = await axiosSecure.get(
+          `/api/products?page=${page}&limit=${limit}`
+        );
+        const { data, total } = response.data;
+        setProducts(data);
+        setTotalCount(total);
+        setTotalPages(Math.ceil(total / limit));
       } catch (err) {
         console.error("Error fetching products:", err);
       } finally {
@@ -49,7 +43,7 @@ const AllProducts = () => {
     };
 
     fetchProducts();
-  }, [axiosSecure, page, viewType]);
+  }, [axiosSecure, page]);
 
   const handleProductUpdate = (productId) => {
     navigate(`/update-product/${productId}`);
@@ -59,13 +53,12 @@ const AllProducts = () => {
     navigate(`/product/${productId}`);
   };
 
-  // Filter products
   const filteredProducts = products.filter((product) => {
     const matchesAvailability =
       !showAvailableOnly || product.minimumQuantity > 100;
     const matchesSearch =
-      product.productName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      product.brandName.toLowerCase().includes(searchTerm.toLowerCase());
+      product.productName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      product.brandName?.toLowerCase().includes(searchTerm.toLowerCase());
     return matchesAvailability && matchesSearch;
   });
 
@@ -92,28 +85,19 @@ const AllProducts = () => {
             <FaSearch className="absolute left-3 top-3 text-gray-400" />
           </div>
 
-          {/* View Toggle */}
-          <div className="flex gap-2">
-            <button
-              className={`px-4 py-2 rounded flex items-center gap-2 ${
-                viewType === "card"
-                  ? "bg-red-600 text-white"
-                  : "bg-gray-200 text-gray-700"
-              }`}
-              onClick={() => setViewType("card")}
+          {/* View Dropdown */}
+          <div>
+            <select
+              className="p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-500 bg-white dark:bg-gray-800 text-gray-800 dark:text-white"
+              value={viewType}
+              onChange={(e) => {
+                setViewType(e.target.value);
+                setPage(1);
+              }}
             >
-              <FaTh /> Card
-            </button>
-            <button
-              className={`px-4 py-2 rounded flex items-center gap-2 ${
-                viewType === "table"
-                  ? "bg-red-600 text-white"
-                  : "bg-gray-200 text-gray-700"
-              }`}
-              onClick={() => setViewType("table")}
-            >
-              <FaList /> Table
-            </button>
+              <option value="card">🗂️ Card View</option>
+              <option value="table">📋 Table View</option>
+            </select>
           </div>
         </div>
       </div>
@@ -129,15 +113,14 @@ const AllProducts = () => {
           />
           <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-red-300 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-red-600"></div>
           <span className="ms-3 text-sm font-medium text-gray-700 dark:text-white">
-            Show Available Products Only
+            Show Available Products Only (Qty &gt; 100)
           </span>
         </label>
       </div>
 
       {/* Product Count */}
       <div className="mb-4 text-gray-600">
-        Showing {filteredProducts.length} of{" "}
-        {viewType === "card" ? totalCount : products.length} products
+        Showing {filteredProducts.length} of {totalCount} products
       </div>
 
       {/* View Logic */}
@@ -159,27 +142,9 @@ const AllProducts = () => {
               />
             ))}
           </div>
-
-          {/* Pagination at bottom of Card View */}
-          {totalPages > 1 && (
-            <div className="flex justify-center mt-10 mb-6 gap-2 flex-wrap">
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map((pg) => (
-                <button
-                  key={pg}
-                  onClick={() => setPage(pg)}
-                  className={`px-4 py-2 rounded ${
-                    page === pg
-                      ? "bg-red-600 text-white"
-                      : "bg-gray-200 text-gray-800"
-                  }`}
-                >
-                  {pg}
-                </button>
-              ))}
-            </div>
-          )}
         </>
       ) : (
+        // TABLE VIEW
         <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden">
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
@@ -209,10 +174,9 @@ const AllProducts = () => {
                     key={product._id}
                     className="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"
                   >
-                    {/* Product Column */}
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center gap-4">
-                        <div className="flex-shrink-0 h-10 w-10 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-600">
+                        <div className="h-10 w-10 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-600">
                           <img
                             src={product.productImage || noImage}
                             alt={product.productName}
@@ -230,63 +194,34 @@ const AllProducts = () => {
                         </div>
                       </div>
                     </td>
-
-                    {/* Brand Column */}
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-700 dark:text-gray-300">
-                        {product.brandName}
-                      </div>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">
+                      {product.brandName}
                     </td>
-
-                    {/* Category Column */}
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-700 dark:text-gray-300 capitalize">
-                        {product.category
-                          .split("-")
-                          .join(" ")
-                          .toLowerCase()
-                          .split(" ")
-                          .map(
-                            (word) =>
-                              word.charAt(0).toUpperCase() + word.slice(1)
-                          )
-                          .join(" ")}
-                      </div>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300 capitalize">
+                      {formatCategory(product.category)}
                     </td>
-
-                    {/* Quantity Column */}
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-700 dark:text-gray-300">
-                        {product.minimumQuantity}
-                      </div>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">
+                      {product.minimum_selling_quantity ||
+                        product.minimumQuantity}
                     </td>
-
-                    {/* Price Column */}
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm font-medium text-primary dark:text-amber-500">
-                        $
-                        {product.price.toLocaleString("en-IN", {
-                          maximumFractionDigits: 2,
-                        })}
-                      </div>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-primary dark:text-amber-500">
+                      ${product.price?.toLocaleString("en-IN") || "N/A"}
                     </td>
-
-                    {/* Status Column */}
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span
                         className={`px-2.5 py-1.5 inline-flex items-center text-xs font-medium rounded-full ${
-                          product.minimumQuantity > 100
+                          (product.minimum_selling_quantity ||
+                            product.minimumQuantity) > 100
                             ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300"
                             : "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300"
                         }`}
                       >
-                        {product.minimumQuantity > 100
+                        {(product.minimum_selling_quantity ||
+                          product.minimumQuantity) > 100
                           ? "In Stock"
                           : "Low Stock"}
                       </span>
                     </td>
-
-                    {/* Actions Column */}
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center space-x-4">
                         <button
@@ -308,6 +243,25 @@ const AllProducts = () => {
               </tbody>
             </table>
           </div>
+        </div>
+      )}
+
+      {/* Pagination - Show for both views */}
+      {totalPages > 1 && (
+        <div className="flex justify-center mt-10 mb-6 gap-2 flex-wrap">
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map((pg) => (
+            <button
+              key={pg}
+              onClick={() => setPage(pg)}
+              className={`px-4 py-2 rounded ${
+                page === pg
+                  ? "bg-red-600 text-white"
+                  : "bg-gray-200 text-gray-800"
+              }`}
+            >
+              {pg}
+            </button>
+          ))}
         </div>
       )}
     </div>
