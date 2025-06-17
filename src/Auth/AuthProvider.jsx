@@ -25,19 +25,18 @@ const AuthProvider = ({ children }) => {
     return signInWithEmailAndPassword(auth, email, password);
   };
 
- const logOut = async () => {
-  try {
-    await signOut(auth);
-    
-    await axiosSecure.post("/logout");
+  const logOut = async () => {
+    try {
+      await signOut(auth);
 
-    setUser(null); 
-  } catch (error) {
-    console.error("Error during logout:", error);
-    throw error;
-  }
-};
+      await axiosSecure.post("/logout");
 
+      setUser(null);
+    } catch (error) {
+      console.error("Error during logout:", error);
+      throw error;
+    }
+  };
 
   const createUser = (email, password) => {
     return createUserWithEmailAndPassword(auth, email, password);
@@ -63,12 +62,10 @@ const AuthProvider = ({ children }) => {
       if (currentUser && currentUser.email) {
         axiosSecure
           .post("/jwt", { email: currentUser.email }, { withCredentials: true })
-          .then((data) => {
-            console.log(data.data.message);
+          .then(() => {
             setLoading(false);
           })
-          .catch((error) => {
-            console.log(error);
+          .catch(() => {
             setLoading(false);
           });
       }

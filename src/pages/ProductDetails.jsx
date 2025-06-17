@@ -188,7 +188,6 @@ const ProductDetails = () => {
       productId: product._id, // or your dynamic product ID
       date: new Date().toISOString(),
     };
-    console.log(reviewData);
 
     try {
       await axiosSecure
@@ -199,7 +198,6 @@ const ProductDetails = () => {
           toast.success("Review submitted successfully!");
         })
         .catch((error) => {
-          console.log(error.response.data.message);
           toast.error(
             `Error submitting review: ${error?.response.data.message}`
           );

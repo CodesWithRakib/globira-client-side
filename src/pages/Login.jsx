@@ -19,17 +19,15 @@ function Login() {
   const location = useLocation();
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log("Form submitted");
     const form = event.target;
     const formData = new FormData(form);
     const userInfo = Object.fromEntries(formData.entries());
-    console.log(userInfo);
+
     const { email, password } = userInfo;
     setIsLoggedIn(true);
     logIn(email, password)
       .then((userCredential) => {
         const user = userCredential.user;
-        console.log(user);
         setUser(user);
 
         toast.success("Account logged in successfully!");
@@ -38,8 +36,7 @@ function Login() {
         }, 2000);
         setIsLoggedIn(false);
       })
-      .catch((error) => {
-        console.log(error);
+      .catch(() => {
         toast.error("Account login failed!");
         setIsLoggedIn(false);
       });
@@ -51,7 +48,6 @@ function Login() {
     logInWithGoogle()
       .then((userCredential) => {
         const user = userCredential.user;
-        console.log(user);
         setUser(user);
         toast.success("Account logged in successfully!");
         setIsLoggedIn(false);
@@ -59,8 +55,7 @@ function Login() {
           navigate(`${location.state ? location.state : "/"}`);
         }, 2000);
       })
-      .catch((error) => {
-        console.log(error);
+      .catch(() => {
         toast.error("Account login failed!");
         setIsLoggedIn(false);
       });
