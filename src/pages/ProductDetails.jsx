@@ -32,6 +32,7 @@ import {
   FaTimesCircle,
 } from "react-icons/fa";
 import useTitle from "../hooks/useTitle";
+import { formatCategory } from "../Utils/formatCategory";
 
 const ProductDetails = () => {
   const [mainImage, setMainImage] = useState(noImage);
@@ -84,23 +85,21 @@ const ProductDetails = () => {
   useTitle(`${productName} `);
 
   useEffect(() => {
-    axiosSecure.get(`/api/products/${id}`).then(
-      (res) => {
-        if (!res.data) {
-          toast.error("Product not found");
-          return;
-        }
+    // Fetch product details
+    axiosSecure.get(`/api/products/${id}`).then((res) => {
+      if (!res.data) {
+        toast.error("Product not found");
+        return;
+      }
 
-        if (res.data.productImage) {
-          setMainImage(res.data.productImage);
-          setProduct(res.data);
-          setLoading(false);
-        }
-      },
+      if (res.data.productImage) {
+        setMainImage(res.data.productImage);
+        setProduct(res.data);
+        setLoading(false);
+      }
+    });
 
-      [axiosSecure, id]
-    );
-
+    // Fetch product reviews
     const fetchReviews = async () => {
       try {
         const response = await axiosSecure.get(`/api/reviews/${id}`);
@@ -111,36 +110,6 @@ const ProductDetails = () => {
     };
 
     fetchReviews();
-
-    const mockReviews = [
-      {
-        id: 1,
-        user: "Industrial Buyer 1",
-        rating: 5,
-        comment:
-          "Excellent product quality and fast delivery. Will order again!",
-        date: "2025-05-15",
-        image: "https://randomuser.me/api/portraits/men/32.jpg",
-      },
-      {
-        id: 2,
-        user: "Manufacturing Co.",
-        rating: 4,
-        comment: "Good value for money. Met our production needs perfectly.",
-        date: "2023-09-28",
-        image: "https://randomuser.me/api/portraits/women/44.jpg",
-      },
-      {
-        id: 3,
-        user: "Factory Solutions",
-        rating: 4.5,
-        comment:
-          "Reliable supplier with consistent quality. Recommended for bulk orders.",
-        date: "2023-08-10",
-        image: "https://randomuser.me/api/portraits/men/75.jpg",
-      },
-    ];
-    setReviews(mockReviews);
   }, [id, axiosSecure]);
 
   const handleBuy = () => {
@@ -214,7 +183,7 @@ const ProductDetails = () => {
       <div className="flex items-center space-x-2 text-sm text-gray-500 mb-4">
         <span>Home</span>
         <span>/</span>
-        <span>{category.split("-").join(" ")}</span>
+        <span>{formatCategory(category)}</span>
         <span>/</span>
         <span className="text-primary">{productName}</span>
       </div>
@@ -422,7 +391,7 @@ const ProductDetails = () => {
                   Category
                 </span>
                 <span className="font-medium capitalize">
-                  {category.split("-").join(" ")}
+                  {formatCategory(category)}
                 </span>
               </div>
               <div className="flex">

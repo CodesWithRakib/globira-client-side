@@ -6,6 +6,7 @@ const EmptyState = ({
   title = "No items found",
   description = "It seems there's nothing here yet.",
   actionText = "Explore",
+  actionLink = "/all-products",
 }) => {
   return (
     <div className="flex flex-col items-center justify-center py-12 px-4 text-center">
@@ -22,8 +23,8 @@ const EmptyState = ({
 
       {actionText && (
         <Link
-          to={"/all-products"}
-          className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
+          to={actionLink || "/all-products"}
+          className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-primary dark:bg-amber-600 hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
         >
           {actionText}
         </Link>

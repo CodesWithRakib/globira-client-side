@@ -6,6 +6,7 @@ import Rating from "react-rating";
 import { FaRegStar, FaStar } from "react-icons/fa";
 import { Tooltip } from "react-tooltip";
 import "react-tooltip/dist/react-tooltip.css";
+import { formatCategory } from "../Utils/formatCategory";
 
 const AllProductCard = ({ product, onUpdate, onView }) => {
   const {
@@ -21,15 +22,6 @@ const AllProductCard = ({ product, onUpdate, onView }) => {
   } = product;
 
   const navigate = useNavigate();
-
-  // Format price with 2 decimal places
-  const formattedPrice = Number(price).toFixed(2);
-
-  // Format category name
-  const formattedCategory = category
-    ?.split("-")
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(" ");
 
   return (
     <div
@@ -77,7 +69,7 @@ const AllProductCard = ({ product, onUpdate, onView }) => {
       <div className="p-4 flex-grow flex flex-col">
         {/* Category */}
         <span className="inline-block px-3 py-1 mb-3 text-xs font-semibold rounded-full bg-gradient-to-r from-blue-50 to-blue-100 dark:from-gray-700 dark:to-gray-600 text-blue-600 dark:text-blue-300 w-fit">
-          {formattedCategory}
+          {formatCategory(category)}
         </span>
 
         {/* Title and Brand */}
@@ -113,7 +105,7 @@ const AllProductCard = ({ product, onUpdate, onView }) => {
             </span>
           </div>
           <div className="text-lg font-bold text-primary dark:text-amber-400">
-            ${formattedPrice}
+            ${price.toLocaleString("en-IN")}
           </div>
         </div>
       </div>

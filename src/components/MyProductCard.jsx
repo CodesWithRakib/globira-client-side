@@ -7,6 +7,7 @@ import defaultImage from "/default.jpg";
 import useAxios from "../hooks/useAxios";
 import Rating from "react-rating";
 import { Link } from "react-router";
+import { formatCategory } from "../Utils/formatCategory";
 
 const MyProductCard = ({ product, setProducts, products }) => {
   const {
@@ -85,7 +86,7 @@ const MyProductCard = ({ product, setProducts, products }) => {
       <div className="p-4">
         {/* Category */}
         <span className="inline-block px-2 py-1 mb-2 text-xs font-semibold rounded bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300">
-          {category.split("-").join(" ").toUpperCase()}
+          {formatCategory(category)}
         </span>
 
         {/* Product Name */}

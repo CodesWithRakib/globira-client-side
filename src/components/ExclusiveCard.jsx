@@ -1,5 +1,6 @@
 import React from "react";
 import { motion } from "motion/react";
+import { FiClock, FiArrowRight } from "react-icons/fi";
 
 const ExclusiveCard = ({ offer }) => {
   const {
@@ -13,17 +14,17 @@ const ExclusiveCard = ({ offer }) => {
 
   return (
     <motion.div
-      whileHover={{
-        y: -5,
-        transition: { duration: 0.2 },
-      }}
-      className="relative w-full h-[400px] rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all duration-300"
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      whileHover={{ y: -10 }}
+      transition={{ duration: 0.3 }}
+      className="relative w-full h-[420px] rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 group"
     >
-      {/* Background Image */}
       <motion.div
         className="absolute inset-0 overflow-hidden"
-        whileHover={{ scale: 1.05 }}
-        transition={{ duration: 0.4 }}
+        whileHover={{ scale: 1.1 }}
+        transition={{ duration: 0.5 }}
       >
         <img
           src={
@@ -31,64 +32,90 @@ const ExclusiveCard = ({ offer }) => {
             "https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
           }
           alt={title || "Offer Image"}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
         />
         {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
       </motion.div>
 
-      {/* Content */}
-      <div className="absolute bottom-0 left-0 right-0 p-6 flex flex-col items-start">
-        {/* Discount Badge */}
+      {/* Content Container */}
+      <div className="absolute inset-0 flex flex-col justify-end p-6 z-10">
+        {/* Top-right Discount Badge */}
         {discount && (
           <motion.div
-            whileHover={{ scale: 1.05 }}
-            className="bg-white text-orange-600 px-3 py-1 rounded-full text-sm font-bold mb-3 shadow-sm"
+            initial={{ scale: 0 }}
+            whileInView={{ scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2, type: "spring" }}
+            className="absolute top-6 right-6 bg-white text-orange-600 px-4 py-2 rounded-full text-lg font-extrabold shadow-lg"
           >
             {discount} OFF
           </motion.div>
         )}
 
-        {/* Title */}
-        <h2 className="text-white text-2xl font-bold mb-2">
-          {title || "Exclusive Deal"}
-        </h2>
+        {/* Content */}
+        <div className="space-y-3">
+          {/* Title */}
+          <motion.h2
+            initial={{ x: -20, opacity: 0 }}
+            whileInView={{ x: 0, opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+            className="text-white text-3xl font-bold tracking-tight"
+          >
+            {title || "Exclusive Deal"}
+          </motion.h2>
 
-        {/* Description */}
-        <p className="text-gray-200 text-sm mb-4 line-clamp-2">
-          {description ||
-            "Don't miss this limited-time deal on our best-selling products."}
-        </p>
+          {/* Description */}
+          <motion.p
+            initial={{ x: -20, opacity: 0 }}
+            whileInView={{ x: 0, opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+            className="text-gray-300 text-base line-clamp-2"
+          >
+            {description ||
+              "Don't miss this limited-time deal on our best-selling products."}
+          </motion.p>
 
-        {/* Expiry Date */}
-        {expiry && (
-          <div className="flex items-center text-xs text-gray-300 mb-4">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-4 w-4 mr-1"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
+          {/* Expiry Date */}
+          {expiry && (
+            <motion.div
+              initial={{ x: -20, opacity: 0 }}
+              whileInView={{ x: 0, opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.3 }}
+              className="flex items-center text-sm text-gray-300"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-              />
-            </svg>
-            Expires: {expiry}
-          </div>
-        )}
+              <FiClock className="mr-2" />
+              <span>Expires: {expiry}</span>
+            </motion.div>
+          )}
 
-        {/* Button */}
-        <motion.button
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          className="px-6 py-2 bg-gradient-to-r from-orange-600 to-amber-600 text-white font-medium rounded-full hover:from-orange-700 hover:to-amber-700 transition-all"
-        >
-          {buttonLabel}
-        </motion.button>
+          {/* Button */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.4 }}
+            className="pt-4"
+          >
+            <motion.button
+              whileHover={{ scale: 1.05, x: 5 }}
+              whileTap={{ scale: 0.95 }}
+              className="flex items-center px-6 py-3 bg-gradient-to-r from-orange-500 to-amber-500 text-white font-semibold rounded-full hover:from-orange-600 hover:to-amber-600 transition-all"
+            >
+              {buttonLabel}
+              <FiArrowRight className="ml-2 transition-transform duration-300 group-hover:translate-x-1" />
+            </motion.button>
+          </motion.div>
+        </div>
+      </div>
+
+      {/* Glow Effect */}
+      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        <div className="absolute top-1/4 left-1/4 w-32 h-32 bg-amber-400/20 rounded-full filter blur-3xl"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-32 h-32 bg-orange-400/20 rounded-full filter blur-3xl"></div>
       </div>
     </motion.div>
   );

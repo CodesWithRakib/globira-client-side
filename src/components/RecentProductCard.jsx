@@ -1,4 +1,5 @@
 import React from "react";
+import { motion } from "motion/react";
 import Rating from "react-rating";
 import { FaStar, FaRegStar, FaStore } from "react-icons/fa";
 import { formatDistanceToNow } from "date-fns";
@@ -24,7 +25,13 @@ const RecentProductCard = ({ product }) => {
   const navigate = useNavigate();
 
   return (
-    <div className="group bg-white dark:bg-zinc-950 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100 dark:border-zinc-700 overflow-hidden hover:-translate-y-1">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "0px 0px -100px 0px" }}
+      transition={{ duration: 0.4 }}
+      className="group bg-white dark:bg-zinc-950 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100 dark:border-zinc-700 overflow-hidden hover:-translate-y-1"
+    >
       {/* Product Image */}
       <div className="relative overflow-hidden h-48">
         <img
@@ -134,7 +141,7 @@ const RecentProductCard = ({ product }) => {
           View Details
         </button>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

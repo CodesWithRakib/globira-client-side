@@ -65,7 +65,7 @@ const Cart = () => {
             title="Your cart is empty"
             description="Looks like you haven't added any items yet. Start shopping to fill your cart!"
             actionText="Browse Products"
-            actionLink="/products"
+            actionLink="/all-products"
           />
         ) : (
           <>

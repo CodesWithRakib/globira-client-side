@@ -5,7 +5,7 @@ import { Link } from "react-router";
 const NoProduct = ({
   message = "No products available",
   actionText = "Browse Products",
-  actionLink = "/products",
+  actionLink = "/all-products",
 }) => {
   return (
     <div className="flex flex-col items-center justify-center py-12 px-4 text-center">
@@ -27,7 +27,7 @@ const NoProduct = ({
       {actionText && actionLink && (
         <Link
           to={actionLink}
-          className="btn btn-primary hover:bg-accent text-neutral"
+          className="btn btn-primary dark:bg-amber-800 border-0 text-white hover:bg-accent "
         >
           {actionText}
         </Link>
