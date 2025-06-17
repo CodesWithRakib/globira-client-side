@@ -24,7 +24,7 @@ const RecentProductCard = ({ product }) => {
   const navigate = useNavigate();
 
   return (
-    <div className="group bg-white dark:bg-zinc-800 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100 dark:border-zinc-700 overflow-hidden hover:-translate-y-1">
+    <div className="group bg-white dark:bg-zinc-950 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100 dark:border-zinc-700 overflow-hidden hover:-translate-y-1">
       {/* Product Image */}
       <div className="relative overflow-hidden h-48">
         <img

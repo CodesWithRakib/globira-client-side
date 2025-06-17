@@ -8,7 +8,7 @@ const Cta = () => {
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
       viewport={{ once: true }}
-      className="relative overflow-hidden bg-gradient-to-r from-blue-600 to-amber-600 dark:from-blue-700 dark:to-amber-700 text-center py-16 px-6 rounded-2xl my-16 mx-4 shadow-xl"
+      className="relative overflow-hidden bg-gradient-to-br from-blue-600 to-amber-600 dark:from-[#03061d] dark:to-[#0103137a] text-center py-16 px-6 rounded-2xl mx-4 shadow-xl"
     >
       {/* Background pattern */}
       <div className="absolute inset-0 opacity-10">

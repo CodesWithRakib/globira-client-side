@@ -32,7 +32,7 @@ const RecentProduct = () => {
   if (loading) return <Loading></Loading>;
   if (error) return <ErrorPage message={error}></ErrorPage>;
   return (
-    <div className="text-zinc-800 dark:text-zinc-100 py-10 bg-gray-50 dark:bg-gray-900">
+    <div className="text-zinc-800 dark:text-zinc-100 py-10 bg-gray-50 dark:bg-[#010313]">
       <h1 className="text-2xl md:text-3xl font-bold px-5 mb-6 text-center">
         RECENTLY ADDED
       </h1>

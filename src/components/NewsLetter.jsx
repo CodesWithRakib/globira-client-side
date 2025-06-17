@@ -9,7 +9,7 @@ const NewsLetter = () => {
       whileInView={{ opacity: 1 }}
       transition={{ duration: 0.6 }}
       viewport={{ once: true }}
-      className="relative py-16 px-6 text-center bg-gradient-to-br from-blue-50 to-amber-50 dark:from-zinc-900 dark:to-zinc-800"
+      className="relative py-16 px-6 text-center bg-gradient-to-br from-blue-50 to-amber-50 dark:from-[#010313] dark:to-[#010313]"
     >
       {/* Decorative elements */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden opacity-10">

@@ -5,7 +5,6 @@ import { FiUpload } from "react-icons/fi";
 import useAxios from "../hooks/useAxios";
 import { Loader2 } from "lucide-react";
 import toast from "react-hot-toast";
-
 import useAuth from "../hooks/useAuth";
 import useTitle from "../hooks/useTitle";
 
@@ -13,10 +12,9 @@ const AddProduct = () => {
   const [isAdded, setIsAdded] = useState(false);
   const [previewImage, setPreviewImage] = useState(null);
   const axiosSecure = useAxios();
-
   const { user } = useAuth();
 
-  useTitle(`Add Product `);
+  useTitle(`Add Product`);
 
   const productContent = {
     electronics: `
@@ -52,10 +50,11 @@ const AddProduct = () => {
 - Stationery items like pens, papers, organizers
 - Office supplies essentials`,
   };
+
   const uploadImageToCloudinary = async (file) => {
     const formData = new FormData();
     formData.append("file", file);
-    formData.append("upload_preset", "codeswithrakib"); // replace with your preset name
+    formData.append("upload_preset", "codeswithrakib");
 
     const res = await fetch(
       `https://api.cloudinary.com/v1_1/${
@@ -84,39 +83,55 @@ const AddProduct = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setIsAdded(true);
 
     const form = event.target;
-    const formData = new FormData(form);
-    const productInfo = Object.fromEntries(formData.entries());
+    const mainQuantity = Number(form.mainQuantity.value);
+    const minimumQuantity = Number(form.minimumQuantity.value);
 
-    // Add user info
-    productInfo.email = user.email;
-    productInfo.sellerName = user.displayName;
-    productInfo.sellerPhotoURL = user.photoURL;
-
-    // Add product content based on category
-    const selectedCategory = productInfo.category.split("-")[0];
-    productInfo.productContent = productContent[selectedCategory] || "";
-
-    let imageUrl = productInfo.productImage; // From text input
-
-    // If a file was selected for upload
-    const fileInput = form.querySelector("input[type='file']");
-    if (fileInput.files[0]) {
-      try {
-        imageUrl = await uploadImageToCloudinary(fileInput.files[0]);
-      } catch (error) {
-        toast.error("Image upload failed." + error);
-        setIsAdded(false);
-        return;
-      }
+    // Validate quantities
+    if (minimumQuantity > mainQuantity) {
+      toast.error("Minimum selling quantity cannot exceed main quantity");
+      return;
     }
 
-    productInfo.productImage = imageUrl;
+    if (minimumQuantity < 1) {
+      toast.error("Minimum selling quantity must be at least 1");
+      return;
+    }
 
-    // POST to backend
+    if (mainQuantity < 1) {
+      toast.error("Main quantity must be at least 1");
+      return;
+    }
+
+    setIsAdded(true);
+
     try {
+      const formData = new FormData(form);
+      const productInfo = Object.fromEntries(formData.entries());
+
+      productInfo.email = user.email;
+      productInfo.sellerName = user.displayName;
+      productInfo.sellerPhotoURL = user.photoURL;
+
+      const selectedCategory = productInfo.category.split("-")[0];
+      productInfo.productContent = productContent[selectedCategory] || "";
+
+      let imageUrl = productInfo.productImage;
+
+      const fileInput = form.querySelector("input[type='file']");
+      if (fileInput.files[0]) {
+        try {
+          imageUrl = await uploadImageToCloudinary(fileInput.files[0]);
+        } catch (error) {
+          toast.error("Image upload failed: " + error.message);
+          setIsAdded(false);
+          return;
+        }
+      }
+
+      productInfo.productImage = imageUrl;
+
       await axiosSecure.post("/api/products", productInfo);
       toast.success("Product added successfully!");
       form.reset();
@@ -227,6 +242,7 @@ const AddProduct = () => {
                     type="file"
                     className="hidden"
                     onChange={handleImageChange}
+                    accept="image/*"
                   />
                 </label>
                 {previewImage && (
@@ -261,6 +277,9 @@ const AddProduct = () => {
                   min="1"
                   required
                 />
+                <p className="text-xs text-gray-500 mt-1">
+                  Total available stock
+                </p>
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
@@ -274,6 +293,9 @@ const AddProduct = () => {
                   min="1"
                   required
                 />
+                <p className="text-xs text-gray-500 mt-1">
+                  Minimum order quantity
+                </p>
               </div>
             </div>
 

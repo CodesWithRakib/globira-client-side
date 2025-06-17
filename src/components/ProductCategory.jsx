@@ -49,7 +49,7 @@ const ProductCategory = () => {
     },
   ];
   return (
-    <div className="px-4 sm:px-6 lg:px-8 py-8 bg-gray-50 dark:bg-gray-900">
+    <div className="px-4 sm:px-6 lg:px-8 py-8 bg-gray-50 dark:bg-[#010313]">
       <h2 className="text-2xl md:text-3xl font-bold text-zinc-900 dark:text-white mb-6 text-center">
         🛍️ Discover All Categories
       </h2>
@@ -64,7 +64,7 @@ const ProductCategory = () => {
             whileHover={{ scale: 1.05 }}
             viewport={{ once: true }}
             onClick={() => navigate(`/category/${category.slug}`)}
-            className="cursor-pointer group bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 flex flex-col items-center text-center"
+            className="cursor-pointer group bg-white dark:bg-zinc-950 p-4 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 flex flex-col items-center text-center"
           >
             <div className="w-16 h-16 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center overflow-hidden mb-3">
               <img

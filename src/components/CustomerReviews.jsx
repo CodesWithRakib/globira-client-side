@@ -67,7 +67,7 @@ const CustomerReviews = () => {
   ];
 
   return (
-    <section className="py-16 px-4 bg-gray-50 dark:bg-zinc-950">
+    <section className="py-16 px-4 bg-gray-50 dark:bg-[#010313]">
       <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -93,7 +93,7 @@ const CustomerReviews = () => {
               whileHover={{ y: -5 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="bg-white dark:bg-zinc-900 rounded-xl p-6 shadow-sm hover:shadow-md border border-gray-100 dark:border-zinc-800 transition-all duration-300"
+              className="bg-white dark:bg-zinc-950 rounded-xl p-6 shadow-sm hover:shadow-md border border-gray-100 dark:border-zinc-800 transition-all duration-300"
             >
               <div className="flex justify-between items-start mb-4">
                 <div className="flex items-center gap-4">

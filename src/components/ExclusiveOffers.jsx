@@ -67,7 +67,7 @@ const ExclusiveOffers = () => {
   ];
 
   return (
-    <div className="px-5 py-8 bg-white dark:bg-zinc-900 text-zinc-800 dark:text-zinc-100">
+    <div className="px-5 py-8 bg-white dark:bg-[#010313] text-zinc-800 dark:text-zinc-100">
       <div className="mb-6">
         <div className="flex justify-between items-center gap-5 mb-2">
           <motion.h2

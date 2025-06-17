@@ -48,7 +48,7 @@ const Faq = () => {
   };
 
   return (
-    <section className="py-16 px-4 sm:px-6 bg-gray-50 dark:bg-zinc-950">
+    <section className="py-16 px-4 sm:px-6 bg-gray-50 dark:bg-[#010313]">
       <div className="max-w-4xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

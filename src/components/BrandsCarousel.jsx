@@ -67,7 +67,7 @@ const BrandsCarousel = () => {
   ];
 
   return (
-    <section className="py-12 bg-gray-50 dark:bg-zinc-900/50 border-t border-b border-gray-200 dark:border-zinc-800">
+    <section className="py-12 bg-gray-50 dark:bg-[#010313] border-t border-b border-gray-200 dark:border-zinc-800">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

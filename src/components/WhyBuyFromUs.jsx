@@ -54,7 +54,7 @@ const WhyBuyFromUs = () => {
   ];
 
   return (
-    <section className="py-16 px-6 md:px-12 dark:bg-zinc-950 bg-white text-zinc-800 dark:text-white transition-colors duration-300">
+    <section className="py-16 px-6 md:px-12 dark:bg-[#010313] bg-white text-zinc-800 dark:text-white transition-colors duration-300">
       <div className="text-center mb-12">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
