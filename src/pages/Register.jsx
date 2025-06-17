@@ -49,7 +49,7 @@ const Register = () => {
       form.reset();
 
       setTimeout(() => {
-        navigate(state || "/");
+        navigate(state?.from || "/");
       }, 2000);
     } catch (error) {
       toast.error(error.message || "Account creation failed!");

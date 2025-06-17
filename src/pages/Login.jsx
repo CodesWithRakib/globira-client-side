@@ -32,7 +32,7 @@ function Login() {
 
         toast.success("Account logged in successfully!");
         setTimeout(() => {
-          navigate(`${location.state ? location.state : "/"}`);
+          navigate(location.state?.from || "/");
         }, 2000);
         setIsLoggedIn(false);
       })
@@ -43,7 +43,6 @@ function Login() {
   };
 
   const handleGoogleLogin = () => {
-    // Simulate a Google login flow
     setIsLoggedIn(true);
     logInWithGoogle()
       .then((userCredential) => {
@@ -52,7 +51,7 @@ function Login() {
         toast.success("Account logged in successfully!");
         setIsLoggedIn(false);
         setTimeout(() => {
-          navigate(`${location.state ? location.state : "/"}`);
+          navigate(location.state?.from || "/");
         }, 2000);
       })
       .catch(() => {
@@ -81,7 +80,7 @@ function Login() {
 
           <div>
             <div onClick={handleGoogleLogin} className="my-6 space-y-4">
-              <button className="btn bg-white text-black border-[#e5e5e5] w-full">
+              <button className="btn bg-white text-black border-[#e5e5e5] w-full gap-2">
                 <svg
                   aria-label="Google logo"
                   width="20"
@@ -156,7 +155,7 @@ function Login() {
             <div className="form-control">
               <p className="label-text font-medium">Password</p>
 
-              <label className="input validator w-full">
+              <label className="input validator w-full relative">
                 <svg
                   className="h-[2em] opacity-50"
                   xmlns="http://www.w3.org/2000/svg"
@@ -184,9 +183,6 @@ function Login() {
                   className={`  w-full `}
                   required
                   placeholder="Password"
-                  minLength="8"
-                  pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-                  title="Must be more than 8 characters, including number, lowercase letter, uppercase letter"
                 />
                 <button
                   type="button"
