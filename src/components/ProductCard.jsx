@@ -3,6 +3,7 @@ import noImage from "/default.jpg";
 import { useNavigate } from "react-router";
 import { FaHeart, FaRegHeart, FaStar, FaEye } from "react-icons/fa";
 import SkeletonLoading from "./SkeletonLoading";
+import { formatCategory } from "../Utils/formatCategory";
 
 const ProductCard = ({ product, loading }) => {
   const {
@@ -21,14 +22,6 @@ const ProductCard = ({ product, loading }) => {
   const [isLiked, setIsLiked] = React.useState(false);
   const [isHovered, setIsHovered] = React.useState(false);
 
-  // Format category name
-  const formattedCategory = category
-    ? category
-        .split("-")
-        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(" ")
-    : "";
-
   if (loading) {
     return <SkeletonLoading />;
   }
@@ -43,7 +36,7 @@ const ProductCard = ({ product, loading }) => {
       {category && (
         <div className="absolute top-3 left-3 z-10">
           <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-gradient-to-r from-primary to-amber-500 text-white shadow-sm">
-            {formattedCategory}
+            {formatCategory(category)}
           </span>
         </div>
       )}

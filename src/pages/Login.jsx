@@ -1,17 +1,17 @@
-import React, { use } from "react";
+import React from "react";
 import AuthImagePattern from "../components/AuthImagePattern";
 import { EyeIcon, EyeOffIcon, Loader2 } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router";
 import { FaGlobeAmericas } from "react-icons/fa";
-import { AuthContext } from "../Auth/AuthProvider";
 import toast from "react-hot-toast";
 import useTitle from "../hooks/useTitle";
+import useAuth from "../hooks/useAuth";
 
 function Login() {
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
   const [showPassword, setShowPassword] = React.useState(false);
 
-  const { logIn, setUser, logInWithGoogle } = use(AuthContext);
+  const { logIn, setUser, logInWithGoogle } = useAuth();
 
   useTitle(`Login`);
 

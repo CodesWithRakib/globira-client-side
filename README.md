@@ -110,7 +110,7 @@ Globira is a full-stack B2B wholesale marketplace inspired by platforms like Ali
 - `react-hot-toast`
 - `react-icons`
 - `react-fast-marquee`
-- `react-rating`, `react-rating-stars-component`
+- `react-rating`
 - `react-router`
 - `sweetalert2`
 - `swiper`
@@ -250,7 +250,7 @@ More info: [Vercel Docs](https://vercel.com/docs/functions)
 ## 🤝 Contributing
 
 Contributions, issues, and feature requests are welcome!
-Feel free to check [issues page](https://github.com/yourusername/globira/issues) or submit a pull request.
+Feel free to check [issues page](https://github.com/codeswithrakib/globira/issues) or submit a pull request.
 
 Please follow the [contribution guidelines](CONTRIBUTING.md) for a smooth experience.
 
@@ -265,7 +265,7 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 ## 📫 Contact
 
 For any query or support:
-📧 Email: [rakib.dev@email.com](mailto:rakib.dev@email.com)
+📧 Email: [codeswithrakib@gmail.com](codeswithrakib@gmail.com)
 🔗 LinkedIn: [Rakib Islam](https://linkedin.com/in/codeswithrakib)
 
 ---

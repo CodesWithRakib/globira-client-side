@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 import {
   Camera,
   Mail,
@@ -12,12 +12,13 @@ import {
   Facebook,
   Linkedin,
 } from "lucide-react";
-import { AuthContext } from "../Auth/AuthProvider";
+
 import useAxios from "../hooks/useAxios";
 import { toast } from "react-hot-toast";
 import Loading from "../components/Loading";
 import { Link } from "react-router";
 import useTitle from "../hooks/useTitle";
+import useAuth from "../hooks/useAuth";
 
 const Profile = () => {
   const [selectedImg, setSelectedImg] = useState(null);
@@ -29,7 +30,7 @@ const Profile = () => {
   const [facebook, setFacebook] = useState("");
   const [isUpdatingProfile, setIsUpdatingProfile] = useState(false);
 
-  const { user, updateUser } = useContext(AuthContext);
+  const { user, updateUser } = useAuth();
   const axiosSecure = useAxios();
 
   useTitle(`Profile`);

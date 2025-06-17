@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
-import { AuthContext } from "../Auth/AuthProvider";
+import React, { useState, useEffect } from "react";
 import MyProductCard from "../components/MyProductCard";
 import NoProduct from "../components/NoProduct";
 import Loading from "../components/Loading";
@@ -7,12 +6,13 @@ import useAxios from "../hooks/useAxios";
 import { FiPlus } from "react-icons/fi";
 import { useNavigate } from "react-router";
 import useTitle from "../hooks/useTitle";
+import useAuth from "../hooks/useAuth";
 
 const MyProduct = () => {
   const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState([]);
   const [error, setError] = useState(null);
-  const { user } = useContext(AuthContext);
+  const { user } = useAuth();
   const navigate = useNavigate();
   const axiosSecure = useAxios();
 
