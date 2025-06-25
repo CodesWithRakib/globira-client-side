@@ -1,5 +1,3 @@
-
-````markdown
 # 🛒 Globira - B2B Wholesale Marketplace
 
 Globira is a full-stack B2B wholesale marketplace where users can browse, list, and manage products efficiently. Inspired by platforms like Alibaba, this platform ensures secure transactions and a user-friendly experience for wholesale traders.
