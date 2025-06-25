@@ -1,6 +1,3 @@
-Here is your **fully enhanced and polished `README.md` for the Globira project**, with all requirements satisfied and a more professional, readable structure — perfect for GitHub or portfolio use.
-
----
 
 ````markdown
 # 🛒 Globira - B2B Wholesale Marketplace
