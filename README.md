@@ -131,7 +131,7 @@ Globira is a full-stack B2B wholesale marketplace where users can browse, list, 
 
 ### 📥 Clone Repositories
 
-```bash
+
 # Clone Frontend
 git clone https://github.com/Programming-Hero-Web-Course4/b11a11-client-side-CodesWithRakib.git
 cd b11a11-client-side-CodesWithRakib
@@ -143,8 +143,7 @@ git clone https://github.com/Programming-Hero-Web-Course4/b11a11-server-side-Cod
 cd b11a11-server-side-CodesWithRakib
 npm install
 npm run dev
-```
-````
+
 
 ---
 
