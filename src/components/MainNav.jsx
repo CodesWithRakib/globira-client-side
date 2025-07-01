@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import noImage from "/avatar.png";
 import toast from "react-hot-toast";
 import { NavLink, useNavigate } from "react-router";
@@ -7,115 +7,140 @@ import { BsFillMoonStarsFill } from "react-icons/bs";
 import { IoSunnySharp } from "react-icons/io5";
 import { FaShoppingCart, FaUser, FaUserPlus } from "react-icons/fa";
 import { FiLogOut } from "react-icons/fi";
+import { motion, AnimatePresence } from "motion/react";
 
 const MainNav = () => {
   const { user, logOut } = useAuth();
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
 
-  const toggleTheme = () => {
-    setTheme(theme === "dark" ? "light" : "dark");
-  };
+  const toggleTheme = useCallback(() => {
+    setTheme((prev) => (prev === "dark" ? "light" : "dark"));
+  }, []);
 
-  const handleLogout = () => {
+  const handleLogout = useCallback(() => {
     logOut()
       .then(() => {
-        toast.success("Account logged out successfully!");
+        toast.success("Logged out successfully!");
         navigate("/login");
       })
       .catch(() => {
-        toast.error("Account logout failed!");
+        toast.error("Logout failed!");
       });
-  };
+  }, [logOut, navigate]);
 
   useEffect(() => {
-    localStorage.setItem("theme", theme);
-    document.querySelector("html").setAttribute("data-theme", theme);
+    if (theme) {
+      localStorage.setItem("theme", theme);
+      document.documentElement.setAttribute("data-theme", theme);
+    }
   }, [theme]);
 
-  return (
-    <div className="navbar sticky top-0 z-40 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 border-b border-gray-200 dark:border-gray-700 h-[80px] px-2 sm:px-6 flex items-center justify-between py-0">
-      {/* Left Side - Logo & Mobile Menu */}
-      <div className="flex items-center ">
-        <div className="dropdown flex sm:hidden">
-          <label
-            tabIndex={0}
-            className="btn btn-ghost btn-circle  hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg cursor-pointer"
-            aria-label="Mobile menu"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="sm:h-8 w-6 h-6 sm:w-8"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M4 6h16M4 12h16M4 18h7"
-              />
-            </svg>
-          </label>
-          <ul
-            tabIndex={0}
-            className="menu menu-sm dropdown-content bg-white dark:bg-gray-800 rounded-box z-50 mt-10 w-52 p-2 shadow-lg border border-gray-200 dark:border-gray-700"
-          >
-            <li>
-              <NavLink to="/" className="hover:text-[#FF6600]">
-                Home
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/categories" className="hover:text-[#FF6600]">
-                Categories
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/all-products" className="hover:text-[#FF6600]">
-                All Products
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/add-product" className="hover:text-[#FF6600]">
-                Add Product
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/my-product" className="hover:text-[#FF6600]">
-                My Product
-              </NavLink>
-            </li>
-          </ul>
-        </div>
+  const navLinks = [
+    { path: "/", name: "Home" },
+    { path: "/categories", name: "Categories" },
+    { path: "/all-products", name: "Products" },
+    { path: "/add-product", name: "Add Product" },
+    { path: "/my-product", name: "My Products" },
+  ];
 
+  // Ideally cart count should come from your cart state
+  const cartCount = 9; // placeholder
+
+  return (
+    <nav className="navbar sticky top-0 z-40 bg-amber-700 dark:bg-gray-900 text-white dark:text-gray-100 border-b border-amber-800 dark:border-gray-700 h-16 md:h-20 px-4 sm:px-6 lg:px-8 xl:px-12 flex items-center justify-between">
+      {/* Left Side - Logo and Mobile Menu */}
+      <div className="flex items-center">
+        {/* Mobile Menu Toggle */}
+        <div className="md:hidden mr-2">
+          <button
+            onClick={() => setIsMobileMenuOpen((open) => !open)}
+            className="p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-400"
+            aria-label="Toggle menu"
+            aria-expanded={isMobileMenuOpen}
+          >
+            <div className="w-6 flex flex-col items-center">
+              <motion.span
+                className="block h-0.5 w-6 bg-white rounded-full mb-1.5"
+                animate={{
+                  rotate: isMobileMenuOpen ? 45 : 0,
+                  y: isMobileMenuOpen ? 8 : 0,
+                }}
+              />
+              <motion.span
+                className="block h-0.5 w-6 bg-white rounded-full mb-1.5"
+                animate={{ opacity: isMobileMenuOpen ? 0 : 1 }}
+              />
+              <motion.span
+                className="block h-0.5 w-6 bg-white rounded-full"
+                animate={{
+                  rotate: isMobileMenuOpen ? -45 : 0,
+                  y: isMobileMenuOpen ? -8 : 0,
+                }}
+              />
+            </div>
+          </button>
+        </div>
+        {/* Logo */}
         <div
           onClick={() => navigate("/")}
-          className="text-lg sm:text-xl font-bold text-[#FF6600] cursor-pointer select-none"
+          className="text-xl font-bold text-white cursor-pointer select-none"
         >
-          Globira
+          <span className="text-amber-300">G</span>lobira
         </div>
       </div>
 
-      {/* Center - Navigation Links */}
-      <ul className="hidden lg:flex gap-8 text-sm font-semibold tracking-wide">
-        {[
-          { path: "/", name: "Home" },
-          { path: "/categories", name: "Categories" },
-          { path: "/all-products", name: "All Products" },
-          { path: "/add-product", name: "Add Product" },
-          { path: "/my-product", name: "My Product" },
-        ].map((link) => (
+      {/* Mobile Menu */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.2 }}
+            className="md:hidden absolute top-full left-0 right-0 bg-amber-700 dark:bg-gray-800 shadow-lg border-t border-amber-800 dark:border-gray-700"
+          >
+            <ul className="flex flex-col py-2">
+              {navLinks.map((link) => (
+                <motion.li
+                  key={link.path}
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <NavLink
+                    to={link.path}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className={({ isActive }) =>
+                      `block px-4 py-3 text-sm font-medium ${
+                        isActive
+                          ? "bg-amber-600/30 dark:bg-gray-700 text-amber-300"
+                          : "hover:bg-amber-600/20 dark:hover:bg-gray-700/50"
+                      }`
+                    }
+                  >
+                    {link.name}
+                  </NavLink>
+                </motion.li>
+              ))}
+            </ul>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Desktop Navigation */}
+      <ul className="hidden md:flex gap-6 lg:gap-8 text-sm font-medium">
+        {navLinks.map((link) => (
           <li key={link.path}>
             <NavLink
               to={link.path}
               className={({ isActive }) =>
                 `pb-1 transition-colors duration-200 ${
                   isActive
-                    ? "text-[#FF6600] border-b-2 border-[#FF6600]"
-                    : "hover:text-[#FF6600]"
+                    ? "text-amber-300 border-b-2 border-amber-300"
+                    : "hover:text-amber-300"
                 }`
               }
             >
@@ -125,35 +150,39 @@ const MainNav = () => {
         ))}
       </ul>
 
-      {/* Right Side - Actions */}
-      <div className="flex items-center gap-2 sm:gap-4">
+      {/* Right Side Actions */}
+      <div className="flex items-center gap-3 sm:gap-4">
         {/* Theme Toggle */}
         <button
           onClick={toggleTheme}
-          className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition flex items-center justify-center"
+          className="p-2 rounded-full hover:bg-amber-600/30 dark:hover:bg-gray-700/50 transition flex items-center justify-center"
           aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
         >
           {theme === "dark" ? (
-            <IoSunnySharp size={18} className="text-yellow-300" />
+            <IoSunnySharp size={18} className="text-amber-300" />
           ) : (
-            <BsFillMoonStarsFill size={18} className="text-gray-600" />
+            <BsFillMoonStarsFill size={18} className="text-white" />
           )}
         </button>
 
         {/* Cart */}
         <NavLink
           to="/cart"
-          className="relative flex items-center justify-center gap-1 hover:text-[#FF6600] transition"
+          className={({ isActive }) =>
+            `relative flex items-center justify-center gap-1 p-2 rounded-full hover:bg-amber-600/30 dark:hover:bg-gray-700/50 transition ${
+              isActive ? "text-amber-300" : ""
+            }`
+          }
           aria-label="Cart"
         >
           <FaShoppingCart size={18} />
-          <span className="hidden md:inline text-sm">Cart</span>
-          <span className="absolute -top-2 -right-2 bg-[#FF6600] text-white text-xs font-bold rounded-full w-4 h-4 sm:w-5 sm:h-5 flex items-center justify-center">
-            9+
+          <span className="hidden sm:inline text-sm ml-1">Cart</span>
+          <span className="absolute -top-1 -right-1 bg-amber-300 text-amber-900 text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+            {cartCount > 9 ? "9+" : cartCount}
           </span>
         </NavLink>
 
-        {/* User Profile */}
+        {/* User / Auth */}
         {user ? (
           <div className="relative">
             <button
@@ -163,71 +192,89 @@ const MainNav = () => {
               className="flex items-center gap-2 focus:outline-none"
               aria-label="User profile"
               aria-expanded={isProfileOpen}
+              aria-haspopup="true"
             >
               <img
                 src={user?.photoURL || noImage}
-                onError={(e) => (e.target.src = noImage)}
+                onError={(e) => {
+                  e.target.src = noImage;
+                }}
                 alt={user?.displayName || "User"}
-                className="w-8 h-8 rounded-full border-2 border-gray-300 dark:border-gray-600 hover:border-[#FF6600] transition-all"
+                className="w-8 h-8 rounded-full border-2 border-amber-300 hover:border-amber-200 transition-all"
               />
             </button>
-
-            {/* Profile Dropdown */}
-            {isProfileOpen && (
-              <div
-                className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg z-50 border border-gray-200 dark:border-gray-700"
-                onMouseEnter={() => setIsProfileOpen(true)}
-                onMouseLeave={() => setIsProfileOpen(false)}
-              >
-                <div className="px-4 py-3 border-b border-gray-200 dark:border-gray-700">
-                  <p className="text-sm font-medium text-gray-900 dark:text-white truncate">
-                    {user?.displayName || "User"}
-                  </p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
-                    {user?.email}
-                  </p>
-                </div>
-                <div className="py-1">
-                  <button
-                    onClick={() => {
-                      navigate("/profile");
-                      setIsProfileOpen(false);
-                    }}
-                    className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-                  >
-                    Your Profile
-                  </button>
-                  <button
-                    onClick={handleLogout}
-                    className="flex items-center w-full text-left px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
-                  >
-                    <FiLogOut className="mr-2" />
-                    Sign out
-                  </button>
-                </div>
-              </div>
-            )}
+            <AnimatePresence>
+              {isProfileOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 10 }}
+                  className="absolute right-0 mt-2 w-56 bg-amber-700 dark:bg-gray-800 rounded-md shadow-lg z-50 border border-amber-800 dark:border-gray-700"
+                  onMouseEnter={() => setIsProfileOpen(true)}
+                  onMouseLeave={() => setIsProfileOpen(false)}
+                >
+                  <div className="px-4 py-3 border-b border-amber-800 dark:border-gray-700">
+                    <p className="text-sm font-medium text-white truncate">
+                      {user?.displayName || "User"}
+                    </p>
+                    <p className="text-xs text-amber-200 dark:text-gray-400 truncate">
+                      {user?.email}
+                    </p>
+                  </div>
+                  <div className="py-1">
+                    <button
+                      onClick={() => {
+                        navigate("/profile");
+                        setIsProfileOpen(false);
+                      }}
+                      className="block w-full text-left px-4 py-2 text-sm text-white dark:text-gray-300 hover:bg-amber-600/30 dark:hover:bg-gray-700 transition-colors"
+                    >
+                      Your Profile
+                    </button>
+                    <button
+                      onClick={handleLogout}
+                      className="flex items-center w-full text-left px-4 py-2 text-sm text-amber-200 dark:text-amber-300 hover:bg-amber-600/20 dark:hover:bg-amber-900/20 transition-colors"
+                    >
+                      <FiLogOut className="mr-2" />
+                      Sign out
+                    </button>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         ) : (
           <div className="flex gap-2 items-center">
             <NavLink
               to="/login"
-              className="flex items-center gap-1 bg-green-500 hover:bg-green-600 px-1 py-0.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm text-white transition-colors"
+              className={({ isActive }) =>
+                `flex items-center gap-1 px-3 py-2 rounded-full text-sm transition-colors ${
+                  isActive
+                    ? "bg-emerald-700 text-white"
+                    : "bg-emerald-600 hover:bg-emerald-700 text-white"
+                }`
+              }
             >
               <FaUser size={14} />
-              <span>Log In</span>
+              <span className="hidden sm:inline">Log In</span>
             </NavLink>
             <NavLink
               to="/register"
-              className="flex items-center gap-1 bg-[#FF6600] hover:bg-[#e65c00] px-1 py-0.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm text-white transition-colors"
+              className={({ isActive }) =>
+                `flex items-center gap-1 px-3 py-2 rounded-full text-sm transition-colors ${
+                  isActive
+                    ? "bg-amber-500 text-white"
+                    : "bg-amber-600 hover:bg-amber-500 text-white"
+                }`
+              }
             >
               <FaUserPlus size={14} />
-              <span>Register</span>
+              <span className="hidden sm:inline">Register</span>
             </NavLink>
           </div>
         )}
       </div>
-    </div>
+    </nav>
   );
 };
 

@@ -13,6 +13,7 @@ const Cart = () => {
   const axiosSecure = useAxios();
 
   useTitle(`Cart`);
+
   useEffect(() => {
     const fetchCartItems = async () => {
       try {
@@ -20,7 +21,7 @@ const Cart = () => {
         setCarts(response.data.result);
       } catch (error) {
         console.error("Error fetching cart items:", error);
-        toast.error("Failed to load cart items ,Please log in first.");
+        toast.error("Failed to load cart items, please log in first.");
       } finally {
         setLoading(false);
       }
@@ -46,8 +47,8 @@ const Cart = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-10">
-          <div className="inline-flex items-center justify-center bg-blue-100 dark:bg-blue-900/50 p-4 rounded-full mb-4">
-            <FiShoppingCart className="w-8 h-8 text-blue-600 dark:text-blue-400" />
+          <div className="inline-flex items-center justify-center bg-amber-100 dark:bg-amber-900/50 p-4 rounded-full mb-4">
+            <FiShoppingCart className="w-8 h-8 text-amber-600 dark:text-amber-400" />
           </div>
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
             Your Shopping Cart
@@ -123,13 +124,13 @@ const Cart = () => {
                   <span className="text-lg font-medium text-gray-900 dark:text-white">
                     Total
                   </span>
-                  <span className="text-lg font-bold text-blue-600 dark:text-blue-400">
+                  <span className="text-lg font-bold text-amber-600 dark:text-amber-400">
                     ${calculateTotal()}
                   </span>
                 </div>
               </div>
 
-              <button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-lg font-medium transition-colors">
+              <button className="w-full bg-amber-600 hover:bg-amber-700 text-white py-3 px-4 rounded-lg font-medium transition-colors">
                 Proceed to Checkout
               </button>
             </div>

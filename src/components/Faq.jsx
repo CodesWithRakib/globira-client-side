@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { FiChevronDown, FiChevronUp } from "react-icons/fi";
+import { ChevronDown, ChevronUp, Mail, MessageSquare } from "lucide-react";
 
 const Faq = () => {
   const [activeIndex, setActiveIndex] = useState(null);
@@ -11,45 +11,53 @@ const Faq = () => {
       question: "What is the minimum order quantity (MOQ) for products?",
       answer:
         "Each product has a specified minimum order quantity (MOQ). You must order at least the MOQ to proceed with the purchase. The MOQ is clearly displayed on each product page.",
+      category: "Ordering",
     },
     {
       id: 2,
       question: "Can I get discounts on bulk orders?",
       answer:
         "Yes! We offer tiered discounts on bulk purchases. The more you order, the better the price. Check the 'Exclusive Offers' section for current deals or contact our sales team for custom pricing.",
+      category: "Pricing",
     },
     {
       id: 3,
       question: "What payment methods are accepted?",
       answer:
         "We accept payments via bank transfer, credit card, and select B2B financing partners. For large volume orders, customized payment terms can be discussed.",
+      category: "Payments",
     },
     {
       id: 4,
       question: "How long does shipping take for wholesale orders?",
       answer:
         "Shipping times depend on the order size and delivery location. Typically, domestic orders take 5-10 business days, while international orders may take 10-20 business days. Expedited options are available.",
+      category: "Shipping",
     },
     {
       id: 5,
       question: "Can I request a sample before placing a bulk order?",
       answer:
         "Yes, sample orders are possible for many products. Please contact our support team or the respective supplier to request a sample.",
+      category: "Samples",
     },
     {
       id: 6,
       question: "Are all products sourced from verified suppliers?",
       answer:
         "Yes, we only work with verified and trusted suppliers to ensure product quality and consistency. Our platform is designed to maintain high standards across all categories.",
+      category: "Suppliers",
     },
   ];
+
   const toggleAccordion = (index) => {
     setActiveIndex(activeIndex === index ? null : index);
   };
 
   return (
-    <section className="py-16 px-4 sm:px-6 bg-gray-50 dark:bg-[#010313]">
+    <section className="py-16 px-4 sm:px-6 bg-white dark:bg-gray-900">
       <div className="max-w-4xl mx-auto">
+        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -57,15 +65,22 @@ const Faq = () => {
           viewport={{ once: true }}
           className="text-center mb-12"
         >
-          <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-blue-600 to-amber-600 dark:from-blue-400 dark:to-amber-400 bg-clip-text text-transparent mb-3">
+          <div className="inline-flex items-center justify-center gap-2 mb-4 bg-amber-50 dark:bg-amber-900/20 px-4 py-2 rounded-full">
+            <MessageSquare className="w-5 h-5 text-amber-600 dark:text-amber-400" />
+            <span className="text-sm font-medium text-amber-600 dark:text-amber-400">
+              HELP CENTER
+            </span>
+          </div>
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
             Frequently Asked Questions
           </h2>
-          <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto text-lg">
-            Find answers to common questions about our wholesale platform
+          <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+            Quick answers to common questions about our wholesale platform
           </p>
         </motion.div>
 
-        <div className="space-y-4">
+        {/* FAQ Items */}
+        <div className="space-y-3">
           {faqData.map((faq, index) => (
             <motion.div
               key={faq.id}
@@ -73,39 +88,47 @@ const Faq = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
               viewport={{ once: true }}
-              className="overflow-hidden"
+              className="overflow-hidden rounded-lg shadow-sm"
             >
-              <div
+              <button
                 onClick={() => toggleAccordion(index)}
-                className={`p-5 rounded-xl cursor-pointer transition-all duration-300 ${
+                className={`w-full text-left p-5 transition-all duration-200 border border-gray-200 dark:border-gray-700 rounded-lg ${
                   activeIndex === index
-                    ? "bg-white dark:bg-zinc-900 shadow-md border border-gray-200 dark:border-zinc-700"
-                    : "bg-white/80 dark:bg-zinc-900/80 hover:bg-gray-100 dark:hover:bg-zinc-800 border border-gray-100 dark:border-zinc-800"
+                    ? "bg-amber-50 dark:bg-amber-900/20"
+                    : "bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700"
                 }`}
+                aria-expanded={activeIndex === index}
+                aria-controls={`faq-content-${faq.id}`}
               >
                 <div className="flex justify-between items-center">
-                  <h3 className="font-semibold text-gray-800 dark:text-white text-lg">
-                    {faq.question}
-                  </h3>
+                  <div>
+                    <span className="text-xs font-semibold text-amber-600 dark:text-amber-400 uppercase tracking-wide block mb-1">
+                      {faq.category}
+                    </span>
+                    <h3 className="font-semibold text-gray-800 dark:text-white text-lg">
+                      {faq.question}
+                    </h3>
+                  </div>
                   {activeIndex === index ? (
-                    <FiChevronUp className="text-gray-500 dark:text-gray-400 text-xl" />
+                    <ChevronUp className="w-5 h-5 text-gray-500 dark:text-gray-400" />
                   ) : (
-                    <FiChevronDown className="text-gray-500 dark:text-gray-400 text-xl" />
+                    <ChevronDown className="w-5 h-5 text-gray-500 dark:text-gray-400" />
                   )}
                 </div>
-              </div>
+              </button>
 
               <AnimatePresence>
                 {activeIndex === index && (
                   <motion.div
+                    id={`faq-content-${faq.id}`}
                     initial={{ height: 0, opacity: 0 }}
                     animate={{ height: "auto", opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.3 }}
+                    transition={{ duration: 0.2 }}
                     className="overflow-hidden"
                   >
-                    <div className="p-5 pt-2 text-gray-600 dark:text-gray-300 border-l-2 border-blue-500 ml-4">
-                      {faq.answer}
+                    <div className="p-5 pt-3 text-gray-700 dark:text-gray-300 border-l-4 border-amber-500 ml-4 bg-white dark:bg-gray-800 rounded-md">
+                      <p>{faq.answer}</p>
                     </div>
                   </motion.div>
                 )}
@@ -114,20 +137,25 @@ const Faq = () => {
           ))}
         </div>
 
+        {/* CTA */}
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
-          transition={{ delay: 0.8, duration: 0.5 }}
+          transition={{ delay: 0.5, duration: 0.5 }}
           viewport={{ once: true }}
           className="text-center mt-12"
         >
-          <p className="text-gray-600 dark:text-gray-400 mb-4">
-            Still have questions?
+          <p className="text-gray-600 dark:text-gray-300 mb-4">
+            Didn&apos;t find what you&apos;re looking for?
           </p>
-          <button className="relative overflow-hidden group bg-gradient-to-r from-blue-600 to-amber-600 dark:from-blue-500 dark:to-amber-500 text-white px-8 py-3 rounded-full font-semibold hover:shadow-lg transition-all duration-300">
-            <span className="relative z-10">Contact Our Support Team</span>
-            <span className="absolute inset-0 bg-gradient-to-r from-blue-700 to-amber-700 dark:from-blue-600 dark:to-amber-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
-          </button>
+          <motion.button
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+            className="flex items-center gap-2 mx-auto px-6 py-3 bg-amber-600 hover:bg-amber-700 dark:bg-amber-700 dark:hover:bg-amber-800 text-white font-medium rounded-lg transition-colors"
+          >
+            <Mail className="w-5 h-5" />
+            Contact Our Support Team
+          </motion.button>
         </motion.div>
       </div>
     </section>

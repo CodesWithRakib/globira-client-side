@@ -11,6 +11,8 @@ import {
   Github,
   Facebook,
   Linkedin,
+  ShieldCheck,
+  KeyRound,
 } from "lucide-react";
 
 import useAxios from "../hooks/useAxios";
@@ -34,6 +36,7 @@ const Profile = () => {
   const axiosSecure = useAxios();
 
   useTitle(`Profile`);
+
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -111,17 +114,18 @@ const Profile = () => {
   if (!user) return <Loading />;
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-10 px-4">
-      <div className="max-w-xl mx-auto">
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden">
-          <div className="bg-gradient-to-r from-indigo-500 to-purple-600 p-6 text-center">
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 py-10 px-4">
+      <div className="max-w-3xl mx-auto">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-xl overflow-hidden">
+          {/* Header */}
+          <div className="bg-gradient-to-r from-amber-500 to-amber-600 p-6 text-center">
             <h1 className="text-3xl font-bold text-white">Your Profile</h1>
-            <p className="text-indigo-100 mt-1">
+            <p className="text-amber-100 mt-1">
               Manage your personal information
             </p>
           </div>
 
-          {/* Avatar */}
+          {/* Avatar Upload */}
           <div className="flex flex-col items-center py-6 px-4">
             <div className="relative group">
               <img
@@ -132,7 +136,7 @@ const Profile = () => {
               />
               <label
                 htmlFor="avatar-upload"
-                className={`absolute bottom-2 right-2 bg-blue-600 hover:bg-blue-700 p-2 rounded-full cursor-pointer transition-all duration-200 shadow-md ${
+                className={`absolute bottom-2 right-2 bg-amber-600 hover:bg-amber-700 p-2 rounded-full cursor-pointer transition-all duration-200 shadow-md ${
                   isUpdatingProfile ? "animate-pulse" : ""
                 }`}
               >
@@ -150,7 +154,7 @@ const Profile = () => {
             <p
               className={`mt-3 text-sm ${
                 isUpdatingProfile
-                  ? "text-blue-500"
+                  ? "text-amber-500"
                   : "text-gray-500 dark:text-gray-400"
               }`}
             >
@@ -160,85 +164,85 @@ const Profile = () => {
             </p>
           </div>
 
-          {/* Info Section */}
-          <div className="px-6 pb-6 space-y-4">
+          {/* Form Fields */}
+          <div className="px-6 pb-6 space-y-5">
             {[
               {
                 label: "Full Name",
-                icon: <User />,
+                icon: <User size={18} />,
                 value: fullName,
                 setValue: setFullName,
                 placeholder: user?.displayName,
               },
               {
                 label: "Phone Number",
-                icon: <Phone />,
+                icon: <Phone size={18} />,
                 value: phoneNumber,
                 setValue: setPhoneNumber,
                 placeholder: user?.phone || "Not provided",
               },
               {
                 label: "Address",
-                icon: <MapPin />,
+                icon: <MapPin size={18} />,
                 value: address,
                 setValue: setAddress,
                 placeholder: "Your current address",
               },
               {
                 label: "GitHub",
-                icon: <Github />,
+                icon: <Github size={18} />,
                 value: github,
                 setValue: setGithub,
                 placeholder: "GitHub Profile Link",
               },
               {
                 label: "LinkedIn",
-                icon: <Linkedin />,
+                icon: <Linkedin size={18} />,
                 value: linkedin,
                 setValue: setLinkedin,
                 placeholder: "LinkedIn Profile Link",
               },
               {
                 label: "Facebook",
-                icon: <Facebook />,
+                icon: <Facebook size={18} />,
                 value: facebook,
                 setValue: setFacebook,
                 placeholder: "Facebook Profile Link",
               },
             ].map((field, idx) => (
               <div key={idx} className="space-y-1">
-                <div className="flex items-center gap-2 text-gray-600 dark:text-gray-300">
+                <label className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-200 font-medium">
                   {field.icon}
-                  <span className="text-sm font-medium">{field.label}</span>
-                </div>
+                  {field.label}
+                </label>
                 <input
                   type="text"
                   value={field.value}
                   onChange={(e) => field.setValue(e.target.value)}
                   placeholder={field.placeholder}
-                  className="w-full px-4 py-2 bg-gray-50 dark:bg-gray-700 text-sm rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-2 bg-gray-50 dark:bg-gray-700 text-sm rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-amber-500"
                 />
               </div>
             ))}
 
-            {/* Email */}
+            {/* Email (Read-only) */}
             <div className="space-y-1">
-              <div className="flex items-center gap-2 text-gray-600 dark:text-gray-300">
-                <Mail className="w-4 h-4" />
-                <span className="text-sm font-medium">Email</span>
-              </div>
-              <div className="px-4 py-3 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600">
-                <p className="font-medium">{user?.email}</p>
+              <label className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-200 font-medium">
+                <Mail size={18} />
+                Email
+              </label>
+              <div className="px-4 py-3 bg-gray-100 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600 text-sm font-medium">
+                {user?.email}
               </div>
             </div>
 
-            {/* Password Change */}
+            {/* Change Password Link */}
             <div className="text-right">
               <Link
                 to="/change-password"
-                className="text-sm text-blue-600 hover:underline"
+                className="text-sm text-amber-600 hover:underline flex justify-end items-center gap-1"
               >
-                Change Password
+                <KeyRound size={16} /> Change Password
               </Link>
             </div>
 
@@ -247,7 +251,7 @@ const Profile = () => {
               <button
                 onClick={handleUpdateInfo}
                 disabled={isUpdatingProfile}
-                className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition duration-200 disabled:opacity-60"
+                className="inline-flex items-center gap-2 px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-lg font-medium transition duration-200 disabled:opacity-60"
               >
                 <Save className="w-4 h-4" />
                 {isUpdatingProfile ? "Saving..." : "Save Info"}
@@ -255,12 +259,18 @@ const Profile = () => {
             </div>
           </div>
 
+          {/* Divider */}
+          <hr className="border-t border-gray-200 dark:border-gray-600" />
+
           {/* Account Info */}
-          <div className="bg-gray-100 dark:bg-gray-700/50 px-6 py-4 border-t border-gray-200 dark:border-gray-600">
-            <h2 className="text-lg font-medium mb-3">Account Details</h2>
-            <div className="space-y-3 text-sm">
+          <div className="bg-gray-50 dark:bg-gray-700/50 px-6 py-5">
+            <h2 className="text-lg font-semibold text-gray-700 dark:text-gray-200 mb-3 flex items-center gap-2">
+              <ShieldCheck className="text-amber-600" size={20} />
+              Account Details
+            </h2>
+            <div className="space-y-3 text-sm text-gray-700 dark:text-gray-300">
               <div className="flex justify-between py-2 border-b border-gray-200 dark:border-gray-600">
-                <div className="flex items-center gap-2 text-gray-600 dark:text-gray-300">
+                <div className="flex items-center gap-2">
                   <Calendar className="w-4 h-4" />
                   <span>Member Since</span>
                 </div>
@@ -276,7 +286,7 @@ const Profile = () => {
                 </span>
               </div>
               <div className="flex justify-between py-2">
-                <div className="flex items-center gap-2 text-gray-600 dark:text-gray-300">
+                <div className="flex items-center gap-2">
                   <CheckCircle className="w-4 h-4 text-green-500" />
                   <span>Account Status</span>
                 </div>

@@ -1,9 +1,14 @@
 import React from "react";
 import noImage from "/default.jpg";
 import { useNavigate } from "react-router";
-import { FaShoppingCart, FaEdit, FaEye } from "react-icons/fa";
+import {
+  FaShoppingCart,
+  FaEdit,
+  FaEye,
+  FaStar,
+  FaRegStar,
+} from "react-icons/fa";
 import Rating from "react-rating";
-import { FaRegStar, FaStar } from "react-icons/fa";
 import { Tooltip } from "react-tooltip";
 import "react-tooltip/dist/react-tooltip.css";
 import { formatCategory } from "../Utils/formatCategory";
@@ -25,25 +30,25 @@ const AllProductCard = ({ product, onUpdate, onView }) => {
 
   return (
     <div
-      className="flex flex-col h-full rounded-xl shadow-sm overflow-hidden border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 group"
+      className="flex flex-col h-full rounded-xl shadow-sm border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 overflow-hidden transition-all duration-300 hover:shadow-md hover:-translate-y-1 group"
       data-tooltip-id={`product-card-${_id}`}
       data-tooltip-content={productName}
     >
-      {/* Product Image with Quick Actions */}
+      {/* Image with badge and quick view */}
       <div className="relative h-60 w-full overflow-hidden">
         <img
           src={productImage || noImage}
-          onError={(e) => (e.target.src = noImage)}
           alt={productName}
+          onError={(e) => (e.target.src = noImage)}
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
           loading="lazy"
         />
 
-        {/* Stock Status Badge */}
+        {/* Stock badge */}
         <span
           className={`absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold shadow-sm ${
             minimumQuantity > 100
-              ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
+              ? "bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-200"
               : "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
           }`}
         >
@@ -52,29 +57,29 @@ const AllProductCard = ({ product, onUpdate, onView }) => {
             : `Low Stock (${minimumQuantity})`}
         </span>
 
-        {/* Quick View Button */}
+        {/* Quick View */}
         <button
           onClick={(e) => {
             e.stopPropagation();
             onView ? onView(_id) : navigate(`/product/${_id}`);
           }}
-          className="absolute bottom-0 left-0 right-0 bg-black/70 text-white py-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-2"
+          className="absolute bottom-0 left-0 right-0 bg-black/70 text-white py-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-2 text-sm"
           aria-label={`Quick view ${productName}`}
         >
-          <FaEye /> Quick View
+          <FaEye size={14} /> Quick View
         </button>
       </div>
 
-      {/* Product Details */}
+      {/* Content */}
       <div className="p-4 flex-grow flex flex-col">
         {/* Category */}
-        <span className="inline-block px-3 py-1 mb-3 text-xs font-semibold rounded-full bg-gradient-to-r from-blue-50 to-blue-100 dark:from-gray-700 dark:to-gray-600 text-blue-600 dark:text-blue-300 w-fit">
+        <span className="inline-block w-fit px-3 py-1 mb-3 text-xs font-semibold rounded-full bg-gradient-to-r from-amber-100 to-amber-200 dark:from-amber-900 dark:to-amber-800 text-amber-700 dark:text-amber-300">
           {formatCategory(category)}
         </span>
 
         {/* Title and Brand */}
         <h3
-          className="font-bold text-lg text-gray-900 dark:text-white mb-1 line-clamp-1 hover:text-primary dark:hover:text-amber-400 transition-colors cursor-pointer"
+          className="text-lg font-bold text-gray-900 dark:text-white mb-1 line-clamp-1 cursor-pointer hover:text-amber-600 dark:hover:text-amber-400 transition-colors"
           onClick={() => navigate(`/product/${_id}`)}
         >
           {productName}
@@ -94,31 +99,31 @@ const AllProductCard = ({ product, onUpdate, onView }) => {
             <Rating
               initialRating={rating}
               readonly
-              emptySymbol={
-                <FaRegStar className="text-gray-300 dark:text-gray-600 text-sm" />
-              }
-              fullSymbol={<FaStar className="text-yellow-400 text-sm" />}
               fractions={2}
+              emptySymbol={
+                <FaRegStar className="text-gray-300 dark:text-zinc-600 text-sm" />
+              }
+              fullSymbol={<FaStar className="text-amber-400 text-sm" />}
             />
             <span className="ml-2 text-xs font-medium text-gray-500 dark:text-gray-400">
               ({rating})
             </span>
           </div>
-          <div className="text-lg font-bold text-primary dark:text-amber-400">
+          <span className="text-lg font-bold text-amber-600 dark:text-amber-400">
             ${price.toLocaleString("en-IN")}
-          </div>
+          </span>
         </div>
       </div>
 
-      {/* Action Buttons */}
+      {/* Actions */}
       <div className="px-4 pb-4 grid grid-cols-2 gap-3">
         <button
           onClick={(e) => {
             e.stopPropagation();
             onUpdate ? onUpdate(_id) : navigate(`/update-product/${_id}`);
           }}
-          className="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg transition-colors duration-300 text-sm"
-          aria-label={`Update ${productName}`}
+          className="flex items-center justify-center gap-2 bg-amber-600 hover:bg-amber-700 text-white py-2 px-4 rounded-lg text-sm transition-colors"
+          aria-label={`Edit ${productName}`}
         >
           <FaEdit size={14} /> Edit
         </button>
@@ -127,7 +132,7 @@ const AllProductCard = ({ product, onUpdate, onView }) => {
             e.stopPropagation();
             onView ? onView(_id) : navigate(`/product/${_id}`);
           }}
-          className="flex items-center justify-center gap-2 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-white py-2 px-4 rounded-lg transition-colors duration-300 text-sm"
+          className="flex items-center justify-center gap-2 bg-gray-200 hover:bg-gray-300 dark:bg-zinc-700 dark:hover:bg-zinc-600 text-gray-800 dark:text-white py-2 px-4 rounded-lg text-sm transition-colors"
           aria-label={`View ${productName}`}
         >
           <FaEye size={14} /> View

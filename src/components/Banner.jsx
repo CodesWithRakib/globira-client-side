@@ -1,5 +1,11 @@
 import React from "react";
-import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
+import {
+  Navigation,
+  Pagination,
+  Scrollbar,
+  A11y,
+  Autoplay,
+} from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 // Import Swiper styles
@@ -7,6 +13,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
+import "swiper/css/autoplay";
 
 const Banner = () => {
   const slideData = [
@@ -73,18 +80,72 @@ const Banner = () => {
       image:
         "https://img.freepik.com/free-photo/flat-lay-desk-arrangement-with-copy-space_23-2148471246.jpg",
     },
+    {
+      id: "slide-8",
+      category: "Sports & Outdoors",
+      title: "Gear Up For Adventure",
+      subtitle: "Equipment for every outdoor activity.",
+      buttonText: "Explore Sports Gear",
+      image:
+        "https://img.freepik.com/free-photo/cyclist-mountain-bike-trail_23-2149334656.jpg",
+    },
+    {
+      id: "slide-9",
+      category: "Toys & Games",
+      title: "Fun For All Ages",
+      subtitle: "Spark joy with our toy collection.",
+      buttonText: "Browse Toys",
+      image:
+        "https://img.freepik.com/free-photo/kids-playing-with-wooden-toy_23-2149307375.jpg",
+    },
+    {
+      id: "slide-10",
+      category: "Books & Media",
+      title: "Expand Your Mind",
+      subtitle: "Best sellers and new releases.",
+      buttonText: "Shop Books",
+      image:
+        "https://img.freepik.com/free-photo/stack-books-with-copy-space_23-2148216460.jpg",
+    },
+    {
+      id: "slide-11",
+      category: "Pet Supplies",
+      title: "Love Them Like Family",
+      subtitle: "Everything for your furry friends.",
+      buttonText: "Pet Products",
+      image:
+        "https://img.freepik.com/free-photo/dog-playing-with-ball_23-2148985224.jpg",
+    },
+    {
+      id: "slide-12",
+      category: "Garden & Outdoor",
+      title: "Grow Your Paradise",
+      subtitle: "Tools and plants for your green space.",
+      buttonText: "Shop Garden",
+      image:
+        "https://img.freepik.com/free-photo/gardener-taking-care-plants_23-2149307382.jpg",
+    },
   ];
 
   return (
-    <>
+    <div className="relative">
       <Swiper
-        modules={[Navigation, Pagination, Scrollbar, A11y]}
-        spaceBetween={50}
+        modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
+        spaceBetween={0}
         slidesPerView={1}
         navigation
-        pagination={{ clickable: true }}
+        pagination={{
+          clickable: true,
+          dynamicBullets: true,
+        }}
         scrollbar={{ draggable: true }}
         loop={true}
+        autoplay={{
+          delay: 5000,
+          disableOnInteraction: false,
+          pauseOnMouseEnter: true,
+        }}
+        speed={800}
       >
         {slideData.map((slide) => (
           <SwiperSlide key={slide.id}>
@@ -95,15 +156,20 @@ const Banner = () => {
                 backgroundImage: `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('${slide.image}')`,
                 backgroundSize: "cover",
                 backgroundPosition: "center",
+                backgroundRepeat: "no-repeat",
               }}
             >
-              <div>
-                <h3 className="text-orange-400 text-xl mb-2">
+              <div className="max-w-4xl mx-auto px-4">
+                <h3 className="text-amber-400 text-xl md:text-2xl mb-2 md:mb-4 font-medium">
                   {slide.category}
                 </h3>
-                <h1 className="text-5xl font-bold mb-4">{slide.title}</h1>
-                <p className="mb-6">{slide.subtitle}</p>
-                <button className="btn bg-[#FF6600] text-white">
+                <h1 className="text-4xl md:text-6xl font-bold mb-4 md:mb-6 leading-tight">
+                  {slide.title}
+                </h1>
+                <p className="text-lg md:text-xl mb-6 md:mb-8 max-w-2xl mx-auto">
+                  {slide.subtitle}
+                </p>
+                <button className="btn bg-amber-600 hover:bg-amber-700 text-white px-8 py-3 text-lg font-medium rounded-full transition duration-300 transform hover:scale-105">
                   {slide.buttonText}
                 </button>
               </div>
@@ -111,7 +177,7 @@ const Banner = () => {
           </SwiperSlide>
         ))}
       </Swiper>
-    </>
+    </div>
   );
 };
 

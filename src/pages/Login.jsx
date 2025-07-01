@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import AuthImagePattern from "../components/AuthImagePattern";
 import { EyeIcon, EyeOffIcon, Loader2 } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router";
@@ -8,8 +8,8 @@ import useTitle from "../hooks/useTitle";
 import useAuth from "../hooks/useAuth";
 
 function Login() {
-  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
-  const [showPassword, setShowPassword] = React.useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const { logIn, setUser, logInWithGoogle } = useAuth();
 
@@ -17,6 +17,7 @@ function Login() {
 
   const navigate = useNavigate();
   const location = useLocation();
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const form = event.target;
@@ -59,6 +60,7 @@ function Login() {
         setIsLoggedIn(false);
       });
   };
+
   return (
     <div className="min-h-screen grid lg:grid-cols-2">
       {/* Left Side - Form */}
@@ -68,10 +70,10 @@ function Login() {
           <div className="text-center mb-8">
             <div className="flex flex-col items-center gap-2 group">
               <div
-                className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20
+                className="w-12 h-12 rounded-xl bg-amber-100 flex items-center justify-center group-hover:bg-amber-200
               transition-colors"
               >
-                <FaGlobeAmericas className="w-6 h-6 text-primary" />
+                <FaGlobeAmericas className="w-6 h-6 text-amber-600" />
               </div>
               <h1 className="text-2xl font-bold mt-2">Welcome Back</h1>
               <p className="text-base-content/60">Sign in to your account</p>
@@ -80,7 +82,7 @@ function Login() {
 
           <div>
             <div onClick={handleGoogleLogin} className="my-6 space-y-4">
-              <button className="btn bg-white text-black border-[#e5e5e5] w-full gap-2">
+              <button className="btn bg-white text-black border-[#e5e5e5] w-full gap-2 hover:bg-amber-50 transition-colors flex items-center justify-center">
                 <svg
                   aria-label="Google logo"
                   width="20"
@@ -122,9 +124,9 @@ function Login() {
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="form-control">
               <p className="label-text font-medium">Email</p>
-              <label className="input validator w-full">
+              <label className="input validator w-full relative">
                 <svg
-                  className="h-[2em] opacity-50"
+                  className="h-[2em] opacity-50 absolute left-3 top-1/2 -translate-y-1/2"
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
                 >
@@ -142,14 +144,11 @@ function Login() {
                 <input
                   type="email"
                   name="email"
-                  className={`  w-full `}
+                  className="w-full pl-12"
                   placeholder="mail@site.com"
                   required
                 />
               </label>
-              <div className="validator-hint hidden">
-                Enter valid email address
-              </div>
             </div>
 
             <div className="form-control">
@@ -157,7 +156,7 @@ function Login() {
 
               <label className="input validator w-full relative">
                 <svg
-                  className="h-[2em] opacity-50"
+                  className="h-[2em] opacity-50 absolute left-3 top-1/2 -translate-y-1/2"
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
                 >
@@ -168,7 +167,7 @@ function Login() {
                     fill="none"
                     stroke="currentColor"
                   >
-                    <path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"></path>
+                    <path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z" />
                     <circle
                       cx="16.5"
                       cy="7.5"
@@ -180,7 +179,7 @@ function Login() {
                 <input
                   type={showPassword ? "text" : "password"}
                   name="password"
-                  className={`  w-full `}
+                  className="w-full pl-12"
                   required
                   placeholder="Password"
                 />
@@ -188,6 +187,7 @@ function Login() {
                   type="button"
                   className="absolute inset-y-0 right-0 pr-3 flex items-center"
                   onClick={() => setShowPassword(!showPassword)}
+                  aria-label={showPassword ? "Hide password" : "Show password"}
                 >
                   {showPassword ? (
                     <EyeIcon className="size-5 text-base-content/40" />
@@ -200,24 +200,18 @@ function Login() {
 
             <button
               type="submit"
-              className="btn btn-primary w-full"
+              className="w-full py-3 px-4 bg-amber-600 hover:bg-amber-700 text-white font-medium rounded-lg transition-colors disabled:opacity-70 disabled:cursor-not-allowed flex justify-center items-center gap-2"
               disabled={isLoggedIn}
             >
-              {isLoggedIn ? (
-                <>
-                  <Loader2 className="h-5 w-5 animate-spin" />
-                  Login in...
-                </>
-              ) : (
-                "Log In"
-              )}
+              {isLoggedIn && <Loader2 className="h-5 w-5 animate-spin" />}
+              {isLoggedIn ? "Logging in..." : "Log In"}
             </button>
           </form>
 
           <div className="text-center">
             <p className="text-base-content/60">
               Don&apos;t have an account?{" "}
-              <Link to="/register" className="link link-primary">
+              <Link to="/register" className="text-amber-600 hover:underline">
                 Create account
               </Link>
             </p>

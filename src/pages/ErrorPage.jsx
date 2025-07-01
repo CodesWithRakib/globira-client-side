@@ -17,7 +17,6 @@ const ErrorPage = ({
     );
   }, []);
 
-  // Animation variants
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -102,7 +101,7 @@ const ErrorPage = ({
           {showHomeButton && (
             <Link
               to="/"
-              className="px-6 py-3 font-medium text-white bg-primary hover:bg-primary/80 dark:bg-amber-800 dark:hover:bg-amber-700 rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg"
+              className="px-6 py-3 font-medium text-white bg-amber-600 hover:bg-amber-700 dark:bg-amber-800 dark:hover:bg-amber-700 rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg"
             >
               Return Home
             </Link>
@@ -121,7 +120,7 @@ const ErrorPage = ({
             Need help?{" "}
             <a
               href="mailto:support@example.com"
-              className="text-primary hover:text-amber-700 hover:underline"
+              className="text-amber-600 hover:text-amber-700 hover:underline"
             >
               Contact support
             </a>

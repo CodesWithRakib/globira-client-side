@@ -3,10 +3,13 @@ import { useNavigate } from "react-router";
 import AllProductCard from "../components/AllProductCard";
 import useAxios from "../hooks/useAxios";
 import Loading from "../components/Loading";
-import { FaSearch } from "react-icons/fa";
+import { FaSearch, FaEye, FaEdit, FaFilter } from "react-icons/fa";
+import { IoGrid, IoList } from "react-icons/io5";
 import noImage from "/noImage.jpg";
 import useTitle from "../hooks/useTitle";
 import { formatCategory } from "../Utils/formatCategory";
+import { motion, AnimatePresence } from "motion/react";
+import Pagination from "../components/Pagination";
 
 const AllProducts = () => {
   const [loading, setLoading] = useState(true);
@@ -15,9 +18,10 @@ const AllProducts = () => {
   const [showAvailableOnly, setShowAvailableOnly] = useState(false);
   const [viewType, setViewType] = useState("card");
   const [page, setPage] = useState(1);
-  const limit = 10;
+  const limit = 12;
   const [totalPages, setTotalPages] = useState(0);
   const [totalCount, setTotalCount] = useState(0);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   const navigate = useNavigate();
   const axiosSecure = useAxios();
@@ -58,94 +62,194 @@ const AllProducts = () => {
       !showAvailableOnly || product.minimumQuantity > 100;
     const matchesSearch =
       product.productName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      product.brandName?.toLowerCase().includes(searchTerm.toLowerCase());
+      product.brandName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      product.category?.toLowerCase().includes(searchTerm.toLowerCase());
     return matchesAvailability && matchesSearch;
   });
 
-  if (loading) return <Loading />;
+  if (loading) return <Loading fullScreen />;
 
   return (
-    <div className="p-4 md:p-6">
-      {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6 gap-4">
-        <h1 className="text-2xl font-bold text-gray-800 dark:text-white">
-          All Products
-        </h1>
+    <div className="p-4 md:p-8 max-w-7xl mx-auto">
+      {/* Header Section */}
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="flex flex-col md:flex-row md:items-center md:justify-between mb-8 gap-4"
+      >
+        <div>
+          <h1 className="text-2xl md:text-3xl font-bold text-gray-800 dark:text-white">
+            Product Inventory
+          </h1>
+          <p className="text-gray-600 dark:text-gray-400 mt-1">
+            Manage and explore all available products
+          </p>
+        </div>
 
         <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
           {/* Search Input */}
           <div className="relative flex-grow">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <FaSearch className="text-gray-400 dark:text-gray-500" />
+            </div>
             <input
               type="text"
               placeholder="Search products..."
-              className="w-full p-2 pl-10 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-500"
+              className="w-full pl-10 pr-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-500 dark:focus:ring-amber-400"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
+              aria-label="Search products"
             />
-            <FaSearch className="absolute left-3 top-3 text-gray-400" />
           </div>
 
-          {/* View Dropdown */}
-          <div>
-            <select
-              className="p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-500 bg-white dark:bg-gray-800 text-gray-800 dark:text-white"
-              value={viewType}
-              onChange={(e) => {
-                setViewType(e.target.value);
-                setPage(1);
-              }}
+          {/* View Toggle */}
+          <div className="flex items-center bg-gray-100 dark:bg-gray-700 rounded-lg p-1">
+            <button
+              onClick={() => setViewType("card")}
+              className={`p-2 rounded-md ${
+                viewType === "card"
+                  ? "bg-white dark:bg-gray-600 shadow-sm"
+                  : "hover:bg-gray-200 dark:hover:bg-gray-600"
+              }`}
+              aria-label="Card view"
+              aria-pressed={viewType === "card"}
             >
-              <option value="card">🗂️ Card View</option>
-              <option value="table">📋 Table View</option>
-            </select>
+              <IoGrid
+                className={`w-5 h-5 ${
+                  viewType === "card"
+                    ? "text-amber-600 dark:text-amber-400"
+                    : "text-gray-500 dark:text-gray-400"
+                }`}
+              />
+            </button>
+            <button
+              onClick={() => setViewType("table")}
+              className={`p-2 rounded-md ${
+                viewType === "table"
+                  ? "bg-white dark:bg-gray-600 shadow-sm"
+                  : "hover:bg-gray-200 dark:hover:bg-gray-600"
+              }`}
+              aria-label="Table view"
+              aria-pressed={viewType === "table"}
+            >
+              <IoList
+                className={`w-5 h-5 ${
+                  viewType === "table"
+                    ? "text-amber-600 dark:text-amber-400"
+                    : "text-gray-500 dark:text-gray-400"
+                }`}
+              />
+            </button>
           </div>
         </div>
-      </div>
+      </motion.div>
 
-      {/* Filter Toggle */}
-      <div className="mb-6">
-        <label className="inline-flex items-center cursor-pointer">
-          <input
-            type="checkbox"
-            className="sr-only peer"
-            checked={showAvailableOnly}
-            onChange={() => setShowAvailableOnly((prev) => !prev)}
-          />
-          <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-red-300 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-red-600"></div>
-          <span className="ms-3 text-sm font-medium text-gray-700 dark:text-white">
-            Show Available Products Only (Qty &gt; 100)
-          </span>
-        </label>
-      </div>
+      {/* Filters Section */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className="mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4"
+      >
+        <div className="flex items-center gap-4">
+          <button
+            onClick={() => setIsFilterOpen(!isFilterOpen)}
+            className="flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg transition-colors"
+            aria-expanded={isFilterOpen}
+            aria-controls="filters-panel"
+          >
+            <FaFilter className="text-gray-600 dark:text-gray-300" />
+            <span className="text-sm font-medium">Filters</span>
+          </button>
 
-      {/* Product Count */}
-      <div className="mb-4 text-gray-600">
-        Showing {filteredProducts.length} of {totalCount} products
-      </div>
-
-      {/* View Logic */}
-      {filteredProducts.length === 0 ? (
-        <div className="text-center py-10">
-          <p className="text-gray-500 dark:text-gray-400 text-lg">
-            No products found matching your criteria.
-          </p>
+          <AnimatePresence>
+            {isFilterOpen && (
+              <motion.div
+                id="filters-panel"
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                className="flex items-center gap-4"
+              >
+                <label className="inline-flex items-center cursor-pointer select-none">
+                  <input
+                    type="checkbox"
+                    className="sr-only peer"
+                    checked={showAvailableOnly}
+                    onChange={() => setShowAvailableOnly((prev) => !prev)}
+                    aria-checked={showAvailableOnly}
+                  />
+                  <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-amber-300 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-600"></div>
+                  <span className="ms-3 text-sm font-medium text-gray-700 dark:text-white">
+                    In Stock Only
+                  </span>
+                </label>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
+
+        <div className="text-sm text-gray-600 dark:text-gray-400">
+          Showing <span className="font-medium">{filteredProducts.length}</span>{" "}
+          of <span className="font-medium">{totalCount}</span> products
+        </div>
+      </motion.div>
+
+      {/* Products Display */}
+      {filteredProducts.length === 0 ? (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="text-center py-16 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700"
+        >
+          <div className="max-w-md mx-auto">
+            <div className="w-24 h-24 mx-auto mb-4 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center">
+              <FaSearch className="w-10 h-10 text-gray-400 dark:text-gray-500" />
+            </div>
+            <h3 className="text-xl font-medium text-gray-800 dark:text-white mb-2">
+              No products found
+            </h3>
+            <p className="text-gray-500 dark:text-gray-400 mb-6">
+              Try adjusting your search or filter criteria
+            </p>
+            <button
+              onClick={() => {
+                setSearchTerm("");
+                setShowAvailableOnly(false);
+              }}
+              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
+            >
+              Reset Filters
+            </button>
+          </div>
+        </motion.div>
       ) : viewType === "card" ? (
-        <>
-          {/* CARD VIEW */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-            {filteredProducts.map((product) => (
+        <motion.div
+          layout
+          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+        >
+          {filteredProducts.map((product) => (
+            <motion.div
+              key={product._id}
+              layout
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
+              whileHover={{ y: -5 }}
+            >
               <AllProductCard
-                key={product._id}
                 product={product}
                 onUpdate={() => handleProductUpdate(product._id)}
+                onView={() => handleViewDetails(product._id)}
               />
-            ))}
-          </div>
-        </>
+            </motion.div>
+          ))}
+        </motion.div>
       ) : (
-        // TABLE VIEW
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden"
+        >
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
               <thead className="bg-gray-50 dark:bg-gray-700">
@@ -154,14 +258,15 @@ const AllProducts = () => {
                     "Product",
                     "Brand",
                     "Category",
-                    "Quantity",
                     "Price",
+                    "Stock",
                     "Status",
                     "Actions",
                   ].map((header) => (
                     <th
                       key={header}
-                      className="px-6 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-300 uppercase tracking-wider"
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
                     >
                       {header}
                     </th>
@@ -170,9 +275,11 @@ const AllProducts = () => {
               </thead>
               <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
                 {filteredProducts.map((product) => (
-                  <tr
+                  <motion.tr
                     key={product._id}
-                    className="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors cursor-pointer"
                   >
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center gap-4">
@@ -182,6 +289,7 @@ const AllProducts = () => {
                             alt={product.productName}
                             onError={(e) => (e.target.src = noImage)}
                             className="w-full h-full object-cover"
+                            loading="lazy"
                           />
                         </div>
                         <div>
@@ -189,79 +297,78 @@ const AllProducts = () => {
                             {product.productName}
                           </div>
                           <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                            SKU: {product._id.slice(0, 8) || "N/A"}
+                            SKU: {product._id.slice(0, 8)}
                           </div>
                         </div>
                       </div>
                     </td>
+
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">
                       {product.brandName}
                     </td>
+
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300 capitalize">
                       {formatCategory(product.category)}
                     </td>
+
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-amber-600 dark:text-amber-400">
+                      ${product.price?.toLocaleString("en-US")}
+                    </td>
+
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">
-                      {product.minimum_selling_quantity ||
-                        product.minimumQuantity}
+                      {product.minimumQuantity}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-primary dark:text-amber-500">
-                      ${product.price?.toLocaleString("en-IN") || "N/A"}
-                    </td>
+
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span
                         className={`px-2.5 py-1.5 inline-flex items-center text-xs font-medium rounded-full ${
-                          (product.minimum_selling_quantity ||
-                            product.minimumQuantity) > 100
+                          product.minimumQuantity > 100
                             ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300"
                             : "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300"
                         }`}
                       >
-                        {(product.minimum_selling_quantity ||
-                          product.minimumQuantity) > 100
+                        {product.minimumQuantity > 100
                           ? "In Stock"
                           : "Low Stock"}
                       </span>
                     </td>
+
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center space-x-4">
                         <button
-                          onClick={() => handleProductUpdate(product._id)}
-                          className="text-sm font-medium text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 transition-colors"
+                          onClick={() => handleViewDetails(product._id)}
+                          className="text-amber-600 hover:text-amber-800 dark:text-amber-400 dark:hover:text-amber-300 transition-colors"
+                          aria-label={`View details of ${product.productName}`}
+                          type="button"
                         >
-                          Edit
+                          <FaEye className="w-4 h-4" />
                         </button>
                         <button
-                          onClick={() => handleViewDetails(product._id)}
-                          className="text-sm font-medium text-gray-600 hover:text-gray-800 dark:text-gray-300 dark:hover:text-gray-100 transition-colors"
+                          onClick={() => handleProductUpdate(product._id)}
+                          className="text-gray-600 hover:text-gray-800 dark:text-gray-300 dark:hover:text-gray-100 transition-colors"
+                          aria-label={`Edit product ${product.productName}`}
+                          type="button"
                         >
-                          View
+                          <FaEdit className="w-4 h-4" />
                         </button>
                       </div>
                     </td>
-                  </tr>
+                  </motion.tr>
                 ))}
               </tbody>
             </table>
           </div>
-        </div>
+        </motion.div>
       )}
 
-      {/* Pagination - Show for both views */}
+      {/* Pagination */}
       {totalPages > 1 && (
-        <div className="flex justify-center mt-10 mb-6 gap-2 flex-wrap">
-          {Array.from({ length: totalPages }, (_, i) => i + 1).map((pg) => (
-            <button
-              key={pg}
-              onClick={() => setPage(pg)}
-              className={`px-4 py-2 rounded ${
-                page === pg
-                  ? "bg-red-600 text-white"
-                  : "bg-gray-200 text-gray-800"
-              }`}
-            >
-              {pg}
-            </button>
-          ))}
+        <div className="mt-8">
+          <Pagination
+            currentPage={page}
+            totalPages={totalPages}
+            onPageChange={setPage}
+          />
         </div>
       )}
     </div>

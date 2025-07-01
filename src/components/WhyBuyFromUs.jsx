@@ -2,130 +2,131 @@ import React from "react";
 import { motion } from "motion/react";
 
 const WhyBuyFromUs = () => {
-  const whyBuyFeatures = [
+  const features = [
     {
       id: 1,
-      text: "Competitive wholesale pricing for maximum value",
-      image: "https://i.ibb.co/V09jJKVz/profitable.jpg",
-      color: "bg-blue-100 dark:bg-blue-900/30",
+      title: "Competitive Pricing",
+      description: "Wholesale rates for maximum value",
+      icon: "💰",
+      color: "bg-amber-50 dark:bg-amber-900/10",
     },
     {
       id: 2,
-      text: "Verified suppliers & trusted global brands",
-      image: "https://i.ibb.co/DPGTQdFd/pngtree.png",
-      color: "bg-green-100 dark:bg-green-900/30",
+      title: "Verified Suppliers",
+      description: "Trusted global brands",
+      icon: "✅",
+      color: "bg-emerald-50 dark:bg-emerald-900/10",
     },
     {
       id: 3,
-      text: "Transparent Minimum Order Quantities (MOQ)",
-      image: "https://i.ibb.co/pBdYf45X/moq.jpg",
-      color: "bg-purple-100 dark:bg-purple-900/30",
+      title: "Transparent MOQ",
+      description: "Clear minimum order quantities",
+      icon: "📦",
+      color: "bg-purple-50 dark:bg-purple-900/10",
     },
     {
       id: 4,
-      text: "Fast & reliable shipping across regions",
-      image: "https://i.ibb.co/fzcr0c3S/free-shipping.jpg",
-      color: "bg-amber-100 dark:bg-amber-900/30",
+      title: "Fast Shipping",
+      description: "Reliable global delivery",
+      icon: "🚚",
+      color: "bg-sky-50 dark:bg-sky-900/10",
     },
     {
       id: 5,
-      text: "Dedicated B2B support with real-time assistance",
-      image: "https://i.ibb.co/vx2LD6cZ/organic-flat.jpg",
-      color: "bg-red-100 dark:bg-red-900/30",
+      title: "Dedicated Support",
+      description: "Real-time B2B assistance",
+      icon: "🛎️",
+      color: "bg-red-50 dark:bg-red-900/10",
     },
     {
       id: 6,
-      text: "Flexible payment options & secured checkout",
-      image: "https://i.ibb.co/TDp3y15b/payment.jpg",
-      color: "bg-emerald-100 dark:bg-emerald-900/30",
+      title: "Flexible Payments",
+      description: "Secure checkout options",
+      icon: "💳",
+      color: "bg-indigo-50 dark:bg-indigo-900/10",
     },
     {
       id: 7,
-      text: "Easy product returns and replacement policies",
-      image: "https://i.ibb.co/DPMnPZTp/returns.jpg",
-      color: "bg-indigo-100 dark:bg-indigo-900/30",
+      title: "Easy Returns",
+      description: "Hassle-free policies",
+      icon: "🔄",
+      color: "bg-teal-50 dark:bg-teal-900/10",
     },
     {
       id: 8,
-      text: "Live inventory tracking & stock availability",
-      image: "https://i.ibb.co/n8MCRLmc/inventory-control-system.jpg",
-      color: "bg-orange-100 dark:bg-orange-900/30",
+      title: "Live Inventory",
+      description: "Real-time stock tracking",
+      icon: "📊",
+      color: "bg-orange-50 dark:bg-orange-900/10",
     },
   ];
 
   return (
-    <section className="py-16 px-6 md:px-12 dark:bg-[#010313] bg-white text-zinc-800 dark:text-white transition-colors duration-300">
-      <div className="text-center mb-12">
-        <motion.h2
+    <section className="py-16 px-4 sm:px-6 lg:px-8 bg-white dark:bg-gray-900">
+      <div className="max-w-7xl mx-auto">
+        {/* Section Header */}
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           viewport={{ once: true }}
-          className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-blue-600 to-amber-600 dark:from-blue-400 dark:to-amber-400 bg-clip-text text-transparent"
+          className="text-center mb-12"
         >
-          Why Buy From Us
-        </motion.h2>
-        <motion.p
+          <div className="inline-block mb-4 px-4 py-2 rounded-full bg-amber-100 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400 text-sm font-medium">
+            B2B ADVANTAGES
+          </div>
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+            Why Choose Us
+          </h2>
+          <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+            The top reasons businesses rely on our wholesale platform
+          </p>
+        </motion.div>
+
+        {/* Feature Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {features.map((feature, index) => (
+            <motion.div
+              key={feature.id}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              whileHover={{ y: -5 }}
+              transition={{ duration: 0.4, delay: index * 0.1 }}
+              viewport={{ once: true }}
+              className={`rounded-xl p-6 border border-gray-200 dark:border-gray-700 ${feature.color} transition-all`}
+            >
+              <div className="flex flex-col items-center text-center">
+                <div className="text-3xl mb-4 p-4 rounded-full shadow-sm bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+                  {feature.icon}
+                </div>
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1">
+                  {feature.title}
+                </h3>
+                <p className="text-sm text-gray-600 dark:text-gray-300">
+                  {feature.description}
+                </p>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* CTA Button */}
+        <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
-          transition={{ delay: 0.2, duration: 0.5 }}
+          transition={{ delay: 0.6 }}
           viewport={{ once: true }}
-          className="text-zinc-600 dark:text-zinc-400 mt-3 text-lg max-w-2xl mx-auto"
+          className="text-center mt-12"
         >
-          Discover the benefits of choosing us as your trusted B2B wholesale
-          partner
-        </motion.p>
-      </div>
-
-      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
-        {whyBuyFeatures.map((feature, i) => (
-          <motion.div
-            key={feature.id}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            whileHover={{ y: -5 }}
-            transition={{
-              duration: 0.4,
-              delay: i * 0.1,
-              hover: { duration: 0.2 },
-            }}
-            viewport={{ once: true, margin: "-50px" }}
-            className={`p-6 ${feature.color} rounded-xl shadow-sm hover:shadow-md border border-gray-200 dark:border-zinc-800 transition-all duration-300`}
+          <motion.button
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+            className="px-6 py-3 bg-amber-600 hover:bg-amber-700 dark:bg-amber-700 dark:hover:bg-amber-800 text-white font-medium rounded-lg transition-colors"
           >
-            <div className="flex flex-col items-center text-center gap-4">
-              <div
-                className={`p-3 rounded-full ${feature.color
-                  .replace("100", "50")
-                  .replace("900/30", "800")} shadow-inner`}
-              >
-                <img
-                  src={feature.image}
-                  alt="icon"
-                  className="h-10 w-10 object-contain"
-                />
-              </div>
-              <p className="text-zinc-800 dark:text-zinc-100 font-medium text-sm md:text-base">
-                {feature.text}
-              </p>
-            </div>
-          </motion.div>
-        ))}
+            Explore B2B Benefits
+          </motion.button>
+        </motion.div>
       </div>
-
-      <motion.div
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ delay: 0.8, duration: 0.5 }}
-        viewport={{ once: true }}
-        className="text-center mt-14"
-      >
-        <button className="relative overflow-hidden group bg-gradient-to-r from-blue-600 to-amber-600 dark:from-blue-500 dark:to-amber-500 text-white px-8 py-3 rounded-full font-semibold hover:shadow-lg transition-all duration-300">
-          <span className="relative z-10">
-            Learn More About Our B2B Benefits
-          </span>
-          <span className="absolute inset-0 bg-gradient-to-r from-blue-700 to-amber-700 dark:from-blue-600 dark:to-amber-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
-        </button>
-      </motion.div>
     </section>
   );
 };

@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const axiosInstance = axios.create({
-  baseURL: `https://backend-eta-five-56.vercel.app`,
+  baseURL: `https://globira-server.vercel.app`,
   withCredentials: true,
 });
 const useAxios = () => {

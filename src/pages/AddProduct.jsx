@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useForm } from "react-hook-form";
 import AuthImagePattern from "../components/AuthImagePattern";
 import { AiFillProduct } from "react-icons/ai";
 import { FiUpload } from "react-icons/fi";
@@ -15,6 +16,14 @@ const AddProduct = () => {
   const { user } = useAuth();
 
   useTitle(`Add Product`);
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    reset,
+    formState: { errors },
+  } = useForm();
 
   const productContent = {
     electronics: `
@@ -78,15 +87,14 @@ const AddProduct = () => {
         setPreviewImage(reader.result);
       };
       reader.readAsDataURL(file);
+    } else {
+      setPreviewImage(null);
     }
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
-    const form = event.target;
-    const mainQuantity = Number(form.mainQuantity.value);
-    const minimumQuantity = Number(form.minimumQuantity.value);
+  const onSubmit = async (data) => {
+    const mainQuantity = Number(data.mainQuantity);
+    const minimumQuantity = Number(data.minimumQuantity);
 
     // Validate quantities
     if (minimumQuantity > mainQuantity) {
@@ -107,8 +115,7 @@ const AddProduct = () => {
     setIsAdded(true);
 
     try {
-      const formData = new FormData(form);
-      const productInfo = Object.fromEntries(formData.entries());
+      const productInfo = { ...data };
 
       productInfo.email = user.email;
       productInfo.sellerName = user.displayName;
@@ -119,10 +126,9 @@ const AddProduct = () => {
 
       let imageUrl = productInfo.productImage;
 
-      const fileInput = form.querySelector("input[type='file']");
-      if (fileInput.files[0]) {
+      if (data.productImageFile && data.productImageFile.length > 0) {
         try {
-          imageUrl = await uploadImageToCloudinary(fileInput.files[0]);
+          imageUrl = await uploadImageToCloudinary(data.productImageFile[0]);
         } catch (error) {
           toast.error("Image upload failed: " + error.message);
           setIsAdded(false);
@@ -134,7 +140,7 @@ const AddProduct = () => {
 
       await axiosSecure.post("/api/products", productInfo);
       toast.success("Product added successfully!");
-      form.reset();
+      reset();
       setPreviewImage(null);
     } catch (error) {
       console.error("Error adding product:", error);
@@ -152,8 +158,8 @@ const AddProduct = () => {
           {/* Header */}
           <div className="text-center">
             <div className="flex flex-col items-center gap-2">
-              <div className="size-14 rounded-xl bg-blue-100 dark:bg-blue-900/50 flex items-center justify-center mb-3">
-                <AiFillProduct className="size-6 text-blue-600 dark:text-blue-400" />
+              <div className="size-14 rounded-xl bg-amber-100 dark:bg-amber-900/50 flex items-center justify-center mb-3">
+                <AiFillProduct className="size-6 text-amber-600 dark:text-amber-400" />
               </div>
               <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
                 Add New Product
@@ -165,7 +171,11 @@ const AddProduct = () => {
           </div>
 
           {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="space-y-4"
+            noValidate
+          >
             {/* Brand and Product Name */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
@@ -174,11 +184,21 @@ const AddProduct = () => {
                 </label>
                 <input
                   type="text"
-                  name="brandName"
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white"
+                  {...register("brandName", {
+                    required: "Brand Name is required",
+                  })}
+                  className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 dark:bg-gray-800 dark:text-white ${
+                    errors.brandName
+                      ? "border-red-500 focus:border-red-500"
+                      : "border-gray-300 dark:border-gray-600"
+                  }`}
                   placeholder="Enter brand name"
-                  required
                 />
+                {errors.brandName && (
+                  <p className="text-xs text-red-500 mt-1">
+                    {errors.brandName.message}
+                  </p>
+                )}
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
@@ -186,11 +206,21 @@ const AddProduct = () => {
                 </label>
                 <input
                   type="text"
-                  name="productName"
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white"
+                  {...register("productName", {
+                    required: "Product Name is required",
+                  })}
+                  className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 dark:bg-gray-800 dark:text-white ${
+                    errors.productName
+                      ? "border-red-500 focus:border-red-500"
+                      : "border-gray-300 dark:border-gray-600"
+                  }`}
                   placeholder="Enter product name"
-                  required
                 />
+                {errors.productName && (
+                  <p className="text-xs text-red-500 mt-1">
+                    {errors.productName.message}
+                  </p>
+                )}
               </div>
             </div>
 
@@ -200,11 +230,17 @@ const AddProduct = () => {
                 Category
               </label>
               <select
-                name="category"
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white"
-                required
+                {...register("category", { required: "Category is required" })}
+                className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 dark:bg-gray-800 dark:text-white ${
+                  errors.category
+                    ? "border-red-500 focus:border-red-500"
+                    : "border-gray-300 dark:border-gray-600"
+                }`}
+                defaultValue=""
               >
-                <option value="">Select a category</option>
+                <option value="" disabled>
+                  Select a category
+                </option>
                 <option value="electronics-gadgets">
                   Electronics & Gadgets
                 </option>
@@ -223,6 +259,11 @@ const AddProduct = () => {
                   Office Supplies & Stationery
                 </option>
               </select>
+              {errors.category && (
+                <p className="text-xs text-red-500 mt-1">
+                  {errors.category.message}
+                </p>
+              )}
             </div>
 
             {/* Image Upload */}
@@ -240,9 +281,10 @@ const AddProduct = () => {
                   </div>
                   <input
                     type="file"
-                    className="hidden"
-                    onChange={handleImageChange}
                     accept="image/*"
+                    {...register("productImageFile")}
+                    onChange={handleImageChange}
+                    className="hidden"
                   />
                 </label>
                 {previewImage && (
@@ -257,8 +299,8 @@ const AddProduct = () => {
               </div>
               <input
                 type="text"
-                name="productImage"
-                className="mt-2 w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white"
+                {...register("productImage")}
+                className="mt-2 w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 dark:bg-gray-800 dark:text-white"
                 placeholder="Or enter image URL"
               />
             </div>
@@ -271,12 +313,22 @@ const AddProduct = () => {
                 </label>
                 <input
                   type="number"
-                  name="mainQuantity"
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white"
+                  {...register("mainQuantity", {
+                    required: "Main quantity is required",
+                    min: { value: 1, message: "Minimum quantity is 1" },
+                  })}
+                  className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 dark:bg-gray-800 dark:text-white ${
+                    errors.mainQuantity
+                      ? "border-red-500 focus:border-red-500"
+                      : "border-gray-300 dark:border-gray-600"
+                  }`}
                   placeholder="1000"
-                  min="1"
-                  required
                 />
+                {errors.mainQuantity && (
+                  <p className="text-xs text-red-500 mt-1">
+                    {errors.mainQuantity.message}
+                  </p>
+                )}
                 <p className="text-xs text-gray-500 mt-1">
                   Total available stock
                 </p>
@@ -287,12 +339,22 @@ const AddProduct = () => {
                 </label>
                 <input
                   type="number"
-                  name="minimumQuantity"
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white"
+                  {...register("minimumQuantity", {
+                    required: "Minimum quantity is required",
+                    min: { value: 1, message: "Minimum quantity is 1" },
+                  })}
+                  className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 dark:bg-gray-800 dark:text-white ${
+                    errors.minimumQuantity
+                      ? "border-red-500 focus:border-red-500"
+                      : "border-gray-300 dark:border-gray-600"
+                  }`}
                   placeholder="10"
-                  min="1"
-                  required
                 />
+                {errors.minimumQuantity && (
+                  <p className="text-xs text-red-500 mt-1">
+                    {errors.minimumQuantity.message}
+                  </p>
+                )}
                 <p className="text-xs text-gray-500 mt-1">
                   Minimum order quantity
                 </p>
@@ -307,13 +369,26 @@ const AddProduct = () => {
                 </label>
                 <input
                   type="number"
-                  name="price"
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white"
-                  placeholder="99.99"
-                  min="0.01"
                   step="0.01"
-                  required
+                  {...register("price", {
+                    required: "Price is required",
+                    min: {
+                      value: 0.01,
+                      message: "Price must be at least 0.01",
+                    },
+                  })}
+                  className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 dark:bg-gray-800 dark:text-white ${
+                    errors.price
+                      ? "border-red-500 focus:border-red-500"
+                      : "border-gray-300 dark:border-gray-600"
+                  }`}
+                  placeholder="99.99"
                 />
+                {errors.price && (
+                  <p className="text-xs text-red-500 mt-1">
+                    {errors.price.message}
+                  </p>
+                )}
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
@@ -321,13 +396,23 @@ const AddProduct = () => {
                 </label>
                 <input
                   type="number"
-                  name="rating"
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white"
+                  {...register("rating", {
+                    required: "Rating is required",
+                    min: { value: 1, message: "Rating minimum is 1" },
+                    max: { value: 5, message: "Rating maximum is 5" },
+                  })}
+                  className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 dark:bg-gray-800 dark:text-white ${
+                    errors.rating
+                      ? "border-red-500 focus:border-red-500"
+                      : "border-gray-300 dark:border-gray-600"
+                  }`}
                   placeholder="4"
-                  min="1"
-                  max="5"
-                  required
                 />
+                {errors.rating && (
+                  <p className="text-xs text-red-500 mt-1">
+                    {errors.rating.message}
+                  </p>
+                )}
               </div>
             </div>
 
@@ -337,19 +422,29 @@ const AddProduct = () => {
                 Description
               </label>
               <textarea
-                required
-                name="description"
+                {...register("description", {
+                  required: "Description is required",
+                })}
                 rows="4"
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white"
+                className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 dark:bg-gray-800 dark:text-white ${
+                  errors.description
+                    ? "border-red-500 focus:border-red-500"
+                    : "border-gray-300 dark:border-gray-600"
+                }`}
                 placeholder="Detailed product description..."
               ></textarea>
+              {errors.description && (
+                <p className="text-xs text-red-500 mt-1">
+                  {errors.description.message}
+                </p>
+              )}
             </div>
 
             {/* Submit Button */}
             <button
               type="submit"
               disabled={isAdded}
-              className="w-full flex justify-center items-center py-3 px-4 bg-primary dark:bg-amber-800 hover:bg-amber-600 text-white font-medium rounded-lg transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
+              className="w-full flex justify-center items-center py-3 px-4 bg-amber-600 dark:bg-amber-800 hover:bg-amber-500 text-white font-medium rounded-lg transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
             >
               {isAdded ? (
                 <>

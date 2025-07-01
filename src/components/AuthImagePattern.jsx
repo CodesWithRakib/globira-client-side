@@ -1,8 +1,13 @@
 const AuthImagePattern = ({ title, subtitle }) => {
   return (
-    <div className="hidden lg:flex items-center justify-center bg-base-200 p-12">
+    <aside
+      className="hidden lg:flex items-center justify-center bg-base-200 p-12"
+      role="img"
+      aria-labelledby="auth-pattern-title auth-pattern-subtitle"
+      aria-describedby="auth-pattern-desc"
+    >
       <div className="max-w-md text-center">
-        <div className="grid grid-cols-3 gap-3 mb-8">
+        <div className="grid grid-cols-3 gap-3 mb-8" aria-hidden="true">
           {[...Array(9)].map((_, i) => (
             <div
               key={i}
@@ -12,10 +17,16 @@ const AuthImagePattern = ({ title, subtitle }) => {
             />
           ))}
         </div>
-        <h2 className="text-2xl font-bold mb-4">{title}</h2>
-        <p className="text-base-content/60">{subtitle}</p>
+        <header>
+          <h2 id="auth-pattern-title" className="text-2xl font-bold mb-4">
+            {title}
+          </h2>
+          <p id="auth-pattern-subtitle" className="text-base-content/60">
+            {subtitle}
+          </p>
+        </header>
       </div>
-    </div>
+    </aside>
   );
 };
 

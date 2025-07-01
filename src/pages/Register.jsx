@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import AuthImagePattern from "../components/AuthImagePattern";
 import { Link, useLocation, useNavigate } from "react-router";
 import { Loader2, EyeOffIcon, EyeIcon, GlobeLock } from "lucide-react";
@@ -6,26 +6,30 @@ import toast from "react-hot-toast";
 import useAxios from "../hooks/useAxios";
 import useTitle from "../hooks/useTitle";
 import useAuth from "../hooks/useAuth";
+import { useForm } from "react-hook-form";
 
 const Register = () => {
-  const [isSigningUp, setIsSigningUp] = React.useState(false);
-  const [showPassword, setShowPassword] = React.useState(false);
-
+  const [showPassword, setShowPassword] = useState(false);
   const { createUser, updateUser, setUser } = useAuth();
   const axiosSecure = useAxios();
   const navigate = useNavigate();
   const { state } = useLocation();
 
+  const [isSigningUp, setIsSigningUp] = useState(false);
+
   useTitle(`Register`);
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const form = event.target;
-    const formData = new FormData(form);
-    const userInfo = Object.fromEntries(formData.entries());
-    const { email, password, name, photoURL } = userInfo;
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm();
 
-    // ✅ Custom password validation
+  const onSubmit = async (data) => {
+    const { email, password, name, photoURL } = data;
+
+    // Password validation
     const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/;
     if (!passwordPattern.test(password)) {
       toast.error(
@@ -43,10 +47,10 @@ const Register = () => {
       await updateUser({ displayName: name, photoURL });
       toast.success("Account created & updated successfully!");
 
-      // ✅ Save user to DB
+      // Save user to DB
       await axiosSecure.post("/api/users", { name, email, password, photoURL });
 
-      form.reset();
+      reset();
 
       setTimeout(() => {
         navigate(state?.from || "/");
@@ -65,8 +69,8 @@ const Register = () => {
         <div className="w-full max-w-md space-y-8">
           <div className="text-center mb-8">
             <div className="flex flex-col items-center gap-2 group">
-              <div className="size-12 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
-                <GlobeLock className="size-6 text-primary" />
+              <div className="size-12 rounded-xl bg-amber-100/40 flex items-center justify-center group-hover:bg-amber-200 transition-colors">
+                <GlobeLock className="size-6 text-amber-600" />
               </div>
               <h1 className="text-2xl font-bold mt-2">Create Account</h1>
               <p className="text-base-content/60">
@@ -76,12 +80,13 @@ const Register = () => {
           </div>
 
           {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            {/* Name */}
             <div className="form-control">
               <p className="label-text font-medium">Name</p>
-              <label className="input validator w-full">
+              <label className="input validator w-full relative">
                 <svg
-                  className="h-[2em] opacity-50"
+                  className="h-[2em] opacity-50 absolute left-3 top-1/2 -translate-y-1/2"
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
                 >
@@ -98,19 +103,26 @@ const Register = () => {
                 </svg>
                 <input
                   type="text"
-                  name="name"
-                  required
-                  placeholder="Md.Rakib Islam"
-                  className="w-full"
+                  placeholder="Md. Rakib Islam"
+                  className={`w-full pl-12 ${
+                    errors.name ? "border-red-500" : ""
+                  }`}
+                  {...register("name", { required: "Name is required" })}
                 />
               </label>
+              {errors.name && (
+                <p className="text-red-500 text-xs mt-1">
+                  {errors.name.message}
+                </p>
+              )}
             </div>
 
+            {/* PhotoURL */}
             <div className="form-control">
               <p className="label-text font-medium">PhotoURL</p>
-              <label className="input validator w-full">
+              <label className="input validator w-full relative">
                 <svg
-                  className="h-[2em] opacity-50"
+                  className="h-[2em] opacity-50 absolute left-3 top-1/2 -translate-y-1/2"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
@@ -123,19 +135,28 @@ const Register = () => {
                 </svg>
                 <input
                   type="text"
-                  name="photoURL"
-                  required
                   placeholder="https://example.com/photo.png"
-                  className="w-full"
+                  className={`w-full pl-12 ${
+                    errors.photoURL ? "border-red-500" : ""
+                  }`}
+                  {...register("photoURL", {
+                    required: "Photo URL is required",
+                  })}
                 />
               </label>
+              {errors.photoURL && (
+                <p className="text-red-500 text-xs mt-1">
+                  {errors.photoURL.message}
+                </p>
+              )}
             </div>
 
+            {/* Email */}
             <div className="form-control">
               <p className="label-text font-medium">Email</p>
-              <label className="input validator w-full">
+              <label className="input validator w-full relative">
                 <svg
-                  className="h-[2em] opacity-50"
+                  className="h-[2em] opacity-50 absolute left-3 top-1/2 -translate-y-1/2"
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
                 >
@@ -152,19 +173,32 @@ const Register = () => {
                 </svg>
                 <input
                   type="email"
-                  name="email"
-                  required
                   placeholder="mail@example.com"
-                  className="w-full"
+                  className={`w-full pl-12 ${
+                    errors.email ? "border-red-500" : ""
+                  }`}
+                  {...register("email", {
+                    required: "Email is required",
+                    pattern: {
+                      value: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
+                      message: "Invalid email address",
+                    },
+                  })}
                 />
               </label>
+              {errors.email && (
+                <p className="text-red-500 text-xs mt-1">
+                  {errors.email.message}
+                </p>
+              )}
             </div>
 
+            {/* Password */}
             <div className="form-control">
               <p className="label-text font-medium">Password</p>
               <label className="input validator w-full relative">
                 <svg
-                  className="h-[2em] opacity-50"
+                  className="h-[2em] opacity-50 absolute left-3 top-1/2 -translate-y-1/2"
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
                 >
@@ -181,10 +215,20 @@ const Register = () => {
                 </svg>
                 <input
                   type={showPassword ? "text" : "password"}
-                  name="password"
-                  required
                   placeholder="Password"
-                  className="w-full"
+                  className={`w-full pl-12 ${
+                    errors.password ? "border-red-500" : ""
+                  }`}
+                  {...register("password", {
+                    required: "Password is required",
+                    minLength: {
+                      value: 6,
+                      message: "Password must be at least 6 characters",
+                    },
+                    validate: (value) =>
+                      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/.test(value) ||
+                      "Password must contain uppercase, lowercase, and digit",
+                  })}
                 />
                 <button
                   type="button"
@@ -198,28 +242,28 @@ const Register = () => {
                   )}
                 </button>
               </label>
+              {errors.password && (
+                <p className="text-red-500 text-xs mt-1">
+                  {errors.password.message}
+                </p>
+              )}
             </div>
 
+            {/* Submit */}
             <button
               type="submit"
-              className="btn btn-primary w-full"
+              className="w-full py-3 px-4 bg-amber-600 hover:bg-amber-700 text-white font-medium rounded-lg transition-colors disabled:opacity-70 disabled:cursor-not-allowed flex justify-center items-center gap-2"
               disabled={isSigningUp}
             >
-              {isSigningUp ? (
-                <>
-                  <Loader2 className="h-5 w-5 animate-spin" />
-                  Creating...
-                </>
-              ) : (
-                "Create Account"
-              )}
+              {isSigningUp && <Loader2 className="h-5 w-5 animate-spin" />}
+              {isSigningUp ? "Creating..." : "Create Account"}
             </button>
           </form>
 
           <div className="text-center">
             <p className="text-base-content/60">
               Already have an account?{" "}
-              <Link to="/login" className="link link-primary">
+              <Link to="/login" className="text-amber-600 hover:underline">
                 Log In
               </Link>
             </p>

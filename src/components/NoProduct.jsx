@@ -8,26 +8,32 @@ const NoProduct = ({
   actionLink = "/all-products",
 }) => {
   return (
-    <div className="flex flex-col items-center justify-center py-12 px-4 text-center">
+    <div
+      role="status"
+      className="flex flex-col items-center justify-center py-12 px-4 text-center"
+    >
       {/* Icon with primary color circle */}
-      <div className="bg-base-100 p-6 rounded-full mb-6">
-        <FiPackage className="w-10 h-10 text-primary" />
+      <div className="bg-amber-100 dark:bg-amber-900 p-6 rounded-full mb-6">
+        <FiPackage className="w-10 h-10 text-amber-600 dark:text-amber-300" />
       </div>
 
-      {/* Heading with base-content color */}
-      <h3 className="text-xl font-medium text-base-content mb-2">{message}</h3>
+      {/* Heading with proper color */}
+      <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">
+        {message}
+      </h3>
 
-      {/* Description with info color */}
-      <p className="text-info max-w-md mb-6">
+      {/* Description with subtle text */}
+      <p className="text-gray-600 dark:text-gray-400 max-w-md mb-6">
         It seems there are no products to display at the moment. Check back
         later or explore our collection.
       </p>
 
-      {/* Button with primary color */}
+      {/* Button with accessible and clear styling */}
       {actionText && actionLink && (
         <Link
           to={actionLink}
-          className="btn btn-primary dark:bg-amber-800 border-0 text-white hover:bg-accent "
+          className="inline-block bg-amber-600 dark:bg-amber-700 text-white font-semibold px-6 py-2 rounded-lg shadow-md hover:bg-amber-700 dark:hover:bg-amber-800 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 transition"
+          aria-label={actionText}
         >
           {actionText}
         </Link>

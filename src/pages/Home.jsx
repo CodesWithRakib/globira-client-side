@@ -1,19 +1,17 @@
-import React, { useState } from "react";
+import React from "react";
 import Banner from "../components/Banner";
 import ProductCategory from "../components/ProductCategory";
 import RecentProduct from "../components/RecentProduct";
 import ExclusiveOffers from "../components/ExclusiveOffers";
-import NewsLetter from "../components/NewsLetter";
 import CustomerReviews from "../components/CustomerReviews";
 import Faq from "../components/Faq";
 import BrandsCarousel from "../components/BrandsCarousel";
 import WhyBuyFromUs from "../components/WhyBuyFromUs";
 import Loading from "../components/Loading";
-import Cta from "../components/Cta";
 import Contact from "../components/Contact";
-import GoogleMap from "../components/GoogleMap";
 import useAuth from "../hooks/useAuth";
 import useTitle from "../hooks/useTitle";
+import CtaNewsletter from "../components/CtaNewsletter";
 
 const Home = () => {
   const { user, loading } = useAuth();
@@ -33,10 +31,8 @@ const Home = () => {
         <BrandsCarousel></BrandsCarousel>
         <CustomerReviews></CustomerReviews>
         <Faq></Faq>
-        <Cta></Cta>
-        <NewsLetter></NewsLetter>
+        <CtaNewsletter />
         <Contact></Contact>
-        <GoogleMap></GoogleMap>
       </div>
     </>
   );
