@@ -437,11 +437,17 @@ const ProductDetails = () => {
 
               {/* Quick action buttons */}
               <div className="flex gap-2">
-                <button className="flex-1 btn btn-outline border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center justify-center gap-2">
+                <button
+                  onClick={() => toast.success("Saved to wishlist")}
+                  className="flex-1 btn btn-outline border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center justify-center gap-2"
+                >
                   <Heart className="w-5 h-5" />
                   Save
                 </button>
-                <button className="flex-1 btn btn-outline border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center justify-center gap-2">
+                <button
+                  onClick={() => toast.success("Enquired successfully")}
+                  className="flex-1 btn btn-outline border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center justify-center gap-2"
+                >
                   <MessageSquare className="w-5 h-5" />
                   Enquire
                 </button>
