@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import { motion } from "motion/react";
 import { ArrowRight, Check, Rocket, Mail, Send, Shield } from "lucide-react";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router";
 
 const CtaNewsletter = () => {
   const [email, setEmail] = useState("");
   const [submitting, setSubmitting] = useState(false);
-
+  const navigate = useNavigate();
   const validateEmail = (email) => {
     // Simple email regex validation
     return /\S+@\S+\.\S+/.test(email);
@@ -96,6 +97,7 @@ const CtaNewsletter = () => {
           className="flex flex-col items-center"
         >
           <motion.button
+            onClick={() => navigate("/login")}
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
             className="flex items-center gap-2 px-8 py-3.5 bg-white text-amber-600 text-lg font-semibold rounded-lg shadow-md hover:shadow-lg transition-all mb-10"
@@ -160,7 +162,7 @@ const CtaNewsletter = () => {
           >
             <Shield className="w-4 h-4" />
             <span>We never share your data. Read our </span>
-            <a href="#" className="underline hover:text-white">
+            <a href="privacy" className="underline hover:text-white">
               Privacy Policy
             </a>
           </motion.div>

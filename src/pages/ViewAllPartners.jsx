@@ -1,11 +1,12 @@
 import React from "react";
-import Marquee from "react-fast-marquee";
 import { motion } from "motion/react";
-import { ArrowRight, ShieldCheck } from "lucide-react";
+import { ShieldCheck } from "lucide-react";
 import { useNavigate } from "react-router";
+import useTitle from "../hooks/useTitle";
 
-const BrandsCarousel = () => {
+const ViewAllPartners = () => {
   const navigate = useNavigate();
+  useTitle("View All Partners");
   const brands = [
     {
       id: 1,
@@ -70,64 +71,79 @@ const BrandsCarousel = () => {
   ];
 
   return (
-    <section className="py-16 bg-white dark:bg-gray-900 border-y border-gray-200 dark:border-gray-800">
+    <section className="py-16 bg-white dark:bg-gray-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          viewport={{ once: true }}
           className="text-center mb-12"
         >
           <div className="inline-flex items-center justify-center gap-2 mb-4 bg-amber-100 dark:bg-amber-900/20 px-4 py-2 rounded-full">
             <ShieldCheck className="w-5 h-5 text-amber-600 dark:text-amber-400" />
             <span className="text-sm font-medium text-amber-600 dark:text-amber-400">
-              Trusted Brand Partners
+              Our Trusted Partners
             </span>
           </div>
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">
-            Recognized Global Manufacturers
+            Official Brand Partners
           </h2>
           <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto mt-3 text-base">
-            We proudly collaborate with leading brands to deliver reliable
-            products for your business.
+            We maintain direct partnerships with these industry-leading
+            manufacturers.
           </p>
         </motion.div>
 
-        {/* Marquee */}
-        <div className="relative overflow-hidden">
-          {/* Gradient Overlays */}
-          <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-white dark:from-gray-900 to-transparent z-10" />
-          <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-white dark:from-gray-900 to-transparent z-10" />
+        {/* Brands Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {brands.map((brand) => (
+            <motion.div
+              key={brand.id}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
+              viewport={{ once: true, margin: "-50px" }}
+              className="bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-md border border-gray-100 dark:border-gray-700 overflow-hidden transition-all duration-300"
+            >
+              <div className="p-6 flex flex-col items-center text-center h-full">
+                {/* Brand Logo */}
+                <div className="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg mb-4">
+                  <img
+                    src={brand.logo}
+                    alt={`${brand.name} logo`}
+                    className="h-16 w-auto object-contain"
+                    loading="lazy"
+                  />
+                </div>
 
-          <Marquee pauseOnHover speed={40} gradient={false} className="py-3">
-            <div className="flex gap-10 px-4">
-              {brands.map((brand) => (
-                <motion.div
-                  key={brand.id}
-                  whileHover={{ scale: 1.05 }}
-                  transition={{ type: "spring", stiffness: 250 }}
-                  className="flex-shrink-0 flex flex-col items-center"
-                >
-                  <div className="p-4 bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-md border border-gray-100 dark:border-gray-700 transition duration-300">
-                    <img
-                      src={brand.logo}
-                      alt={`${brand.name} logo`}
-                      className="h-12 w-auto object-contain grayscale hover:grayscale-0 opacity-80 hover:opacity-100 transition duration-300"
-                      loading="lazy"
-                    />
-                  </div>
-                  <p className="text-sm mt-2 text-gray-700 dark:text-gray-300 font-medium">
-                    {brand.name}
+                {/* Brand Name */}
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+                  {brand.name}
+                </h3>
+
+                {/* Category */}
+                <span className="inline-block px-3 py-1 text-xs font-medium rounded-full bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300 mb-3">
+                  {brand.category}
+                </span>
+
+                {/* Description */}
+                <p className="text-gray-600 dark:text-gray-400 text-sm mb-4 flex-grow">
+                  {brand.description}
+                </p>
+
+                {/* Partner Since */}
+                <div className="w-full border-t border-gray-100 dark:border-gray-700 pt-3">
+                  <p className="text-xs text-gray-500 dark:text-gray-400">
+                    Partner since {brand.since}
                   </p>
-                </motion.div>
-              ))}
-            </div>
-          </Marquee>
+                </div>
+              </div>
+            </motion.div>
+          ))}
         </div>
 
-        {/* CTA */}
+        {/* Back Button */}
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
@@ -135,19 +151,16 @@ const BrandsCarousel = () => {
           viewport={{ once: true }}
           className="text-center mt-12"
         >
-          <motion.button
-            onClick={() => navigate("/partners")}
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.97 }}
-            className="flex items-center gap-2 mx-auto px-6 py-3 text-sm font-medium rounded-full border border-amber-600 text-amber-600 hover:bg-amber-600 hover:text-white transition-colors dark:border-amber-400 dark:text-amber-400 dark:hover:bg-amber-400 dark:hover:text-white"
+          <button
+            onClick={() => navigate(-1)}
+            className="flex items-center gap-2 mx-auto px-6 py-3 text-sm font-medium rounded-full border border-gray-300 text-gray-700 hover:bg-gray-100 transition-colors dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700"
           >
-            View All Partners
-            <ArrowRight className="w-4 h-4" />
-          </motion.button>
+            Back to Home
+          </button>
         </motion.div>
       </div>
     </section>
   );
 };
 
-export default BrandsCarousel;
+export default ViewAllPartners;

@@ -1,8 +1,19 @@
 import React from "react";
 import { motion } from "motion/react";
 import { MapPin, Mail, Phone, Clock, Send } from "lucide-react";
+import toast from "react-hot-toast";
 
 const Contact = () => {
+  const handleContactSubmit = (e) => {
+    e.preventDefault();
+
+    try {
+      toast.success("Contact form submitted successfully!");
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to submit contact form. Please try again.");
+    }
+  };
   return (
     <section className="py-16 px-4 sm:px-6 bg-white dark:bg-gray-900">
       <div className="max-w-7xl mx-auto">
@@ -111,6 +122,7 @@ const Contact = () => {
 
           {/* Contact Form */}
           <motion.form
+            onSubmit={handleContactSubmit}
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}

@@ -1,11 +1,12 @@
 import React from "react";
 import { motion } from "motion/react";
 import { useNavigate } from "react-router";
-import { ArrowRight } from "lucide-react";
-import ExclusiveCard from "./ExclusiveCard";
+import { ArrowLeft } from "lucide-react";
+import ExclusiveCard from "../components/ExclusiveCard";
 
-const ExclusiveOffers = () => {
+const AllOffers = () => {
   const navigate = useNavigate();
+
   const offersData = [
     {
       id: 1,
@@ -106,41 +107,33 @@ const ExclusiveOffers = () => {
   return (
     <section className="px-4 sm:px-6 lg:px-8 py-12 bg-white dark:bg-gray-900">
       <div className="max-w-7xl mx-auto">
-        {/* Section Header */}
+        {/* Header with back button */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          viewport={{ once: true }}
-          className="mb-10"
+          className="mb-10 flex items-center gap-4"
         >
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 mb-4">
-            <div>
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">
-                Exclusive <span className="text-amber-600">Offers</span>
-              </h2>
-              <p className="mt-2 text-lg text-gray-600 dark:text-gray-300">
-                Limited-time deals on our most popular products
-              </p>
-            </div>
-            <motion.button
-              onClick={() => navigate("/all-offers")}
-              whileHover={{ x: 5 }}
-              whileTap={{ scale: 0.95 }}
-              className="flex items-center gap-2 text-amber-600 hover:text-amber-700 dark:hover:text-amber-500 font-medium transition-colors"
-            >
-              View all offers <ArrowRight className="w-4 h-4" />
-            </motion.button>
+          <button
+            onClick={() => navigate(-1)}
+            className="flex items-center gap-2 text-amber-600 hover:text-amber-700 dark:hover:text-amber-500 font-medium transition-colors"
+          >
+            <ArrowLeft className="w-5 h-5" /> Back
+          </button>
+          <div>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">
+              All Exclusive <span className="text-amber-600">Offers</span>
+            </h2>
+            <p className="mt-2 text-lg text-gray-600 dark:text-gray-300">
+              Browse all our current promotions and limited-time deals
+            </p>
           </div>
-          <div className="h-1 w-20 bg-amber-500 rounded-full" />
         </motion.div>
 
         {/* Offers Grid */}
         <motion.div
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
           initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "0px 0px -100px 0px" }}
+          animate="visible"
           variants={{
             hidden: { opacity: 0 },
             visible: {
@@ -150,8 +143,9 @@ const ExclusiveOffers = () => {
               },
             },
           }}
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
         >
-          {offersData.slice(0, 6).map((offer) => (
+          {offersData.map((offer) => (
             <motion.div
               key={offer.id}
               variants={{
@@ -159,8 +153,9 @@ const ExclusiveOffers = () => {
                 visible: { opacity: 1, y: 0 },
               }}
               transition={{ duration: 0.5 }}
+              className="h-full"
             >
-              <ExclusiveCard offer={offer} />
+              <ExclusiveCard offer={offer} expandedView={true} />
             </motion.div>
           ))}
         </motion.div>
@@ -169,4 +164,4 @@ const ExclusiveOffers = () => {
   );
 };
 
-export default ExclusiveOffers;
+export default AllOffers;

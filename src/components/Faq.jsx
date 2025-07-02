@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { ChevronDown, ChevronUp, Mail, MessageSquare } from "lucide-react";
+import { useNavigate } from "react-router";
 
 const Faq = () => {
   const [activeIndex, setActiveIndex] = useState(null);
-
+  const navigate = useNavigate();
   const faqData = [
     {
       id: 1,
@@ -149,6 +150,7 @@ const Faq = () => {
             Didn&apos;t find what you&apos;re looking for?
           </p>
           <motion.button
+            onClick={() => navigate("/contact")}
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
             className="flex items-center gap-2 mx-auto px-6 py-3 bg-amber-600 hover:bg-amber-700 dark:bg-amber-700 dark:hover:bg-amber-800 text-white font-medium rounded-lg transition-colors"

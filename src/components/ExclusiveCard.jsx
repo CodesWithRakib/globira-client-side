@@ -1,8 +1,10 @@
 import React from "react";
 import { motion } from "motion/react";
+import { useNavigate } from "react-router";
 import { FiClock, FiArrowRight } from "react-icons/fi";
 
 const ExclusiveCard = ({ offer }) => {
+  const navigate = useNavigate();
   const {
     image,
     title,
@@ -11,7 +13,12 @@ const ExclusiveCard = ({ offer }) => {
     expiry,
     buttonLabel = "View Offer",
     bgColor = "bg-gray-50",
+    category = "all-products", // Default category if not provided
   } = offer || {};
+
+  const handleButtonClick = () => {
+    navigate(`/category/${category}`);
+  };
 
   return (
     <motion.div
@@ -103,9 +110,11 @@ const ExclusiveCard = ({ offer }) => {
             className="pt-3 sm:pt-4"
           >
             <motion.button
+              onClick={handleButtonClick}
               whileHover={{ scale: 1.03, x: 3 }}
               whileTap={{ scale: 0.97 }}
               className={`flex items-center px-5 py-2.5 ${bgColor} bg-opacity-90 backdrop-blur-sm text-amber-700 font-medium rounded-full border border-amber-200/30 hover:bg-opacity-100 transition-all`}
+              aria-label={`View ${title} offers`}
             >
               {buttonLabel}
               <FiArrowRight className="ml-2 transition-transform duration-300 group-hover:translate-x-1" />

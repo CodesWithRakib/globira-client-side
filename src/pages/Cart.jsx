@@ -130,7 +130,12 @@ const Cart = () => {
                 </div>
               </div>
 
-              <button className="w-full bg-amber-600 hover:bg-amber-700 text-white py-3 px-4 rounded-lg font-medium transition-colors">
+              <button
+                onClick={() =>
+                  toast.success("Checkout Functionality Will Be Added Soon ...")
+                }
+                className="w-full bg-amber-600 hover:bg-amber-700 text-white py-3 px-4 rounded-lg font-medium transition-colors"
+              >
                 Proceed to Checkout
               </button>
             </div>

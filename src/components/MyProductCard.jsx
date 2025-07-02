@@ -62,16 +62,11 @@ const MyProductCard = ({ product, setProducts, products }) => {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      whileHover={{ y: -5 }}
-      transition={{ type: "spring", stiffness: 300 }}
-      className="w-full bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden border border-gray-200 dark:border-gray-700 hover:shadow-lg hover:shadow-amber-200 dark:hover:shadow-amber-900"
+      className="w-full bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden border border-gray-200 dark:border-gray-700 flex flex-col h-full"
     >
       {/* Product Image */}
-      <div className="relative h-60 w-full overflow-hidden group">
-        <motion.img
-          initial={{ scale: 1 }}
-          whileHover={{ scale: 1.05 }}
-          transition={{ duration: 0.3 }}
+      <div className="relative h-60 w-full overflow-hidden">
+        <img
           className="w-full h-full object-cover"
           src={productImage || defaultImage}
           onError={(e) => {
@@ -81,8 +76,7 @@ const MyProductCard = ({ product, setProducts, products }) => {
           alt={productName}
         />
         {/* Stock Status Badge */}
-        <motion.span
-          whileHover={{ scale: 1.1 }}
+        <span
           className={`absolute top-2 right-2 px-2 py-1 rounded-full text-xs font-semibold shadow-sm ${
             minimumQuantity > 100
               ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
@@ -90,11 +84,11 @@ const MyProductCard = ({ product, setProducts, products }) => {
           }`}
         >
           {minimumQuantity > 100 ? "In Stock" : "Low Stock"}
-        </motion.span>
+        </span>
       </div>
 
       {/* Product Details */}
-      <div className="p-4">
+      <div className="p-4 flex flex-col flex-grow">
         <div className="flex justify-between items-start mb-2">
           {/* Category */}
           <span className="inline-block px-2 py-1 text-xs font-semibold rounded-full bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300">
@@ -129,7 +123,7 @@ const MyProductCard = ({ product, setProducts, products }) => {
         </p>
 
         {/* Description */}
-        <p className="text-gray-700 dark:text-gray-400 text-sm mb-4 line-clamp-2">
+        <p className="text-gray-700 dark:text-gray-400 text-sm mb-4 line-clamp-2 flex-grow">
           {description || "No description available"}
         </p>
 
@@ -157,28 +151,20 @@ const MyProductCard = ({ product, setProducts, products }) => {
         </div>
 
         {/* Action Buttons */}
-        <div className="flex flex-wrap justify-between gap-3">
-          <motion.button
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.97 }}
-            className="flex-1 min-w-[120px]"
+        <div className="flex flex-wrap justify-between gap-3 mt-auto">
+          <Link
+            to={`/update-product/${_id}`}
+            className="flex-1 min-w-[120px] flex items-center justify-center gap-2 bg-amber-600 hover:bg-amber-700 text-white py-2 px-4 rounded-lg transition-colors shadow-md"
           >
-            <Link
-              to={`/update-product/${_id}`}
-              className="flex items-center justify-center gap-2 bg-amber-600 hover:bg-amber-700 text-white py-2 px-4 rounded-lg transition-all shadow-md"
-            >
-              <FaEdit className="text-sm" /> Edit
-            </Link>
-          </motion.button>
+            <FaEdit className="text-sm" /> Edit
+          </Link>
 
-          <motion.button
+          <button
             onClick={handleDelete}
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.97 }}
-            className="flex-1 min-w-[120px] flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded-lg transition-all shadow-md"
+            className="flex-1 min-w-[120px] flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded-lg transition-colors shadow-md"
           >
             <MdDelete className="text-sm" /> Delete
-          </motion.button>
+          </button>
         </div>
       </div>
     </motion.div>

@@ -41,19 +41,19 @@ const MainNav = () => {
   const navLinks = [
     { path: "/", name: "Home" },
     { path: "/categories", name: "Categories" },
-    { path: "/all-products", name: "Products" },
-    { path: "/add-product", name: "Add Product" },
-    { path: "/my-product", name: "My Products" },
+    { path: "/products", name: "Products" },
+    { path: "/add-product", name: "Add Product", private: true },
+    { path: "/my-products", name: "My Products", private: true },
+    { path: "/all-products", name: "All Products", private: true },
   ];
 
-  // Ideally cart count should come from your cart state
-  const cartCount = 9; // placeholder
+  const filteredLinks = navLinks.filter((link) => !link.private || user);
+  const cartCount = 9;
 
   return (
     <nav className="navbar sticky top-0 z-40 bg-amber-700 dark:bg-gray-900 text-white dark:text-gray-100 border-b border-amber-800 dark:border-gray-700 h-16 md:h-20 px-4 sm:px-6 lg:px-8 xl:px-12 flex items-center justify-between">
       {/* Left Side - Logo and Mobile Menu */}
       <div className="flex items-center">
-        {/* Mobile Menu Toggle */}
         <div className="md:hidden mr-2">
           <button
             onClick={() => setIsMobileMenuOpen((open) => !open)}
@@ -83,7 +83,6 @@ const MainNav = () => {
             </div>
           </button>
         </div>
-        {/* Logo */}
         <div
           onClick={() => navigate("/")}
           className="text-xl font-bold text-white cursor-pointer select-none"
@@ -92,7 +91,6 @@ const MainNav = () => {
         </div>
       </div>
 
-      {/* Mobile Menu */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
@@ -103,7 +101,7 @@ const MainNav = () => {
             className="md:hidden absolute top-full left-0 right-0 bg-amber-700 dark:bg-gray-800 shadow-lg border-t border-amber-800 dark:border-gray-700"
           >
             <ul className="flex flex-col py-2">
-              {navLinks.map((link) => (
+              {filteredLinks.map((link) => (
                 <motion.li
                   key={link.path}
                   initial={{ opacity: 0, x: -10 }}
@@ -130,9 +128,8 @@ const MainNav = () => {
         )}
       </AnimatePresence>
 
-      {/* Desktop Navigation */}
       <ul className="hidden md:flex gap-6 lg:gap-8 text-sm font-medium">
-        {navLinks.map((link) => (
+        {filteredLinks.map((link) => (
           <li key={link.path}>
             <NavLink
               to={link.path}
@@ -150,9 +147,7 @@ const MainNav = () => {
         ))}
       </ul>
 
-      {/* Right Side Actions */}
       <div className="flex items-center gap-3 sm:gap-4">
-        {/* Theme Toggle */}
         <button
           onClick={toggleTheme}
           className="p-2 rounded-full hover:bg-amber-600/30 dark:hover:bg-gray-700/50 transition flex items-center justify-center"
@@ -165,7 +160,6 @@ const MainNav = () => {
           )}
         </button>
 
-        {/* Cart */}
         <NavLink
           to="/cart"
           className={({ isActive }) =>
@@ -182,7 +176,6 @@ const MainNav = () => {
           </span>
         </NavLink>
 
-        {/* User / Auth */}
         {user ? (
           <div className="relative">
             <button

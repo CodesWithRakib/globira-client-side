@@ -1,11 +1,13 @@
+import React from "react";
 import { format } from "date-fns";
 import { motion } from "motion/react";
-import { Star, ChevronRight, BadgeCheck, Quote } from "lucide-react";
+import { Star, ChevronLeft, BadgeCheck, Quote } from "lucide-react";
 import { useNavigate } from "react-router";
+import useTitle from "../hooks/useTitle";
 
-const CustomerReviews = () => {
+const AllTestimonials = () => {
   const navigate = useNavigate();
-
+  useTitle("All Testimonials");
   const customerReviews = [
     {
       id: 1,
@@ -91,20 +93,19 @@ const CustomerReviews = () => {
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
           className="text-center mb-12"
         >
           <div className="inline-flex items-center justify-center gap-2 mb-4 bg-amber-100 dark:bg-amber-900/20 px-4 py-2 rounded-full">
             <BadgeCheck className="w-5 h-5 text-amber-600 dark:text-amber-400" />
             <span className="text-sm font-medium text-amber-600 dark:text-amber-400">
-              TRUSTED BY BUSINESSES WORLDWIDE
+              CUSTOMER TESTIMONIALS
             </span>
           </div>
 
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-            What Our Customers Say
+            Verified Business Reviews
           </h2>
 
           <div className="flex flex-wrap items-center justify-center gap-6 mt-6">
@@ -126,100 +127,121 @@ const CustomerReviews = () => {
               </span>
             </div>
             <div className="text-sm text-gray-600 dark:text-gray-400">
-              Based on {customerReviews.length} verified reviews
+              {customerReviews.length} verified business reviews
             </div>
           </div>
         </motion.div>
 
-        {/* Review Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {customerReviews.map((review, index) => (
+        {/* Review Grid - Expanded View */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {customerReviews.map((review) => (
             <motion.div
               key={review.id}
-              initial={{ opacity: 0, y: 50 }}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              whileHover={{ y: -4 }}
               viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-md border border-gray-100 dark:border-gray-700 hover:shadow-lg transition-all"
+              transition={{ duration: 0.5 }}
+              className="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-lg border border-gray-100 dark:border-gray-700"
             >
-              {/* Reviewer */}
-              <div className="flex justify-between items-start mb-4">
+              {/* Review Header */}
+              <div className="flex justify-between items-start mb-6">
                 <div className="flex items-center gap-4">
                   <img
                     src={review.avatarUrl}
                     alt={`${review.name} avatar`}
-                    className="w-12 h-12 rounded-full border-2 border-white dark:border-gray-800 shadow"
+                    className="w-14 h-14 rounded-full border-2 border-white dark:border-gray-800 shadow"
                   />
                   <div>
-                    <h4 className="font-semibold text-gray-900 dark:text-white">
+                    <h4 className="font-semibold text-lg text-gray-900 dark:text-white">
                       {review.name}
                     </h4>
                     <p className="text-sm text-gray-500 dark:text-gray-400">
                       {review.business}
                     </p>
+                    <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">
+                      {review.industry}
+                    </p>
                   </div>
                 </div>
                 {review.verified && (
-                  <BadgeCheck className="w-5 h-5 text-amber-500 dark:text-amber-400" />
+                  <div className="flex items-center gap-1 text-amber-500 dark:text-amber-400">
+                    <BadgeCheck className="w-5 h-5" />
+                    <span className="text-xs">Verified</span>
+                  </div>
                 )}
               </div>
 
-              {/* Rating */}
-              <div className="flex items-center gap-1 mb-4">
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <Star
-                    key={i}
-                    className={`w-4 h-4 ${
-                      i < review.rating
-                        ? "text-amber-500 fill-amber-500"
-                        : "text-gray-300 dark:text-gray-600"
-                    }`}
-                  />
-                ))}
-                <span className="text-xs text-gray-500 dark:text-gray-400 ml-1">
-                  {review.rating.toFixed(1)}
+              {/* Rating and Date */}
+              <div className="flex justify-between items-center mb-6">
+                <div className="flex items-center gap-1">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <Star
+                      key={i}
+                      className={`w-5 h-5 ${
+                        i < review.rating
+                          ? "text-amber-500 fill-amber-500"
+                          : "text-gray-300 dark:text-gray-600"
+                      }`}
+                    />
+                  ))}
+                  <span className="ml-2 font-medium text-gray-700 dark:text-gray-300">
+                    {review.rating.toFixed(1)}
+                  </span>
+                </div>
+                <span className="text-sm text-gray-500 dark:text-gray-400">
+                  {format(new Date(review.date), "MMMM d, yyyy")}
                 </span>
               </div>
 
-              {/* Review Text */}
-              <div className="relative mb-6 flex-grow">
-                <Quote className="absolute -top-2 left-0 text-gray-200 dark:text-gray-700 w-6 h-6" />
-                <p className="text-gray-700 dark:text-gray-300 pl-6 leading-relaxed">
+              {/* Review Content */}
+              <div className="relative mb-8">
+                <Quote className="absolute -top-2 left-0 text-gray-200 dark:text-gray-700 w-8 h-8" />
+                <p className="text-gray-700 dark:text-gray-300 pl-8 text-lg leading-relaxed">
                   {review.review}
                 </p>
               </div>
 
-              {/* Footer */}
-              <div className="pt-4 border-t border-gray-100 dark:border-gray-700 text-sm flex justify-between text-gray-500 dark:text-gray-400">
+              {/* Location */}
+              <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 border-t border-gray-100 dark:border-gray-700 pt-4">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                  <circle cx="12" cy="10" r="3" />
+                </svg>
                 <span>{review.location}</span>
-                <span>{format(new Date(review.date), "MMM d, yyyy")}</span>
               </div>
             </motion.div>
           ))}
         </div>
 
-        {/* CTA */}
+        {/* Back Button */}
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
-          transition={{ delay: 0.8, duration: 0.5 }}
+          transition={{ delay: 0.3, duration: 0.5 }}
           viewport={{ once: true }}
           className="text-center mt-12"
         >
-          <motion.button
-            onClick={() => navigate("/testimonials")}
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.97 }}
-            className="flex items-center gap-2 mx-auto px-6 py-3 bg-amber-600 hover:bg-amber-700 dark:bg-amber-700 dark:hover:bg-amber-800 text-white font-medium rounded-lg transition-colors"
+          <button
+            onClick={() => navigate(-1)}
+            className="flex items-center gap-2 mx-auto px-6 py-3 text-sm font-medium rounded-full border border-gray-300 text-gray-700 hover:bg-gray-100 transition-colors dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700"
           >
-            Read All Testimonials
-            <ChevronRight className="w-4 h-4" />
-          </motion.button>
+            <ChevronLeft className="w-4 h-4" />
+            Back to Home
+          </button>
         </motion.div>
       </div>
     </section>
   );
 };
 
-export default CustomerReviews;
+export default AllTestimonials;

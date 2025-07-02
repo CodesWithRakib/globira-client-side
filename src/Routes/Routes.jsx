@@ -14,60 +14,80 @@ import UpdateProduct from "../pages/UpdateProduct";
 import ProductDetails from "../pages/ProductDetails";
 import PrivateRoute from "../Auth/PrivateRoute";
 import CategoryProducts from "../pages/CategoryProducts";
+// Footer imports remain the same
+import AboutUs from "../pages/Footer/AboutUs";
+import Solutions from "../pages/Footer/Solutions";
+import Blog from "../pages/Footer/Blog";
+import Faq from "../pages/Footer/Faq";
+import ShippingPolicy from "../pages/Footer/ShippingPolicy";
+import Returns from "../pages/Footer/Returns";
+import Privacy from "../pages/Footer/Privacy";
+import Terms from "../pages/Footer/Terms";
+import Cookies from "../pages/Footer/Cookies";
+import Products from "../pages/Footer/Products";
+import Contact from "../pages/Footer/Contact";
+import AllOffers from "../pages/AllOffers";
+import ViewAllPartners from "../pages/ViewAllPartners";
+import AllTestimonials from "../pages/AllTestimonials";
+import B2BBenefitsPage from "../pages/B2BBenefitsPage";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Root></Root>,
+    element: <Root />,
+    errorElement: <ErrorPage message="Something went wrong!" />,
     children: [
+      // Public routes
+      { index: true, element: <Home /> },
+      { path: "login", element: <Login /> },
+      { path: "register", element: <Register /> },
+
+      // Protected product routes
       {
-        index: true,
-        element: <Home></Home>,
+        path: "product/:id",
+        element: (
+          <PrivateRoute>
+            <ProductDetails />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "category/:category",
+        element: (
+          <PrivateRoute>
+            <CategoryProducts />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "all-products",
+        element: (
+          <PrivateRoute>
+            <AllProducts />
+          </PrivateRoute>
+        ),
       },
       {
         path: "categories",
         element: (
           <PrivateRoute>
-            {" "}
-            <Categories></Categories>{" "}
+            <Categories />
           </PrivateRoute>
         ),
       },
       {
-        path: "/category/:category",
-        element: <CategoryProducts></CategoryProducts>,
-      },
-      {
-        path: "/all-products",
+        path: "add-product",
         element: (
           <PrivateRoute>
-            <AllProducts></AllProducts>
+            <AddProduct />
           </PrivateRoute>
         ),
       },
       {
-        path: "/add-product",
+        path: "my-products",
         element: (
           <PrivateRoute>
-            <AddProduct></AddProduct>
-          </PrivateRoute>
-        ),
-      },
-      {
-        path: "my-product",
-        element: (
-          <PrivateRoute>
-            {" "}
-            <MyProduct></MyProduct>{" "}
-          </PrivateRoute>
-        ),
-      },
-      {
-        path: "product/:id",
-        element: (
-          <PrivateRoute>
-            {" "}
-            <ProductDetails></ProductDetails>{" "}
+            <MyProduct />
           </PrivateRoute>
         ),
       },
@@ -75,40 +95,60 @@ const router = createBrowserRouter([
         path: "update-product/:id",
         element: (
           <PrivateRoute>
-            <UpdateProduct></UpdateProduct>
+            <UpdateProduct />
           </PrivateRoute>
         ),
       },
       {
         path: "cart",
-        element: <Cart></Cart>,
+        element: (
+          <PrivateRoute>
+            <Cart />
+          </PrivateRoute>
+        ),
       },
       {
         path: "profile",
         element: (
           <PrivateRoute>
-            {" "}
-            <Profile></Profile>{" "}
+            <Profile />
           </PrivateRoute>
         ),
       },
       {
-        path: "/login",
-        element: <Login></Login>,
+        path: "/b2b-benefits",
+        element: <B2BBenefitsPage />,
       },
       {
-        path: "/register",
-        element: <Register></Register>,
+        path: "/partners",
+        element: <ViewAllPartners />,
       },
+      {
+        path: "/testimonials",
+        element: <AllTestimonials />,
+      },
+      {
+        path: "/all-offers",
+        element: <AllOffers />,
+      },
+
+      // Footer pages (static, public)
+      { path: "about", element: <AboutUs /> },
+      { path: "products", element: <Products /> },
+      { path: "solutions", element: <Solutions /> },
+      { path: "contact", element: <Contact /> },
+      { path: "blog", element: <Blog /> },
+      { path: "faq", element: <Faq /> },
+      { path: "shipping", element: <ShippingPolicy /> },
+      { path: "returns", element: <Returns /> },
+      { path: "privacy", element: <Privacy /> },
+      { path: "terms", element: <Terms /> },
+      { path: "cookies", element: <Cookies /> },
     ],
   },
   {
     path: "*",
-    element: (
-      <ErrorPage
-        message={"Looks like our services are currently offline"}
-      ></ErrorPage>
-    ),
+    element: <ErrorPage message="Page not found" />,
   },
 ]);
 

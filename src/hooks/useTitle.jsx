@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router";
 
-const useTitleAndScroll = (title, defaultTitle = "Globira") => {
+const useTitle = (title, defaultTitle = "Globira") => {
   const location = useLocation();
 
   useEffect(() => {
@@ -25,4 +25,4 @@ const useTitleAndScroll = (title, defaultTitle = "Globira") => {
   }, [title, defaultTitle, location.pathname]); // Add location.pathname to dependency array
 };
 
-export default useTitleAndScroll;
+export default useTitle;

@@ -46,12 +46,10 @@ const TopBar = () => {
 
   const handleOfferClick = useCallback((index) => {
     setCurrentOfferIndex(index);
-    // Optional: Navigate to deals page or specific offer
-    // navigate('/deals');
   }, []);
 
   return (
-    <div className="bg-amber-700 dark:bg-gray-900 text-white dark:text-gray-200 text-xs md:text-sm py-2 px-4 md:px-8 lg:px-16 xl:px-24 flex flex-wrap justify-between items-center select-none shadow-sm border-b border-amber-800 dark:border-gray-700 relative z-50">
+    <div className="bg-amber-700 dark:bg-gray-900 text-white text-xs md:text-sm py-2 px-4 sm:px-8 lg:px-12 xl:px-16 w-full flex flex-wrap justify-between items-center select-none shadow-sm border-b border-amber-800 dark:border-gray-700 relative z-50">
       {/* Left section */}
       <div className="flex items-center gap-3 py-1">
         <div
@@ -59,8 +57,8 @@ const TopBar = () => {
           data-tooltip-id="date-tooltip"
           data-tooltip-content={`Today is ${format(now, "EEEE, MMMM do")}`}
         >
-          <CalendarIcon className="w-4 h-4 text-amber-300 dark:text-amber-400 group-hover:text-amber-200 transition-colors" />
-          <span className="group-hover:text-amber-200 transition-colors">
+          <CalendarIcon className="w-4 h-4 text-amber-200 dark:text-amber-300 group-hover:text-white transition-colors" />
+          <span className="text-white group-hover:text-amber-100 transition-colors">
             {todayDate}
           </span>
         </div>
@@ -69,8 +67,8 @@ const TopBar = () => {
           data-tooltip-id="time-tooltip"
           data-tooltip-content={`Updated ${formatDistanceToNow(now)} ago`}
         >
-          <ClockIcon className="w-4 h-4 text-amber-300 dark:text-amber-400 group-hover:text-amber-200 transition-colors" />
-          <span className="group-hover:text-amber-200 transition-colors">
+          <ClockIcon className="w-4 h-4 text-amber-200 dark:text-amber-300 group-hover:text-white transition-colors" />
+          <span className="text-white group-hover:text-amber-100 transition-colors">
             {currentTime}
           </span>
         </div>
@@ -84,7 +82,7 @@ const TopBar = () => {
           onMouseLeave={() => setIsHoveringOffer(false)}
           aria-live="polite"
         >
-          <TruckIcon className="w-4 h-4 text-amber-300 dark:text-amber-400 mr-2 flex-shrink-0" />
+          <TruckIcon className="w-4 h-4 text-amber-200 dark:text-amber-300 mr-2 flex-shrink-0" />
 
           <div className="relative w-full overflow-hidden h-6">
             <AnimatePresence mode="wait">
@@ -98,7 +96,7 @@ const TopBar = () => {
               >
                 <button
                   onClick={() => handleOfferClick(currentOfferIndex)}
-                  className="font-medium text-amber-300 dark:text-amber-400 hover:text-amber-200 dark:hover:text-amber-200 transition-colors w-full"
+                  className="font-medium text-amber-200 dark:text-amber-300 hover:text-white transition-colors w-full"
                 >
                   {offers[currentOfferIndex]}
                 </button>
@@ -113,8 +111,8 @@ const TopBar = () => {
                 onClick={() => handleOfferClick(index)}
                 className={`w-2 h-2 rounded-full transition-colors ${
                   index === currentOfferIndex
-                    ? "bg-amber-300 dark:bg-amber-400"
-                    : "bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-500"
+                    ? "bg-amber-200 dark:bg-amber-300"
+                    : "bg-white/50 dark:bg-gray-600 hover:bg-white dark:hover:bg-gray-500"
                 }`}
                 aria-label={`Go to offer ${index + 1}`}
               />
@@ -131,8 +129,8 @@ const TopBar = () => {
           data-tooltip-content={user ? "View profile" : "Login or register"}
           onClick={() => navigate(user ? "/profile" : "/login")}
         >
-          <UserIcon className="w-4 h-4 text-white dark:text-gray-300 group-hover:text-amber-300 dark:group-hover:text-amber-300 transition-colors" />
-          <span className="group-hover:text-amber-300 dark:group-hover:text-amber-300 transition-colors">
+          <UserIcon className="w-4 h-4 text-white group-hover:text-amber-200 transition-colors" />
+          <span className="text-white group-hover:text-amber-200 transition-colors">
             Hello,{" "}
             {user?.displayName ? user.displayName.split(" ")[0] : "Guest"}
           </span>
@@ -143,11 +141,11 @@ const TopBar = () => {
           data-tooltip-content="Contact support"
           onClick={() => (window.location.href = "tel:+880171234567")}
         >
-          <PhoneIcon className="w-4 h-4 text-white dark:text-gray-300 group-hover:text-amber-300 dark:group-hover:text-amber-300 transition-colors" />
-          <span className="hidden md:inline group-hover:text-amber-300 dark:group-hover:text-amber-300 transition-colors">
+          <PhoneIcon className="w-4 h-4 text-white group-hover:text-amber-200 transition-colors" />
+          <span className="hidden md:inline text-white group-hover:text-amber-200 transition-colors">
             Support: +880 171 234 567
           </span>
-          <span className="md:hidden group-hover:text-amber-300 dark:group-hover:text-amber-300 transition-colors">
+          <span className="md:hidden text-white group-hover:text-amber-200 transition-colors">
             Support
           </span>
         </button>

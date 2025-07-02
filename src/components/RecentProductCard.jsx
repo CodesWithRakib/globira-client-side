@@ -30,7 +30,7 @@ const RecentProductCard = ({ product }) => {
       whileInView={{ opacity: 1 }}
       viewport={{ once: true }}
       transition={{ duration: 0.3 }}
-      className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-md transition-all duration-200"
+      className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-md transition-all duration-200 flex flex-col h-full"
     >
       {/* Product Image */}
       <div className="relative aspect-square overflow-hidden">
@@ -38,7 +38,7 @@ const RecentProductCard = ({ product }) => {
           src={productImage || noImage}
           onError={(e) => (e.target.src = noImage)}
           alt={productName}
-          className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+          className="w-full h-full object-cover"
           loading="lazy"
         />
         {/* Stock Badge */}
@@ -54,12 +54,12 @@ const RecentProductCard = ({ product }) => {
       </div>
 
       {/* Product Info */}
-      <div className="p-4 space-y-3">
+      <div className="p-4 space-y-3 flex flex-col flex-grow">
         {/* Title */}
         <div>
           <h3
             onClick={() => navigate(`/product/${_id}`)}
-            className="text-lg font-semibold text-gray-900 dark:text-white mb-1 hover:text-amber-500 dark:hover:text-amber-400 cursor-pointer transition"
+            className="text-lg font-semibold text-gray-900 dark:text-white mb-1 hover:text-amber-500 dark:hover:text-amber-400 cursor-pointer transition-colors"
           >
             {productName}
           </h3>
@@ -88,7 +88,7 @@ const RecentProductCard = ({ product }) => {
         </div>
 
         {/* Description */}
-        <p className="text-sm text-gray-600 dark:text-gray-300 line-clamp-2">
+        <p className="text-sm text-gray-600 dark:text-gray-300 line-clamp-2 flex-grow">
           {description || "No description available."}
         </p>
 
@@ -130,7 +130,7 @@ const RecentProductCard = ({ product }) => {
         {/* View Button */}
         <button
           onClick={() => navigate(`/product/${_id}`)}
-          className="mt-4 w-full bg-amber-600 hover:bg-amber-700 dark:bg-amber-700 dark:hover:bg-amber-800 text-white py-2 rounded-md text-sm font-medium transition"
+          className="mt-4 w-full bg-amber-600 hover:bg-amber-700 dark:bg-amber-700 dark:hover:bg-amber-800 text-white py-2 rounded-md text-sm font-medium transition-colors"
         >
           View Product
         </button>

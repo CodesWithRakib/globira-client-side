@@ -1,7 +1,10 @@
 import React from "react";
 import { motion } from "motion/react";
+import { useNavigate } from "react-router";
 
 const WhyBuyFromUs = () => {
+  const navigate = useNavigate();
+
   const features = [
     {
       id: 1,
@@ -119,6 +122,7 @@ const WhyBuyFromUs = () => {
           className="text-center mt-12"
         >
           <motion.button
+            onClick={() => navigate("/b2b-benefits")}
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
             className="px-6 py-3 bg-amber-600 hover:bg-amber-700 dark:bg-amber-700 dark:hover:bg-amber-800 text-white font-medium rounded-lg transition-colors"

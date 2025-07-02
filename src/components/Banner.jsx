@@ -1,21 +1,15 @@
 import React from "react";
-import {
-  Navigation,
-  Pagination,
-  Scrollbar,
-  A11y,
-  Autoplay,
-} from "swiper/modules";
+import { useNavigate } from "react-router";
+import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-
-// Import Swiper styles
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import "swiper/css/scrollbar";
 import "swiper/css/autoplay";
 
 const Banner = () => {
+  const navigate = useNavigate();
+
   const slideData = [
     {
       id: "slide-1",
@@ -25,6 +19,7 @@ const Banner = () => {
       buttonText: "Shop Electronics",
       image:
         "https://img.freepik.com/free-photo/electronics-device-digital-gadget-modern-technology_53876-142041.jpg",
+      path: "/category/electronics-gadgets", // Matching your category slug
     },
     {
       id: "slide-2",
@@ -34,6 +29,7 @@ const Banner = () => {
       buttonText: "Browse Appliances",
       image:
         "https://img.freepik.com/free-photo/modern-kitchen-interior_53876-145109.jpg",
+      path: "/category/home-kitchen-appliances",
     },
     {
       id: "slide-3",
@@ -43,6 +39,7 @@ const Banner = () => {
       buttonText: "Shop Fashion",
       image:
         "https://img.freepik.com/free-photo/fashion-model-posing-street_23-2151037495.jpg",
+      path: "/category/fashion-apparel",
     },
     {
       id: "slide-4",
@@ -52,6 +49,7 @@ const Banner = () => {
       buttonText: "Shop Tools",
       image:
         "https://img.freepik.com/free-photo/industrial-factory-interior_23-2149430863.jpg",
+      path: "/category/industrial-machinery-tools",
     },
     {
       id: "slide-5",
@@ -61,84 +59,22 @@ const Banner = () => {
       buttonText: "Shop Beauty",
       image:
         "https://img.freepik.com/free-photo/woman-using-facial-roller_23-2149271677.jpg",
-    },
-    {
-      id: "slide-6",
-      category: "Automotive Parts & Accessories",
-      title: "Drive with Confidence",
-      subtitle: "Performance parts, accessories & more.",
-      buttonText: "Browse Auto Parts",
-      image:
-        "https://img.freepik.com/free-photo/car-repair-service_1170-1766.jpg",
-    },
-    {
-      id: "slide-7",
-      category: "Office Supplies & Stationery",
-      title: "Work Smart. Stay Organized.",
-      subtitle: "Everything your workspace needs.",
-      buttonText: "Shop Supplies",
-      image:
-        "https://img.freepik.com/free-photo/flat-lay-desk-arrangement-with-copy-space_23-2148471246.jpg",
-    },
-    {
-      id: "slide-8",
-      category: "Sports & Outdoors",
-      title: "Gear Up For Adventure",
-      subtitle: "Equipment for every outdoor activity.",
-      buttonText: "Explore Sports Gear",
-      image:
-        "https://img.freepik.com/free-photo/cyclist-mountain-bike-trail_23-2149334656.jpg",
-    },
-    {
-      id: "slide-9",
-      category: "Toys & Games",
-      title: "Fun For All Ages",
-      subtitle: "Spark joy with our toy collection.",
-      buttonText: "Browse Toys",
-      image:
-        "https://img.freepik.com/free-photo/kids-playing-with-wooden-toy_23-2149307375.jpg",
-    },
-    {
-      id: "slide-10",
-      category: "Books & Media",
-      title: "Expand Your Mind",
-      subtitle: "Best sellers and new releases.",
-      buttonText: "Shop Books",
-      image:
-        "https://img.freepik.com/free-photo/stack-books-with-copy-space_23-2148216460.jpg",
-    },
-    {
-      id: "slide-11",
-      category: "Pet Supplies",
-      title: "Love Them Like Family",
-      subtitle: "Everything for your furry friends.",
-      buttonText: "Pet Products",
-      image:
-        "https://img.freepik.com/free-photo/dog-playing-with-ball_23-2148985224.jpg",
-    },
-    {
-      id: "slide-12",
-      category: "Garden & Outdoor",
-      title: "Grow Your Paradise",
-      subtitle: "Tools and plants for your green space.",
-      buttonText: "Shop Garden",
-      image:
-        "https://img.freepik.com/free-photo/gardener-taking-care-plants_23-2149307382.jpg",
+      path: "/category/health-beauty",
     },
   ];
 
   return (
     <div className="relative">
       <Swiper
-        modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
+        modules={[Navigation, Pagination, Autoplay]}
         spaceBetween={0}
         slidesPerView={1}
         navigation
         pagination={{
           clickable: true,
           dynamicBullets: true,
+          bulletClass: "swiper-pagination-bullet !bg-amber-400",
         }}
-        scrollbar={{ draggable: true }}
         loop={true}
         autoplay={{
           delay: 5000,
@@ -146,13 +82,16 @@ const Banner = () => {
           pauseOnMouseEnter: true,
         }}
         speed={800}
+        style={{
+          height: "70vh",
+          maxHeight: "700px",
+        }}
       >
         {slideData.map((slide) => (
           <SwiperSlide key={slide.id}>
             <div
-              className="flex items-center justify-center px-5 text-center text-white"
+              className="flex items-center justify-center px-5 text-center text-white h-full"
               style={{
-                minHeight: "calc(100vh - 180px)",
                 backgroundImage: `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('${slide.image}')`,
                 backgroundSize: "cover",
                 backgroundPosition: "center",
@@ -169,7 +108,11 @@ const Banner = () => {
                 <p className="text-lg md:text-xl mb-6 md:mb-8 max-w-2xl mx-auto">
                   {slide.subtitle}
                 </p>
-                <button className="btn bg-amber-600 hover:bg-amber-700 text-white px-8 py-3 text-lg font-medium rounded-full transition duration-300 transform hover:scale-105">
+                <button
+                  onClick={() => navigate(slide.path)}
+                  className="btn bg-amber-600 hover:bg-amber-700 text-white px-8 py-3 text-lg font-medium rounded-full transition duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:ring-offset-2"
+                  aria-label={`Shop ${slide.category}`}
+                >
                   {slide.buttonText}
                 </button>
               </div>

@@ -19,7 +19,7 @@ const RecentProduct = () => {
     try {
       setLoading(true);
       const { data } = await axiosSecure.get(
-        `/api/products?sortBy=newest&page=1&limit=12`
+        `/api/products?sortBy=newest&page=1&limit=8`
       );
       setProducts(data.data);
       setError(null);
@@ -42,7 +42,7 @@ const RecentProduct = () => {
   };
 
   const handleViewAll = () => {
-    navigate("/products?sort=newest");
+    navigate("/products");
   };
 
   return (
