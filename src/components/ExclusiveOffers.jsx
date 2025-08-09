@@ -1,3 +1,4 @@
+// ExclusiveOffers.jsx
 import React from "react";
 import { motion } from "motion/react";
 import { useNavigate } from "react-router";
@@ -16,7 +17,7 @@ const ExclusiveOffers = () => {
       discount: "30%",
       expiry: "2025-07-01",
       buttonLabel: "Shop Now",
-      bgColor: "bg-pink-50",
+      bgColor: "bg-blue-50",
       category: "health-beauty",
       details:
         "Complete skincare routine including cleanser, toner, serum, and moisturizer. Suitable for all skin types. Limited stock available.",
@@ -48,7 +49,7 @@ const ExclusiveOffers = () => {
       discount: "50%",
       expiry: "2025-07-20",
       buttonLabel: "Explore",
-      bgColor: "bg-purple-50",
+      bgColor: "bg-blue-50",
       category: "electronics-gadgets",
       details:
         "Noise-cancelling wireless headphones with 30-hour battery life. Includes carrying case and charging cable. Available in black and white.",
@@ -63,7 +64,7 @@ const ExclusiveOffers = () => {
       discount: "20%",
       expiry: "2025-07-15",
       buttonLabel: "View Items",
-      bgColor: "bg-amber-50",
+      bgColor: "bg-blue-50",
       category: "home-kitchen-appliances",
       details:
         "Curated collection of modern home decor items including wall art, throw pillows, and decorative accents. Mix and match styles available.",
@@ -79,7 +80,7 @@ const ExclusiveOffers = () => {
       discount: "35%",
       expiry: "2025-08-01",
       buttonLabel: "Buy Now",
-      bgColor: "bg-teal-50",
+      bgColor: "bg-blue-50",
       category: "fashion-apparel",
       details:
         "Premium men's clothing collection. Includes dress shirts, casual tees, and tailored pants. Sizes S-XXL available.",
@@ -94,7 +95,7 @@ const ExclusiveOffers = () => {
       discount: "45%",
       expiry: "2025-07-30",
       buttonLabel: "Claim Offer",
-      bgColor: "bg-indigo-50",
+      bgColor: "bg-blue-50",
       category: "electronics-gadgets",
       details:
         "Last-gen models with premium specs. Includes 1-year warranty. Models from top brands available. SSD storage and full HD displays.",
@@ -117,7 +118,7 @@ const ExclusiveOffers = () => {
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 mb-4">
             <div>
               <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">
-                Exclusive <span className="text-amber-600">Offers</span>
+                Exclusive <span className="text-blue-600">Offers</span>
               </h2>
               <p className="mt-2 text-lg text-gray-600 dark:text-gray-300">
                 Limited-time deals on our most popular products
@@ -127,12 +128,12 @@ const ExclusiveOffers = () => {
               onClick={() => navigate("/all-offers")}
               whileHover={{ x: 5 }}
               whileTap={{ scale: 0.95 }}
-              className="flex items-center gap-2 text-amber-600 hover:text-amber-700 dark:hover:text-amber-500 font-medium transition-colors"
+              className="flex items-center gap-2 text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 font-medium transition-colors"
             >
               View all offers <ArrowRight className="w-4 h-4" />
             </motion.button>
           </div>
-          <div className="h-1 w-20 bg-amber-500 rounded-full" />
+          <div className="h-1 w-20 bg-blue-500 rounded-full" />
         </motion.div>
 
         {/* Offers Grid */}

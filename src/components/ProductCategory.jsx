@@ -24,89 +24,89 @@ const ProductCategory = () => {
       name: "Home & Kitchen",
       slug: "home-kitchen-appliances",
       icon: <Home className="w-6 h-6" />,
-      color: "text-amber-500",
+      color: "text-blue-500",
     },
     {
       id: 2,
       name: "Electronics",
       slug: "electronics-gadgets",
       icon: <Smartphone className="w-6 h-6" />,
-      color: "text-blue-500",
+      color: "text-blue-600",
     },
     {
       id: 3,
       name: "Fashion",
       slug: "fashion-apparel",
       icon: <Shirt className="w-6 h-6" />,
-      color: "text-pink-500",
+      color: "text-blue-700",
     },
     {
       id: 4,
       name: "Industrial Tools",
       slug: "industrial-machinery-tools",
       icon: <Wrench className="w-6 h-6" />,
-      color: "text-gray-500",
+      color: "text-blue-800",
     },
     {
       id: 5,
       name: "Health & Beauty",
       slug: "health-beauty",
       icon: <HeartPulse className="w-6 h-6" />,
-      color: "text-red-500",
+      color: "text-blue-900",
     },
     {
       id: 6,
       name: "Automotive",
       slug: "automotive-parts-accessories",
       icon: <Car className="w-6 h-6" />,
-      color: "text-indigo-500",
+      color: "text-blue-500",
     },
     {
       id: 7,
       name: "Office Supplies",
       slug: "office-supplies-stationery",
       icon: <Briefcase className="w-6 h-6" />,
-      color: "text-yellow-500",
+      color: "text-blue-600",
     },
     {
       id: 8,
       name: "Sports & Fitness",
       slug: "sports-fitness",
       icon: <Dumbbell className="w-6 h-6" />,
-      color: "text-green-500",
+      color: "text-blue-700",
     },
     {
       id: 9,
       name: "Toys & Games",
       slug: "toys-games",
       icon: <Gamepad2 className="w-6 h-6" />,
-      color: "text-purple-500",
+      color: "text-blue-800",
     },
     {
       id: 10,
       name: "Books & Media",
       slug: "books-media",
       icon: <BookOpen className="w-6 h-6" />,
-      color: "text-emerald-500",
+      color: "text-blue-900",
     },
     {
       id: 11,
       name: "Pet Supplies",
       slug: "pet-supplies",
       icon: <PawPrint className="w-6 h-6" />,
-      color: "text-orange-500",
+      color: "text-blue-500",
     },
     {
       id: 12,
       name: "Garden & Outdoor",
       slug: "garden-outdoor",
       icon: <Sprout className="w-6 h-6" />,
-      color: "text-lime-500",
+      color: "text-blue-600",
     },
   ];
 
   return (
-    <section className="px-4 sm:px-6 lg:px-8 py-12 bg-gray-50 dark:bg-gray-900">
+    <section className="px-4 sm:px-6 lg:px-8 py-12 bg-white dark:bg-gray-900">
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
         <div className="text-center mb-12">
@@ -141,28 +141,25 @@ const ProductCategory = () => {
               }}
               viewport={{ once: true, margin: "0px 0px -100px 0px" }}
               onClick={() => navigate(`/category/${category.slug}`)}
-              className="relative cursor-pointer group bg-white dark:bg-gray-800 p-4 rounded-xl flex flex-col items-center text-center border border-gray-100 dark:border-gray-700 transition-all duration-200"
+              className="relative cursor-pointer group bg-white dark:bg-gray-800 p-5 rounded-xl flex flex-col items-center text-center border border-gray-100 dark:border-gray-700 transition-all duration-300 shadow-sm hover:shadow-md"
             >
               {/* Gradient Border Effect */}
-              <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-amber-400/20 to-pink-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10" />
+              <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-400/20 to-blue-600/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10" />
 
-              {/* Background Color Change */}
-              <div className="absolute inset-0 rounded-xl bg-white/80 dark:bg-gray-800/80 group-hover:bg-white/95 dark:group-hover:bg-gray-800/95 transition-all duration-300 -z-20" />
-
+              {/* Icon Container */}
               <div
-                className={`w-16 h-16 md:w-20 md:h-20 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center mb-4 ${
-                  category.color
-                } group-hover:${category.color.replace(
-                  "text",
-                  "bg"
-                )}/10 transition-colors duration-300`}
+                className={`w-16 h-16 md:w-20 md:h-20 rounded-full bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center mb-4 ${category.color} group-hover:bg-blue-100 dark:group-hover:bg-blue-900/50 transition-colors duration-300`}
               >
                 {category.icon}
               </div>
-              <p className="text-sm md:text-base font-medium text-gray-800 dark:text-gray-200 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors duration-200">
+
+              {/* Category Name */}
+              <p className="text-sm md:text-base font-medium text-gray-800 dark:text-gray-200 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-200">
                 {category.name}
               </p>
-              <span className="mt-1 text-xs text-gray-500 dark:text-gray-400 group-hover:text-amber-500 dark:group-hover:text-amber-300 transition-colors duration-200">
+
+              {/* Shop Now Link */}
+              <span className="mt-1 text-xs text-gray-500 dark:text-gray-400 group-hover:text-blue-500 dark:group-hover:text-blue-300 transition-colors duration-200">
                 Shop Now →
               </span>
             </motion.div>
@@ -178,7 +175,7 @@ const ProductCategory = () => {
         >
           <button
             onClick={() => navigate("/categories")}
-            className="flex items-center gap-2 px-6 py-3 bg-amber-500 hover:bg-amber-600 text-white font-medium rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1"
+            className="flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
           >
             Browse All Categories
             <svg

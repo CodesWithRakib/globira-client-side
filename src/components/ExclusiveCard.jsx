@@ -1,3 +1,4 @@
+// ExclusiveCard.jsx
 import React from "react";
 import { motion } from "motion/react";
 import { useNavigate } from "react-router";
@@ -12,8 +13,8 @@ const ExclusiveCard = ({ offer }) => {
     discount,
     expiry,
     buttonLabel = "View Offer",
-    bgColor = "bg-gray-50",
-    category = "all-products", // Default category if not provided
+    bgColor = "bg-blue-50",
+    category = "all-products",
   } = offer || {};
 
   const handleButtonClick = () => {
@@ -57,7 +58,7 @@ const ExclusiveCard = ({ offer }) => {
             whileInView={{ scale: 1 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2, type: "spring" }}
-            className="absolute top-5 right-5 bg-white text-amber-600 px-3 py-1 rounded-full text-sm sm:text-base font-bold shadow-md"
+            className="absolute top-5 right-5 bg-white text-blue-600 px-3 py-1 rounded-full text-sm sm:text-base font-bold shadow-md"
           >
             {discount} OFF
           </motion.div>
@@ -94,7 +95,7 @@ const ExclusiveCard = ({ offer }) => {
               whileInView={{ y: 0, opacity: 1 }}
               viewport={{ once: true }}
               transition={{ delay: 0.3 }}
-              className="flex items-center text-xs sm:text-sm text-amber-100"
+              className="flex items-center text-xs sm:text-sm text-blue-200"
             >
               <FiClock className="mr-1.5" />
               <span>Offer ends: {expiry}</span>
@@ -113,7 +114,7 @@ const ExclusiveCard = ({ offer }) => {
               onClick={handleButtonClick}
               whileHover={{ scale: 1.03, x: 3 }}
               whileTap={{ scale: 0.97 }}
-              className={`flex items-center px-5 py-2.5 ${bgColor} bg-opacity-90 backdrop-blur-sm text-amber-700 font-medium rounded-full border border-amber-200/30 hover:bg-opacity-100 transition-all`}
+              className={`flex items-center px-5 py-2.5 ${bgColor} bg-opacity-90 backdrop-blur-sm text-blue-700 font-medium rounded-full border border-blue-200/30 hover:bg-opacity-100 transition-all`}
               aria-label={`View ${title} offers`}
             >
               {buttonLabel}
@@ -125,8 +126,8 @@ const ExclusiveCard = ({ offer }) => {
 
       {/* Subtle Glow Effect */}
       <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-        <div className="absolute top-1/4 left-1/4 w-24 h-24 bg-amber-400/10 rounded-full filter blur-xl"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-24 h-24 bg-orange-400/10 rounded-full filter blur-xl"></div>
+        <div className="absolute top-1/4 left-1/4 w-24 h-24 bg-blue-400/10 rounded-full filter blur-xl"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-24 h-24 bg-blue-600/10 rounded-full filter blur-xl"></div>
       </div>
     </motion.div>
   );
