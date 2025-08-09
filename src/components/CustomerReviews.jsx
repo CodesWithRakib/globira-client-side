@@ -5,7 +5,6 @@ import { useNavigate } from "react-router";
 
 const CustomerReviews = () => {
   const navigate = useNavigate();
-
   const customerReviews = [
     {
       id: 1,
@@ -96,17 +95,15 @@ const CustomerReviews = () => {
           viewport={{ once: true }}
           className="text-center mb-12"
         >
-          <div className="inline-flex items-center justify-center gap-2 mb-4 bg-amber-100 dark:bg-amber-900/20 px-4 py-2 rounded-full">
-            <BadgeCheck className="w-5 h-5 text-amber-600 dark:text-amber-400" />
-            <span className="text-sm font-medium text-amber-600 dark:text-amber-400">
+          <div className="inline-flex items-center justify-center gap-2 mb-4 bg-blue-100 dark:bg-blue-900/20 px-4 py-2 rounded-full">
+            <BadgeCheck className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+            <span className="text-sm font-medium text-blue-600 dark:text-blue-400">
               TRUSTED BY BUSINESSES WORLDWIDE
             </span>
           </div>
-
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
             What Our Customers Say
           </h2>
-
           <div className="flex flex-wrap items-center justify-center gap-6 mt-6">
             <div className="flex items-center gap-2">
               <div className="flex items-center">
@@ -115,7 +112,7 @@ const CustomerReviews = () => {
                     key={i}
                     className={`w-5 h-5 ${
                       i < Math.floor(averageRating)
-                        ? "text-amber-500 fill-amber-500"
+                        ? "text-blue-500 fill-blue-500"
                         : "text-gray-300 dark:text-gray-600"
                     }`}
                   />
@@ -161,7 +158,7 @@ const CustomerReviews = () => {
                   </div>
                 </div>
                 {review.verified && (
-                  <BadgeCheck className="w-5 h-5 text-amber-500 dark:text-amber-400" />
+                  <BadgeCheck className="w-5 h-5 text-blue-500 dark:text-blue-400" />
                 )}
               </div>
 
@@ -172,7 +169,7 @@ const CustomerReviews = () => {
                     key={i}
                     className={`w-4 h-4 ${
                       i < review.rating
-                        ? "text-amber-500 fill-amber-500"
+                        ? "text-blue-500 fill-blue-500"
                         : "text-gray-300 dark:text-gray-600"
                     }`}
                   />
@@ -211,7 +208,7 @@ const CustomerReviews = () => {
             onClick={() => navigate("/testimonials")}
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
-            className="flex items-center gap-2 mx-auto px-6 py-3 bg-amber-600 hover:bg-amber-700 dark:bg-amber-700 dark:hover:bg-amber-800 text-white font-medium rounded-lg transition-colors"
+            className="flex items-center gap-2 mx-auto px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
           >
             Read All Testimonials
             <ChevronRight className="w-4 h-4" />

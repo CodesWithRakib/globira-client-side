@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import {
   Facebook,
   Twitter,
@@ -22,13 +22,13 @@ const Modal = ({ isOpen, onClose, message }) => {
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
       <div className="bg-white rounded-lg shadow-lg p-6 max-w-sm w-full text-center">
-        <h2 className="text-xl font-semibold mb-2 text-amber-600">
+        <h2 className="text-xl font-semibold mb-2 text-blue-600">
           Coming Soon
         </h2>
         <p className="text-gray-700">{message}</p>
         <button
           onClick={onClose}
-          className="mt-4 px-4 py-2 bg-amber-600 text-white rounded hover:bg-amber-700"
+          className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
         >
           Close
         </button>
@@ -60,7 +60,7 @@ const Footer = () => {
           {/* Brand Info */}
           <div className="space-y-4">
             <div className="flex items-center gap-2">
-              <ShoppingCart className="w-8 h-8 text-amber-500" />
+              <ShoppingCart className="w-8 h-8 text-blue-400" />
               <h2 className="text-2xl font-bold text-white">Globira</h2>
             </div>
             <p className="text-sm text-gray-400">
@@ -68,7 +68,7 @@ const Footer = () => {
               verified suppliers worldwide.
             </p>
             <div className="flex items-center gap-3 text-sm text-gray-400">
-              <Phone className="w-4 h-4 text-amber-500" />
+              <Phone className="w-4 h-4 text-blue-400" />
               <span>Bulk order support: +880 1234 567891</span>
             </div>
           </div>
@@ -104,18 +104,18 @@ const Footer = () => {
                 },
               ].map((link, index) => (
                 <li key={index} className="flex items-center gap-2">
-                  <span className="text-amber-500">{link.icon}</span>
+                  <span className="text-blue-400">{link.icon}</span>
                   {link.modal ? (
                     <button
                       onClick={() => handleUnavailable(link.message)}
-                      className="hover:text-amber-400 transition-colors"
+                      className="hover:text-blue-300 transition-colors"
                     >
                       {link.name}
                     </button>
                   ) : (
                     <a
                       href={link.href}
-                      className="hover:text-amber-400 transition-colors"
+                      className="hover:text-blue-300 transition-colors"
                     >
                       {link.name}
                     </a>
@@ -156,18 +156,18 @@ const Footer = () => {
                 },
               ].map((link, index) => (
                 <li key={index} className="flex items-center gap-2">
-                  <span className="text-amber-500">{link.icon}</span>
+                  <span className="text-blue-400">{link.icon}</span>
                   {link.modal ? (
                     <button
                       onClick={() => handleUnavailable(link.message)}
-                      className="hover:text-amber-400 transition-colors"
+                      className="hover:text-blue-300 transition-colors"
                     >
                       {link.name}
                     </button>
                   ) : (
                     <a
                       href={link.href}
-                      className="hover:text-amber-400 transition-colors"
+                      className="hover:text-blue-300 transition-colors"
                     >
                       {link.name}
                     </a>
@@ -186,20 +186,19 @@ const Footer = () => {
               </h3>
               <ul className="space-y-3 text-sm">
                 <li className="flex items-start gap-3">
-                  <MapPin className="text-amber-500 mt-0.5 w-4 h-4" />
+                  <MapPin className="text-blue-400 mt-0.5 w-4 h-4" />
                   <span>123 Business Plaza, Dinajpur, Bangladesh</span>
                 </li>
                 <li className="flex items-center gap-3">
-                  <Phone className="text-amber-500 w-4 h-4" />
+                  <Phone className="text-blue-400 w-4 h-4" />
                   <span>+880 1234 567890</span>
                 </li>
                 <li className="flex items-center gap-3">
-                  <Mail className="text-amber-500 w-4 h-4" />
+                  <Mail className="text-blue-400 w-4 h-4" />
                   <span>support@globira.com</span>
                 </li>
               </ul>
             </div>
-
             <div>
               <h4 className="text-sm font-medium mb-2 text-white">
                 Get wholesale updates
@@ -208,11 +207,11 @@ const Footer = () => {
                 <input
                   type="email"
                   placeholder="Your business email"
-                  className="w-full px-4 py-2 text-sm rounded-l-lg bg-gray-800 text-white border border-gray-700 focus:outline-none focus:ring-1 focus:ring-amber-500"
+                  className="w-full px-4 py-2 text-sm rounded-l-lg bg-gray-800 text-white border border-gray-700 focus:outline-none focus:ring-1 focus:ring-blue-500"
                 />
                 <button
                   onClick={() => toast.success("Subscribed successfully!")}
-                  className="bg-amber-600 hover:bg-amber-700 px-4 py-2 text-sm text-white rounded-r-lg transition-colors"
+                  className="bg-blue-600 hover:bg-blue-700 px-4 py-2 text-sm text-white rounded-r-lg transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900"
                 >
                   Subscribe
                 </button>
@@ -230,25 +229,32 @@ const Footer = () => {
                 © {currentYear} Globira Wholesale. All rights reserved.
               </span>
             </div>
-
             <div className="flex gap-6 text-gray-400">
-              <a href="/privacy" className="hover:text-white transition-colors">
+              <a
+                href="/privacy"
+                className="hover:text-blue-300 transition-colors"
+              >
                 Privacy Policy
               </a>
-              <a href="/terms" className="hover:text-white transition-colors">
+              <a
+                href="/terms"
+                className="hover:text-blue-300 transition-colors"
+              >
                 Terms of Service
               </a>
-              <a href="/cookies" className="hover:text-white transition-colors">
+              <a
+                href="/cookies"
+                className="hover:text-blue-300 transition-colors"
+              >
                 Cookie Policy
               </a>
             </div>
-
             <div className="flex gap-4 text-gray-400">
               <a
                 href="https://www.facebook.com/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-blue-500 transition-colors"
+                className="hover:text-blue-400 transition-colors"
                 aria-label="Facebook"
               >
                 <Facebook className="w-5 h-5" />
@@ -257,7 +263,7 @@ const Footer = () => {
                 href="https://twitter.com/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-sky-400 transition-colors"
+                className="hover:text-blue-400 transition-colors"
                 aria-label="Twitter"
               >
                 <Twitter className="w-5 h-5" />
@@ -266,7 +272,7 @@ const Footer = () => {
                 href="https://www.linkedin.com/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-blue-600 transition-colors"
+                className="hover:text-blue-400 transition-colors"
                 aria-label="LinkedIn"
               >
                 <Linkedin className="w-5 h-5" />
@@ -275,7 +281,7 @@ const Footer = () => {
                 href="https://www.instagram.com/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-pink-500 transition-colors"
+                className="hover:text-blue-400 transition-colors"
                 aria-label="Instagram"
               >
                 <Instagram className="w-5 h-5" />

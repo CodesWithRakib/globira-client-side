@@ -6,6 +6,7 @@ import { useNavigate } from "react-router";
 const Faq = () => {
   const [activeIndex, setActiveIndex] = useState(null);
   const navigate = useNavigate();
+
   const faqData = [
     {
       id: 1,
@@ -66,9 +67,9 @@ const Faq = () => {
           viewport={{ once: true }}
           className="text-center mb-12"
         >
-          <div className="inline-flex items-center justify-center gap-2 mb-4 bg-amber-50 dark:bg-amber-900/20 px-4 py-2 rounded-full">
-            <MessageSquare className="w-5 h-5 text-amber-600 dark:text-amber-400" />
-            <span className="text-sm font-medium text-amber-600 dark:text-amber-400">
+          <div className="inline-flex items-center justify-center gap-2 mb-4 bg-blue-100 dark:bg-blue-900/20 px-4 py-2 rounded-full">
+            <MessageSquare className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+            <span className="text-sm font-medium text-blue-600 dark:text-blue-400">
               HELP CENTER
             </span>
           </div>
@@ -95,7 +96,7 @@ const Faq = () => {
                 onClick={() => toggleAccordion(index)}
                 className={`w-full text-left p-5 transition-all duration-200 border border-gray-200 dark:border-gray-700 rounded-lg ${
                   activeIndex === index
-                    ? "bg-amber-50 dark:bg-amber-900/20"
+                    ? "bg-blue-50 dark:bg-blue-900/20"
                     : "bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700"
                 }`}
                 aria-expanded={activeIndex === index}
@@ -103,7 +104,7 @@ const Faq = () => {
               >
                 <div className="flex justify-between items-center">
                   <div>
-                    <span className="text-xs font-semibold text-amber-600 dark:text-amber-400 uppercase tracking-wide block mb-1">
+                    <span className="text-xs font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wide block mb-1">
                       {faq.category}
                     </span>
                     <h3 className="font-semibold text-gray-800 dark:text-white text-lg">
@@ -117,7 +118,6 @@ const Faq = () => {
                   )}
                 </div>
               </button>
-
               <AnimatePresence>
                 {activeIndex === index && (
                   <motion.div
@@ -128,7 +128,7 @@ const Faq = () => {
                     transition={{ duration: 0.2 }}
                     className="overflow-hidden"
                   >
-                    <div className="p-5 pt-3 text-gray-700 dark:text-gray-300 border-l-4 border-amber-500 ml-4 bg-white dark:bg-gray-800 rounded-md">
+                    <div className="p-5 pt-3 text-gray-700 dark:text-gray-300 border-l-4 border-blue-500 ml-4 bg-white dark:bg-gray-800 rounded-md">
                       <p>{faq.answer}</p>
                     </div>
                   </motion.div>
@@ -153,7 +153,7 @@ const Faq = () => {
             onClick={() => navigate("/contact")}
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
-            className="flex items-center gap-2 mx-auto px-6 py-3 bg-amber-600 hover:bg-amber-700 dark:bg-amber-700 dark:hover:bg-amber-800 text-white font-medium rounded-lg transition-colors"
+            className="flex items-center gap-2 mx-auto px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
           >
             <Mail className="w-5 h-5" />
             Contact Our Support Team

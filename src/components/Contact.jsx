@@ -6,7 +6,6 @@ import toast from "react-hot-toast";
 const Contact = () => {
   const handleContactSubmit = (e) => {
     e.preventDefault();
-
     try {
       toast.success("Contact form submitted successfully!");
     } catch (error) {
@@ -14,6 +13,7 @@ const Contact = () => {
       toast.error("Failed to submit contact form. Please try again.");
     }
   };
+
   return (
     <section className="py-16 px-4 sm:px-6 bg-white dark:bg-gray-900">
       <div className="max-w-7xl mx-auto">
@@ -25,8 +25,8 @@ const Contact = () => {
           viewport={{ once: true }}
           className="text-center mb-12"
         >
-          <div className="inline-flex items-center justify-center gap-2 mb-4 bg-amber-50 dark:bg-amber-900/20 px-4 py-2 rounded-full">
-            <span className="text-sm font-medium text-amber-600 dark:text-amber-400">
+          <div className="inline-flex items-center justify-center gap-2 mb-4 bg-blue-100 dark:bg-blue-900/20 px-4 py-2 rounded-full">
+            <span className="text-sm font-medium text-blue-600 dark:text-blue-400">
               CONTACT OUR TEAM
             </span>
           </div>
@@ -55,7 +55,7 @@ const Contact = () => {
 
             <div className="space-y-6">
               <div className="flex items-start gap-5">
-                <div className="p-3 rounded-lg bg-amber-50 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400">
+                <div className="p-3 rounded-lg bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400">
                   <MapPin className="w-6 h-6" />
                 </div>
                 <div>
@@ -71,7 +71,7 @@ const Contact = () => {
               </div>
 
               <div className="flex items-start gap-5">
-                <div className="p-3 rounded-lg bg-green-50 dark:bg-green-900/30 text-green-600 dark:text-green-400">
+                <div className="p-3 rounded-lg bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400">
                   <Mail className="w-6 h-6" />
                 </div>
                 <div>
@@ -87,7 +87,7 @@ const Contact = () => {
               </div>
 
               <div className="flex items-start gap-5">
-                <div className="p-3 rounded-lg bg-amber-50 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400">
+                <div className="p-3 rounded-lg bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400">
                   <Phone className="w-6 h-6" />
                 </div>
                 <div>
@@ -103,7 +103,7 @@ const Contact = () => {
               </div>
 
               <div className="flex items-start gap-5">
-                <div className="p-3 rounded-lg bg-purple-50 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400">
+                <div className="p-3 rounded-lg bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400">
                   <Clock className="w-6 h-6" />
                 </div>
                 <div>
@@ -136,7 +136,7 @@ const Contact = () => {
               <input
                 type="text"
                 placeholder="Your name"
-                className="w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-amber-500/30 focus:border-amber-500 transition-colors"
+                className="w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-colors"
                 required
               />
             </div>
@@ -148,7 +148,7 @@ const Contact = () => {
               <input
                 type="email"
                 placeholder="your@company.com"
-                className="w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-amber-500/30 focus:border-amber-500 transition-colors"
+                className="w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-colors"
                 required
               />
             </div>
@@ -160,7 +160,7 @@ const Contact = () => {
               <input
                 type="text"
                 placeholder="Your business name"
-                className="w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-amber-500/30 focus:border-amber-500 transition-colors"
+                className="w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-colors"
               />
             </div>
 
@@ -171,7 +171,7 @@ const Contact = () => {
               <textarea
                 rows="4"
                 placeholder="How can we assist your business?"
-                className="w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-amber-500/30 focus:border-amber-500 transition-colors"
+                className="w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 transition-colors"
                 required
               ></textarea>
             </div>
@@ -180,7 +180,7 @@ const Contact = () => {
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               type="submit"
-              className="w-full px-6 py-3.5 bg-amber-600 hover:bg-amber-700 dark:bg-amber-700 dark:hover:bg-amber-800 text-white font-medium rounded-lg shadow-sm transition-colors flex items-center justify-center gap-2"
+              className="w-full px-6 py-3.5 bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 text-white font-medium rounded-lg shadow-sm hover:shadow-md transition-colors flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
             >
               <Send className="w-5 h-5" />
               Send Business Inquiry

@@ -80,9 +80,9 @@ const BrandsCarousel = () => {
           viewport={{ once: true }}
           className="text-center mb-12"
         >
-          <div className="inline-flex items-center justify-center gap-2 mb-4 bg-amber-100 dark:bg-amber-900/20 px-4 py-2 rounded-full">
-            <ShieldCheck className="w-5 h-5 text-amber-600 dark:text-amber-400" />
-            <span className="text-sm font-medium text-amber-600 dark:text-amber-400">
+          <div className="inline-flex items-center justify-center gap-2 mb-4 bg-blue-100 dark:bg-blue-900/20 px-4 py-2 rounded-full">
+            <ShieldCheck className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+            <span className="text-sm font-medium text-blue-600 dark:text-blue-400">
               Trusted Brand Partners
             </span>
           </div>
@@ -139,7 +139,7 @@ const BrandsCarousel = () => {
             onClick={() => navigate("/partners")}
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
-            className="flex items-center gap-2 mx-auto px-6 py-3 text-sm font-medium rounded-full border border-amber-600 text-amber-600 hover:bg-amber-600 hover:text-white transition-colors dark:border-amber-400 dark:text-amber-400 dark:hover:bg-amber-400 dark:hover:text-white"
+            className="flex items-center gap-2 mx-auto px-6 py-3 text-sm font-medium rounded-full border border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white transition-colors dark:border-blue-400 dark:text-blue-400 dark:hover:bg-blue-400 dark:hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
           >
             View All Partners
             <ArrowRight className="w-4 h-4" />

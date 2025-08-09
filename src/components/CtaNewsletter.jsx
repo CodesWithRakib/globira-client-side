@@ -8,6 +8,7 @@ const CtaNewsletter = () => {
   const [email, setEmail] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const navigate = useNavigate();
+
   const validateEmail = (email) => {
     // Simple email regex validation
     return /\S+@\S+\.\S+/.test(email);
@@ -19,12 +20,10 @@ const CtaNewsletter = () => {
       toast.error("Please enter a valid email address.");
       return;
     }
-
     setSubmitting(true);
-
     try {
-      // Simulate API call or connect your newsletter subscription API here , will be added in future updates
-
+      // Simulate API call or connect your newsletter subscription API here
+      // Will be added in future updates
       toast.success("Subscribed successfully!");
       setEmail("");
     } catch (error) {
@@ -41,7 +40,7 @@ const CtaNewsletter = () => {
       whileInView={{ opacity: 1 }}
       transition={{ duration: 0.6 }}
       viewport={{ once: true, margin: "-100px" }}
-      className="relative overflow-hidden bg-gradient-to-br from-amber-600 to-amber-700 dark:from-amber-800 dark:to-amber-900 text-center py-16 px-6 rounded-xl mx-4 shadow-lg"
+      className="relative overflow-hidden bg-gradient-to-br from-blue-600 to-blue-700 dark:from-blue-800 dark:to-blue-900 text-center py-16 px-6 rounded-xl mx-4 shadow-lg"
     >
       {/* Background pattern */}
       <div className="absolute inset-0 opacity-5">
@@ -100,7 +99,7 @@ const CtaNewsletter = () => {
             onClick={() => navigate("/login")}
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
-            className="flex items-center gap-2 px-8 py-3.5 bg-white text-amber-600 text-lg font-semibold rounded-lg shadow-md hover:shadow-lg transition-all mb-10"
+            className="flex items-center gap-2 px-8 py-3.5 bg-white text-blue-600 text-lg font-semibold rounded-lg shadow-md hover:shadow-lg transition-all mb-10 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue-600"
           >
             Get Started Now
             <ArrowRight className="w-5 h-5" />
@@ -123,7 +122,7 @@ const CtaNewsletter = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 disabled={submitting}
-                className="w-full px-5 py-3.5 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-500/30 focus:border-amber-500 shadow-sm text-gray-700 dark:text-gray-300 disabled:opacity-60"
+                className="w-full px-5 py-3.5 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 shadow-sm text-gray-700 dark:text-gray-300 disabled:opacity-60"
               />
             </div>
             <motion.button
@@ -131,7 +130,7 @@ const CtaNewsletter = () => {
               whileTap={{ scale: 0.97 }}
               type="submit"
               disabled={submitting}
-              className="flex items-center justify-center gap-2 px-6 py-3.5 bg-amber-600 hover:bg-amber-700 dark:bg-amber-700 dark:hover:bg-amber-800 text-white font-medium rounded-lg shadow-md transition-colors disabled:opacity-60"
+              className="flex items-center justify-center gap-2 px-6 py-3.5 bg-blue-500 hover:bg-blue-600 dark:bg-blue-500 dark:hover:bg-blue-600 text-white font-medium rounded-lg shadow-md transition-colors disabled:opacity-60 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2"
             >
               <span>{submitting ? "Subscribing..." : "Subscribe"}</span>
               <Send className="w-5 h-5" />
@@ -170,7 +169,7 @@ const CtaNewsletter = () => {
       </div>
 
       {/* Decorative elements */}
-      <div className="absolute -bottom-20 -right-20 w-64 h-64 rounded-full bg-amber-400/10 blur-3xl"></div>
+      <div className="absolute -bottom-20 -right-20 w-64 h-64 rounded-full bg-blue-400/10 blur-3xl"></div>
       <div className="absolute -top-20 -left-20 w-64 h-64 rounded-full bg-white/5 blur-3xl"></div>
     </motion.section>
   );
