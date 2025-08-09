@@ -1,18 +1,2 @@
-html {
-  scroll-behavior: smooth;
-}
-
 @import "tailwindcss";
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
-@plugin "daisyui";
-@plugin "daisyui/theme" {
-  name: "light";
-  default: true;
-  --color-primary: #ff6600;
-  --color-secondary: #3a190b;
-  --color-accent: #402013;
-  --color-neutral: #ffffff;
-  --color-base-100: #f4f4f4;
-  --color-base-content: #222222;
-  --color-info: #223037;
-}

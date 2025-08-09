@@ -9,7 +9,6 @@ import "swiper/css/autoplay";
 
 const Banner = () => {
   const navigate = useNavigate();
-
   const slideData = [
     {
       id: "slide-1",
@@ -19,7 +18,7 @@ const Banner = () => {
       buttonText: "Shop Electronics",
       image:
         "https://img.freepik.com/free-photo/electronics-device-digital-gadget-modern-technology_53876-142041.jpg",
-      path: "/category/electronics-gadgets", // Matching your category slug
+      path: "/category/electronics-gadgets",
     },
     {
       id: "slide-2",
@@ -73,7 +72,8 @@ const Banner = () => {
         pagination={{
           clickable: true,
           dynamicBullets: true,
-          bulletClass: "swiper-pagination-bullet !bg-amber-400",
+          bulletClass:
+            "swiper-pagination-bullet !bg-blue-400 dark:!bg-blue-500",
         }}
         loop={true}
         autoplay={{
@@ -92,28 +92,44 @@ const Banner = () => {
             <div
               className="flex items-center justify-center px-5 text-center text-white h-full"
               style={{
-                backgroundImage: `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('${slide.image}')`,
+                backgroundImage: `linear-gradient(rgba(17, 24, 39, 0.7), rgba(17, 24, 39, 0.7)), url('${slide.image}')`,
                 backgroundSize: "cover",
                 backgroundPosition: "center",
                 backgroundRepeat: "no-repeat",
               }}
             >
               <div className="max-w-4xl mx-auto px-4">
-                <h3 className="text-amber-400 text-xl md:text-2xl mb-2 md:mb-4 font-medium">
-                  {slide.category}
-                </h3>
-                <h1 className="text-4xl md:text-6xl font-bold mb-4 md:mb-6 leading-tight">
+                <div className="inline-block px-4 py-1 bg-blue-600/80 backdrop-blur-sm rounded-full mb-4">
+                  <h3 className="text-blue-100 text-sm md:text-base font-medium uppercase tracking-wide">
+                    {slide.category}
+                  </h3>
+                </div>
+                <h1 className="text-4xl md:text-6xl font-bold mb-4 md:mb-6 leading-tight text-white drop-shadow-lg">
                   {slide.title}
                 </h1>
-                <p className="text-lg md:text-xl mb-6 md:mb-8 max-w-2xl mx-auto">
+                <p className="text-lg md:text-xl mb-8 max-w-2xl mx-auto text-blue-100">
                   {slide.subtitle}
                 </p>
                 <button
                   onClick={() => navigate(slide.path)}
-                  className="btn bg-amber-600 hover:bg-amber-700 text-white px-8 py-3 text-lg font-medium rounded-full transition duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:ring-offset-2"
+                  className="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white px-8 py-3.5 text-lg font-medium rounded-lg transition duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 focus:ring-offset-gray-900 shadow-lg"
                   aria-label={`Shop ${slide.category}`}
                 >
                   {slide.buttonText}
+                  <svg
+                    className="ml-2 w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M14 5l7 7m0 0l-7 7m7-7H3"
+                    />
+                  </svg>
                 </button>
               </div>
             </div>
