@@ -14,9 +14,7 @@ const Register = () => {
   const axiosSecure = useAxios();
   const navigate = useNavigate();
   const { state } = useLocation();
-
   const [isSigningUp, setIsSigningUp] = useState(false);
-
   useTitle(`Register`);
 
   const {
@@ -28,7 +26,6 @@ const Register = () => {
 
   const onSubmit = async (data) => {
     const { email, password, name, photoURL } = data;
-
     // Password validation
     const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/;
     if (!passwordPattern.test(password)) {
@@ -37,21 +34,16 @@ const Register = () => {
       );
       return;
     }
-
     try {
       setIsSigningUp(true);
       const userCredential = await createUser(email, password);
       const user = userCredential.user;
       setUser(user);
-
       await updateUser({ displayName: name, photoURL });
       toast.success("Account created & updated successfully!");
-
       // Save user to DB
       await axiosSecure.post("/api/users", { name, email, password, photoURL });
-
       reset();
-
       setTimeout(() => {
         navigate(state?.from || "/");
       }, 2000);
@@ -63,30 +55,33 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen grid lg:grid-cols-2">
+    <div className="min-h-screen grid lg:grid-cols-2 bg-white dark:bg-gray-900">
       {/* left side */}
-      <div className="flex flex-col justify-center items-center p-6 sm:p-12">
+      <div className="flex flex-col justify-center items-center p-6 sm:p-12 bg-white dark:bg-gray-900">
         <div className="w-full max-w-md space-y-8">
           <div className="text-center mb-8">
             <div className="flex flex-col items-center gap-2 group">
-              <div className="size-12 rounded-xl bg-amber-100/40 flex items-center justify-center group-hover:bg-amber-200 transition-colors">
-                <GlobeLock className="size-6 text-amber-600" />
+              <div className="size-12 rounded-xl bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center group-hover:bg-blue-200 dark:hover:bg-blue-800 transition-colors">
+                <GlobeLock className="size-6 text-blue-600 dark:text-blue-400" />
               </div>
-              <h1 className="text-2xl font-bold mt-2">Create Account</h1>
-              <p className="text-base-content/60">
+              <h1 className="text-2xl font-bold mt-2 text-gray-900 dark:text-white">
+                Create Account
+              </h1>
+              <p className="text-gray-600 dark:text-gray-400">
                 Get started with your free account
               </p>
             </div>
           </div>
-
           {/* Form */}
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             {/* Name */}
             <div className="form-control">
-              <p className="label-text font-medium">Name</p>
+              <p className="label-text font-medium text-gray-700 dark:text-gray-300">
+                Name
+              </p>
               <label className="input validator w-full relative">
                 <svg
-                  className="h-[2em] opacity-50 absolute left-3 top-1/2 -translate-y-1/2"
+                  className="h-[2em] opacity-50 absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 dark:text-gray-400"
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
                 >
@@ -104,7 +99,7 @@ const Register = () => {
                 <input
                   type="text"
                   placeholder="Md. Rakib Islam"
-                  className={`w-full pl-12 ${
+                  className={`w-full pl-12 pr-4 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
                     errors.name ? "border-red-500" : ""
                   }`}
                   {...register("name", { required: "Name is required" })}
@@ -116,13 +111,14 @@ const Register = () => {
                 </p>
               )}
             </div>
-
             {/* PhotoURL */}
             <div className="form-control">
-              <p className="label-text font-medium">PhotoURL</p>
+              <p className="label-text font-medium text-gray-700 dark:text-gray-300">
+                PhotoURL
+              </p>
               <label className="input validator w-full relative">
                 <svg
-                  className="h-[2em] opacity-50 absolute left-3 top-1/2 -translate-y-1/2"
+                  className="h-[2em] opacity-50 absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 dark:text-gray-400"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
@@ -136,7 +132,7 @@ const Register = () => {
                 <input
                   type="text"
                   placeholder="https://example.com/photo.png"
-                  className={`w-full pl-12 ${
+                  className={`w-full pl-12 pr-4 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
                     errors.photoURL ? "border-red-500" : ""
                   }`}
                   {...register("photoURL", {
@@ -150,13 +146,14 @@ const Register = () => {
                 </p>
               )}
             </div>
-
             {/* Email */}
             <div className="form-control">
-              <p className="label-text font-medium">Email</p>
+              <p className="label-text font-medium text-gray-700 dark:text-gray-300">
+                Email
+              </p>
               <label className="input validator w-full relative">
                 <svg
-                  className="h-[2em] opacity-50 absolute left-3 top-1/2 -translate-y-1/2"
+                  className="h-[2em] opacity-50 absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 dark:text-gray-400"
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
                 >
@@ -174,7 +171,7 @@ const Register = () => {
                 <input
                   type="email"
                   placeholder="mail@example.com"
-                  className={`w-full pl-12 ${
+                  className={`w-full pl-12 pr-4 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
                     errors.email ? "border-red-500" : ""
                   }`}
                   {...register("email", {
@@ -192,13 +189,14 @@ const Register = () => {
                 </p>
               )}
             </div>
-
             {/* Password */}
             <div className="form-control">
-              <p className="label-text font-medium">Password</p>
+              <p className="label-text font-medium text-gray-700 dark:text-gray-300">
+                Password
+              </p>
               <label className="input validator w-full relative">
                 <svg
-                  className="h-[2em] opacity-50 absolute left-3 top-1/2 -translate-y-1/2"
+                  className="h-[2em] opacity-50 absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 dark:text-gray-400"
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
                 >
@@ -216,7 +214,7 @@ const Register = () => {
                 <input
                   type={showPassword ? "text" : "password"}
                   placeholder="Password"
-                  className={`w-full pl-12 ${
+                  className={`w-full pl-12 pr-12 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
                     errors.password ? "border-red-500" : ""
                   }`}
                   {...register("password", {
@@ -232,13 +230,13 @@ const Register = () => {
                 />
                 <button
                   type="button"
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 dark:text-gray-400"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center"
                 >
                   {showPassword ? (
-                    <EyeIcon className="size-5 text-base-content/40" />
+                    <EyeIcon className="size-5" />
                   ) : (
-                    <EyeOffIcon className="size-5 text-base-content/40" />
+                    <EyeOffIcon className="size-5" />
                   )}
                 </button>
               </label>
@@ -248,33 +246,33 @@ const Register = () => {
                 </p>
               )}
             </div>
-
             {/* Submit */}
             <button
               type="submit"
-              className="w-full py-3 px-4 bg-amber-600 hover:bg-amber-700 text-white font-medium rounded-lg transition-colors disabled:opacity-70 disabled:cursor-not-allowed flex justify-center items-center gap-2"
+              className="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 text-white font-medium rounded-lg transition-colors disabled:opacity-70 disabled:cursor-not-allowed flex justify-center items-center gap-2"
               disabled={isSigningUp}
             >
               {isSigningUp && <Loader2 className="h-5 w-5 animate-spin" />}
               {isSigningUp ? "Creating..." : "Create Account"}
             </button>
           </form>
-
           <div className="text-center">
-            <p className="text-base-content/60">
+            <p className="text-gray-600 dark:text-gray-400">
               Already have an account?{" "}
-              <Link to="/login" className="text-amber-600 hover:underline">
+              <Link
+                to="/login"
+                className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 hover:underline"
+              >
                 Log In
               </Link>
             </p>
           </div>
         </div>
       </div>
-
       {/* right side */}
       <AuthImagePattern
         title="Start Your Business Journey"
-        subtitle="Create your free account to connect with verified buyers and suppliers. Whether you’re sourcing or selling—your global growth starts here."
+        subtitle="Create your free account to connect with verified buyers and suppliers. Whether you're sourcing or selling—your global growth starts here."
       />
     </div>
   );

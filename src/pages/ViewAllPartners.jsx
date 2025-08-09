@@ -7,6 +7,7 @@ import useTitle from "../hooks/useTitle";
 const ViewAllPartners = () => {
   const navigate = useNavigate();
   useTitle("View All Partners");
+
   const brands = [
     {
       id: 1,
@@ -80,13 +81,13 @@ const ViewAllPartners = () => {
           transition={{ duration: 0.5 }}
           className="text-center mb-12"
         >
-          <div className="inline-flex items-center justify-center gap-2 mb-4 bg-amber-100 dark:bg-amber-900/20 px-4 py-2 rounded-full">
-            <ShieldCheck className="w-5 h-5 text-amber-600 dark:text-amber-400" />
-            <span className="text-sm font-medium text-amber-600 dark:text-amber-400">
+          <div className="inline-flex items-center justify-center gap-2 mb-4 bg-blue-50 dark:bg-blue-900/20 px-4 py-2 rounded-full">
+            <ShieldCheck className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+            <span className="text-sm font-medium text-blue-900 dark:text-blue-100">
               Our Trusted Partners
             </span>
           </div>
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-gray-100">
             Official Brand Partners
           </h2>
           <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto mt-3 text-base">
@@ -116,22 +117,18 @@ const ViewAllPartners = () => {
                     loading="lazy"
                   />
                 </div>
-
                 {/* Brand Name */}
-                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+                <h3 className="text-xl font-bold text-gray-800 dark:text-gray-100 mb-2">
                   {brand.name}
                 </h3>
-
                 {/* Category */}
                 <span className="inline-block px-3 py-1 text-xs font-medium rounded-full bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300 mb-3">
                   {brand.category}
                 </span>
-
                 {/* Description */}
                 <p className="text-gray-600 dark:text-gray-400 text-sm mb-4 flex-grow">
                   {brand.description}
                 </p>
-
                 {/* Partner Since */}
                 <div className="w-full border-t border-gray-100 dark:border-gray-700 pt-3">
                   <p className="text-xs text-gray-500 dark:text-gray-400">
@@ -153,7 +150,7 @@ const ViewAllPartners = () => {
         >
           <button
             onClick={() => navigate(-1)}
-            className="flex items-center gap-2 mx-auto px-6 py-3 text-sm font-medium rounded-full border border-gray-300 text-gray-700 hover:bg-gray-100 transition-colors dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700"
+            className="flex items-center gap-2 mx-auto px-6 py-3 text-sm font-medium rounded-full border border-gray-300 text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition-colors dark:border-gray-600 dark:text-gray-300 dark:hover:bg-blue-900/20 dark:hover:text-blue-100"
           >
             Back to Home
           </button>

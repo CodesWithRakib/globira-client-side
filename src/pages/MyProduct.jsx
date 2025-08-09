@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import MyProductCard from "../components/MyProductCard";
-import NoProduct from "../components/NoProduct";
 import Loading from "../components/Loading";
 import useAxios from "../hooks/useAxios";
-import { FiPlus } from "react-icons/fi";
+import { FiPlus, FiRefreshCw } from "react-icons/fi";
 import { useNavigate } from "react-router";
 import useTitle from "../hooks/useTitle";
 import useAuth from "../hooks/useAuth";
-import Pagination from "../components/Pagination"; // Import your Pagination component
+import Pagination from "../components/Pagination";
+import EmptyState from "../components/EmptyState";
 
 const MyProduct = () => {
   const [loading, setLoading] = useState(true);
@@ -16,22 +16,18 @@ const MyProduct = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const axiosSecure = useAxios();
-
   const [page, setPage] = useState(1);
   const limit = 10;
   const [totalPages, setTotalPages] = useState(0);
   const [isRefreshing, setIsRefreshing] = useState(false);
-
   useTitle(`My Products`);
 
   const fetchProducts = async () => {
     if (!user?.email) return;
-
     try {
       const response = await axiosSecure.get(
         `/api/products?email=${user.email}&page=${page}&limit=${limit}`
       );
-
       setProducts(response.data.data);
       const total = response.data.total || 0;
       setTotalPages(Math.ceil(total / limit));
@@ -76,7 +72,7 @@ const MyProduct = () => {
           <p className="text-red-500 mb-4">{error}</p>
           <button
             onClick={handleRefresh}
-            className="px-4 py-2 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition-colors"
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
           >
             {isRefreshing ? "Retrying..." : "Retry"}
           </button>
@@ -88,13 +84,13 @@ const MyProduct = () => {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-4 md:p-8">
       {products.length === 0 ? (
-        <NoProduct />
+        <EmptyState />
       ) : (
         <div className="max-w-7xl mx-auto">
           {/* Header */}
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
             <div>
-              <h1 className="text-2xl md:text-3xl font-bold dark:text-white">
+              <h1 className="text-2xl md:text-3xl font-bold text-gray-800 dark:text-gray-100">
                 My Products
               </h1>
               <p className="text-gray-600 dark:text-gray-400 mt-1">
@@ -102,23 +98,21 @@ const MyProduct = () => {
                 showing (page {page} of {totalPages})
               </p>
             </div>
-
             <div className="flex gap-3">
               <button
                 onClick={handleRefresh}
-                className="p-2 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+                className="p-2 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors"
                 aria-label="Refresh products"
               >
-                <FiPlus
-                  className={`w-5 h-5 text-gray-600 dark:text-gray-300 ${
+                <FiRefreshCw
+                  className={`w-5 h-5 text-blue-600 dark:text-blue-400 ${
                     isRefreshing ? "animate-spin" : ""
                   }`}
                 />
               </button>
-
               <button
                 onClick={() => navigate("/add-product")}
-                className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-700 hover:to-amber-600 text-white rounded-lg transition-colors shadow-md"
+                className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white rounded-lg transition-colors shadow-md"
               >
                 <FiPlus className="w-5 h-5" />
                 <span>Add Product</span>

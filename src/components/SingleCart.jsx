@@ -23,7 +23,6 @@ const SingleCart = ({ cart, setCarts, carts }) => {
     buyerQuantity,
     unitPrice,
   } = cart;
-
   const axiosSecure = useAxios();
 
   const handleRemove = () => {
@@ -32,7 +31,7 @@ const SingleCart = ({ cart, setCarts, carts }) => {
       text: "This product will be removed from your cart",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#dc2626",
+      confirmButtonColor: "#2563eb",
       cancelButtonColor: "#6b7280",
       confirmButtonText: "Remove",
       cancelButtonText: "Cancel",
@@ -125,7 +124,6 @@ const SingleCart = ({ cart, setCarts, carts }) => {
               <p className="font-medium">{buyerQuantity}</p>
             </div>
           </div>
-
           <div className="flex items-center gap-2">
             <div className="p-2 bg-gray-50 dark:bg-gray-700 rounded-lg">
               <FiCalendar aria-hidden="true" />
@@ -153,11 +151,10 @@ const SingleCart = ({ cart, setCarts, carts }) => {
               </span>
             )}
           </div>
-
           <button
             onClick={handleRemove}
             type="button"
-            className="flex items-center gap-1 px-3 py-2 text-sm font-medium text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 rounded"
+            className="flex items-center gap-1 px-3 py-2 text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 rounded"
             aria-label={`Remove ${productName} from cart`}
           >
             <FiTrash2 className="w-4 h-4" aria-hidden="true" />

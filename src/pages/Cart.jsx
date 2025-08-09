@@ -11,7 +11,6 @@ const Cart = () => {
   const [loading, setLoading] = useState(true);
   const [carts, setCarts] = useState([]);
   const axiosSecure = useAxios();
-
   useTitle(`Cart`);
 
   useEffect(() => {
@@ -26,7 +25,6 @@ const Cart = () => {
         setLoading(false);
       }
     };
-
     fetchCartItems();
   }, [axiosSecure]);
 
@@ -36,7 +34,6 @@ const Cart = () => {
       const quantity = parseInt(item.buyerQuantity) || 0;
       return total + price * quantity;
     }, 0);
-
     return total.toLocaleString("en-IN");
   };
 
@@ -47,8 +44,8 @@ const Cart = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-10">
-          <div className="inline-flex items-center justify-center bg-amber-100 dark:bg-amber-900/50 p-4 rounded-full mb-4">
-            <FiShoppingCart className="w-8 h-8 text-amber-600 dark:text-amber-400" />
+          <div className="inline-flex items-center justify-center bg-blue-100 dark:bg-blue-900/50 p-4 rounded-full mb-4">
+            <FiShoppingCart className="w-8 h-8 text-blue-600 dark:text-blue-400" />
           </div>
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
             Your Shopping Cart
@@ -106,7 +103,6 @@ const Cart = () => {
                   {carts.length} {carts.length === 1 ? "item" : "items"}
                 </span>
               </div>
-
               <div className="space-y-3 mb-6">
                 <div className="flex justify-between">
                   <span className="text-gray-600 dark:text-gray-400">
@@ -124,17 +120,16 @@ const Cart = () => {
                   <span className="text-lg font-medium text-gray-900 dark:text-white">
                     Total
                   </span>
-                  <span className="text-lg font-bold text-amber-600 dark:text-amber-400">
+                  <span className="text-lg font-bold text-blue-600 dark:text-blue-400">
                     ${calculateTotal()}
                   </span>
                 </div>
               </div>
-
               <button
                 onClick={() =>
                   toast.success("Checkout Functionality Will Be Added Soon ...")
                 }
-                className="w-full bg-amber-600 hover:bg-amber-700 text-white py-3 px-4 rounded-lg font-medium transition-colors"
+                className="w-full bg-blue-600 hover:bg-blue-700 dark:bg-blue-800 dark:hover:bg-blue-900 text-white py-3 px-4 rounded-lg font-medium transition-colors"
               >
                 Proceed to Checkout
               </button>

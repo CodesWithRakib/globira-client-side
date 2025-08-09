@@ -17,11 +17,9 @@ const UpdateProduct = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const axiosSecure = useAxios();
-
   const [loading, setLoading] = useState(true);
   const [isUpdating, setIsUpdating] = useState(false);
   const [previewImage, setPreviewImage] = useState(null);
-
   const {
     register,
     handleSubmit,
@@ -29,7 +27,6 @@ const UpdateProduct = () => {
     setValue,
     formState: { errors },
   } = useForm();
-
   useTitle(`Update Product`);
 
   useEffect(() => {
@@ -39,11 +36,9 @@ const UpdateProduct = () => {
         setLoading(true);
         const response = await axiosSecure.get(`/api/products/${id}`);
         const product = response.data;
-
         // Populate form fields
         reset(product);
         setPreviewImage(product.productImage);
-
         setLoading(false);
       } catch (error) {
         console.error("Error fetching product:", error);
@@ -59,13 +54,11 @@ const UpdateProduct = () => {
   const handleImageChange = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
-
     try {
       toast.loading("Uploading image...");
       const formData = new FormData();
       formData.append("file", file);
       formData.append("upload_preset", uploadPreset);
-
       const res = await fetch(
         `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
         {
@@ -73,7 +66,6 @@ const UpdateProduct = () => {
           body: formData,
         }
       );
-
       const data = await res.json();
       setPreviewImage(data.secure_url);
       setValue("productImage", data.secure_url); // Update form value
@@ -91,7 +83,6 @@ const UpdateProduct = () => {
     setIsUpdating(true);
     // Override productImage with previewImage if available
     data.productImage = previewImage;
-
     try {
       const response = await axiosSecure.put(`/api/products/${id}`, data);
       if (response.data.result?.modifiedCount > 0) {
@@ -115,10 +106,10 @@ const UpdateProduct = () => {
         <div className="w-full max-w-lg space-y-6">
           <div className="text-center">
             <div className="flex flex-col items-center gap-2">
-              <div className="size-14 rounded-xl bg-amber-100 dark:bg-amber-900/50 flex items-center justify-center mb-3">
-                <AiFillProduct className="size-6 text-amber-600 dark:text-amber-400" />
+              <div className="size-14 rounded-xl bg-blue-100 dark:bg-blue-900/50 flex items-center justify-center mb-3">
+                <AiFillProduct className="size-6 text-blue-600 dark:text-blue-400" />
               </div>
-              <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+              <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-100">
                 Update Product
               </h1>
               <p className="text-gray-500 dark:text-gray-400">
@@ -126,7 +117,6 @@ const UpdateProduct = () => {
               </p>
             </div>
           </div>
-
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             {/* Brand and Product Name */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -138,7 +128,7 @@ const UpdateProduct = () => {
                   {...register("brandName", {
                     required: "Brand name is required",
                   })}
-                  className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 dark:bg-gray-800 dark:text-white
+                  className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white
                     ${
                       errors.brandName
                         ? "border-red-500"
@@ -160,7 +150,7 @@ const UpdateProduct = () => {
                   {...register("productName", {
                     required: "Product name is required",
                   })}
-                  className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 dark:bg-gray-800 dark:text-white
+                  className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white
                     ${
                       errors.productName
                         ? "border-red-500"
@@ -175,7 +165,6 @@ const UpdateProduct = () => {
                 )}
               </div>
             </div>
-
             {/* Category */}
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
@@ -183,7 +172,7 @@ const UpdateProduct = () => {
               </label>
               <select
                 {...register("category", { required: "Category is required" })}
-                className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 dark:bg-gray-800 dark:text-white
+                className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white
                   ${
                     errors.category
                       ? "border-red-500"
@@ -215,7 +204,6 @@ const UpdateProduct = () => {
                 </p>
               )}
             </div>
-
             {/* Image Upload */}
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
@@ -257,7 +245,7 @@ const UpdateProduct = () => {
                 })}
                 value={previewImage || ""}
                 onChange={(e) => setPreviewImage(e.target.value)}
-                className={`mt-2 w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 dark:bg-gray-800 dark:text-white
+                className={`mt-2 w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white
                   ${
                     errors.productImage
                       ? "border-red-500"
@@ -274,7 +262,6 @@ const UpdateProduct = () => {
                 </p>
               )}
             </div>
-
             {/* Quantities */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
@@ -288,7 +275,7 @@ const UpdateProduct = () => {
                     min: { value: 1, message: "Minimum 1" },
                     valueAsNumber: true,
                   })}
-                  className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 dark:bg-gray-800 dark:text-white
+                  className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white
                     ${
                       errors.mainQuantity
                         ? "border-red-500"
@@ -314,7 +301,7 @@ const UpdateProduct = () => {
                     min: { value: 1, message: "Minimum 1" },
                     valueAsNumber: true,
                   })}
-                  className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 dark:bg-gray-800 dark:text-white
+                  className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white
                     ${
                       errors.minimumQuantity
                         ? "border-red-500"
@@ -330,7 +317,6 @@ const UpdateProduct = () => {
                 )}
               </div>
             </div>
-
             {/* Price and Rating */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
@@ -345,7 +331,7 @@ const UpdateProduct = () => {
                     min: { value: 0.01, message: "Minimum price is 0.01" },
                     valueAsNumber: true,
                   })}
-                  className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 dark:bg-gray-800 dark:text-white
+                  className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white
                     ${
                       errors.price
                         ? "border-red-500"
@@ -372,7 +358,7 @@ const UpdateProduct = () => {
                     max: { value: 5, message: "Maximum rating is 5" },
                     valueAsNumber: true,
                   })}
-                  className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 dark:bg-gray-800 dark:text-white
+                  className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white
                     ${
                       errors.rating
                         ? "border-red-500"
@@ -389,7 +375,6 @@ const UpdateProduct = () => {
                 )}
               </div>
             </div>
-
             {/* Description */}
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
@@ -401,7 +386,7 @@ const UpdateProduct = () => {
                   minLength: { value: 10, message: "Minimum 10 characters" },
                 })}
                 rows="4"
-                className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 dark:bg-gray-800 dark:text-white
+                className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white
                   ${
                     errors.description
                       ? "border-red-500"
@@ -415,11 +400,10 @@ const UpdateProduct = () => {
                 </p>
               )}
             </div>
-
             <button
               type="submit"
               disabled={isUpdating}
-              className="w-full flex justify-center items-center py-3 px-4 bg-amber-600 hover:bg-amber-700 text-white font-medium rounded-lg transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
+              className="w-full flex justify-center items-center py-3 px-4 bg-blue-600 hover:bg-blue-700 dark:bg-blue-800 dark:hover:bg-blue-900 text-white font-medium rounded-lg transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
             >
               {isUpdating ? (
                 <>
@@ -433,7 +417,6 @@ const UpdateProduct = () => {
           </form>
         </div>
       </div>
-
       <AuthImagePattern
         title="Manage Your Products"
         subtitle="Update your product details to keep your listings accurate and appealing to potential buyers."

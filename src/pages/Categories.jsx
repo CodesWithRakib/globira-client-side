@@ -22,7 +22,6 @@ const Categories = () => {
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
-
   const axiosSecure = useAxios();
 
   const categories = [
@@ -73,7 +72,6 @@ const Categories = () => {
         setLoading(false);
       }
     };
-
     fetchProducts();
   }, []);
 
@@ -102,7 +100,7 @@ const Categories = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-zinc-900 text-gray-900 dark:text-gray-100 relative">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-100 relative">
       {/* Mobile filter overlay */}
       <AnimatePresence>
         {mobileFiltersOpen && (
@@ -114,25 +112,23 @@ const Categories = () => {
               className="fixed inset-0 z-30 bg-black bg-opacity-50 backdrop-blur-sm"
               onClick={() => setMobileFiltersOpen(false)}
             />
-
             <motion.div
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "spring", damping: 30 }}
-              className="fixed inset-y-0 right-0 z-40 w-full max-w-xs overflow-y-auto bg-white dark:bg-zinc-800 shadow-xl"
+              className="fixed inset-y-0 right-0 z-40 w-full max-w-xs overflow-y-auto bg-white dark:bg-gray-800 shadow-xl"
             >
-              <div className="flex items-center justify-between px-4 py-4 border-b border-gray-200 dark:border-zinc-700">
+              <div className="flex items-center justify-between px-4 py-4 border-b border-gray-200 dark:border-gray-700">
                 <h2 className="text-lg font-medium">Filters</h2>
                 <button
                   type="button"
-                  className="-mr-2 flex h-10 w-10 items-center justify-center rounded-md p-2 hover:bg-gray-100 dark:hover:bg-zinc-700"
+                  className="-mr-2 flex h-10 w-10 items-center justify-center rounded-md p-2 hover:bg-gray-100 dark:hover:bg-gray-700"
                   onClick={() => setMobileFiltersOpen(false)}
                 >
                   <FiX className="h-6 w-6" aria-hidden="true" />
                 </button>
               </div>
-
               <div className="px-4 mt-4">
                 <label htmlFor="mobile-search" className="sr-only">
                   Search products
@@ -144,14 +140,13 @@ const Categories = () => {
                     placeholder="Search product..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full rounded-lg border-0 bg-gray-100 dark:bg-zinc-700 py-2 pl-4 pr-10 text-sm focus:ring-2 focus:ring-primary dark:focus:ring-amber-500"
+                    className="w-full rounded-lg border-0 bg-gray-100 dark:bg-gray-700 py-2 pl-4 pr-10 text-sm focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-500"
                   />
                   <div className="absolute inset-y-0 right-0 flex items-center pr-3">
                     <FiSearch className="h-5 w-5 text-gray-400" />
                   </div>
                 </div>
               </div>
-
               <div className="mt-6 px-4 pb-6">
                 <h3 className="font-medium text-gray-900 dark:text-gray-100">
                   Categories
@@ -167,8 +162,8 @@ const Categories = () => {
                       }}
                       className={`flex w-full items-center rounded-lg px-3 py-2 text-sm ${
                         selectedCategory === category.slug
-                          ? "bg-primary/10 text-primary dark:bg-amber-600/20 dark:text-amber-400"
-                          : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-zinc-700"
+                          ? "bg-blue-50 text-blue-900 dark:bg-blue-900 dark:text-blue-100"
+                          : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
                       }`}
                     >
                       <span className="mr-3">{category.icon}</span>
@@ -187,9 +182,8 @@ const Categories = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="flex items-baseline justify-between border-b border-gray-200 dark:border-zinc-700 pt-12 pb-6">
+        <div className="flex items-baseline justify-between border-b border-gray-200 dark:border-gray-700 pt-12 pb-6">
           <h1 className="text-3xl font-bold tracking-tight">Our Products</h1>
-
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -219,9 +213,9 @@ const Categories = () => {
                       placeholder="Search product..."
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
-                      className="w-full rounded-lg border-0 bg-gray-100 dark:bg-zinc-700 py-2 pl-4 pr-10 text-sm focus:ring-2 focus:ring-primary dark:focus:ring-amber-500"
+                      className="w-full rounded-lg border-0 bg-gray-100 dark:bg-gray-700 py-2 pl-4 pr-10 text-sm focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-500"
                       whileFocus={{
-                        boxShadow: "0 0 0 2px rgba(249, 115, 22, 0.5)",
+                        boxShadow: "0 0 0 2px rgba(59, 130, 246, 0.5)",
                         backgroundColor: "rgba(243, 244, 246, 1)",
                       }}
                     />
@@ -232,7 +226,7 @@ const Categories = () => {
                 </div>
 
                 {/* Categories */}
-                <div className="border-b border-gray-200 dark:border-zinc-700 pb-6">
+                <div className="border-b border-gray-200 dark:border-gray-700 pb-6">
                   <h3 className="font-medium text-gray-900 dark:text-gray-100">
                     Categories
                   </h3>
@@ -245,8 +239,8 @@ const Categories = () => {
                         onClick={() => handleCategoryClick(category.slug)}
                         className={`flex w-full items-center rounded-lg px-3 py-2 text-sm ${
                           selectedCategory === category.slug
-                            ? "bg-primary/10 text-primary dark:bg-amber-600/20 dark:text-amber-400 font-medium"
-                            : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-zinc-700"
+                            ? "bg-blue-50 text-blue-900 dark:bg-blue-900 dark:text-blue-100 font-medium"
+                            : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
                         }`}
                       >
                         <span className="mr-3">{category.icon}</span>
@@ -283,9 +277,9 @@ const Categories = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                   {[...Array(6)].map((_, i) => (
                     <div key={i} className="space-y-3">
-                      <div className="h-48 bg-gray-200 dark:bg-zinc-700 rounded-lg animate-pulse"></div>
-                      <div className="h-4 bg-gray-200 dark:bg-zinc-700 rounded animate-pulse w-3/4"></div>
-                      <div className="h-4 bg-gray-200 dark:bg-zinc-700 rounded animate-pulse w-1/2"></div>
+                      <div className="h-48 bg-gray-200 dark:bg-gray-700 rounded-lg animate-pulse"></div>
+                      <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded animate-pulse w-3/4"></div>
+                      <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded animate-pulse w-1/2"></div>
                     </div>
                   ))}
                 </div>
@@ -320,7 +314,7 @@ const Categories = () => {
                       repeatType: "reverse",
                       duration: 2,
                     }}
-                    className="bg-gray-100 dark:bg-zinc-700 rounded-full p-4 mb-4"
+                    className="bg-gray-100 dark:bg-gray-700 rounded-full p-4 mb-4"
                   >
                     <FiFrown className="h-8 w-8 text-gray-500 dark:text-gray-400" />
                   </motion.div>
@@ -337,7 +331,7 @@ const Categories = () => {
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                       onClick={() => setSearchTerm("")}
-                      className="px-4 py-2 bg-primary dark:bg-amber-600 text-white rounded-lg hover:bg-orange-600 dark:hover:bg-amber-700 transition-colors text-sm font-medium"
+                      className="px-4 py-2 bg-blue-600 hover:bg-blue-700 dark:bg-blue-800 dark:hover:bg-blue-900 text-white rounded-lg transition-colors text-sm font-medium"
                     >
                       Clear search
                     </motion.button>

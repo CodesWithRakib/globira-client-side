@@ -14,7 +14,6 @@ import {
   ShieldCheck,
   KeyRound,
 } from "lucide-react";
-
 import useAxios from "../hooks/useAxios";
 import { toast } from "react-hot-toast";
 import Loading from "../components/Loading";
@@ -31,33 +30,26 @@ const Profile = () => {
   const [linkedin, setLinkedin] = useState("");
   const [facebook, setFacebook] = useState("");
   const [isUpdatingProfile, setIsUpdatingProfile] = useState(false);
-
   const { user, updateUser } = useAuth();
   const axiosSecure = useAxios();
-
   useTitle(`Profile`);
 
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
-
     if (file.size > 2 * 1024 * 1024) {
       toast.error("Image size should be less than 2MB");
       return;
     }
-
     setIsUpdatingProfile(true);
     const reader = new FileReader();
-
     reader.onload = async () => {
       try {
         const base64Image = reader.result;
         setSelectedImg(base64Image);
-
         const response = await axiosSecure.patch(`/api/users/${user?.email}`, {
           photoURL: base64Image,
         });
-
         await updateUser({ photoURL: response.data.photoURL });
         toast.success("Profile photo updated successfully!");
       } catch (error) {
@@ -68,7 +60,6 @@ const Profile = () => {
         setIsUpdatingProfile(false);
       }
     };
-
     reader.readAsDataURL(file);
   };
 
@@ -84,10 +75,8 @@ const Profile = () => {
       toast("No changes made");
       return;
     }
-
     try {
       setIsUpdatingProfile(true);
-
       const updatedData = {
         displayName: fullName || user?.displayName,
         phone: phoneNumber || user?.phone,
@@ -96,7 +85,6 @@ const Profile = () => {
         linkedin,
         facebook,
       };
-
       const response = await axiosSecure.patch(
         `/api/users/${user?.email}`,
         updatedData
@@ -118,9 +106,9 @@ const Profile = () => {
       <div className="max-w-3xl mx-auto">
         <div className="bg-white dark:bg-gray-800 rounded-xl shadow-xl overflow-hidden">
           {/* Header */}
-          <div className="bg-gradient-to-r from-amber-500 to-amber-600 p-6 text-center">
+          <div className="bg-gradient-to-r from-blue-600 to-blue-700 p-6 text-center">
             <h1 className="text-3xl font-bold text-white">Your Profile</h1>
-            <p className="text-amber-100 mt-1">
+            <p className="text-blue-100 mt-1">
               Manage your personal information
             </p>
           </div>
@@ -136,7 +124,7 @@ const Profile = () => {
               />
               <label
                 htmlFor="avatar-upload"
-                className={`absolute bottom-2 right-2 bg-amber-600 hover:bg-amber-700 p-2 rounded-full cursor-pointer transition-all duration-200 shadow-md ${
+                className={`absolute bottom-2 right-2 bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 p-2 rounded-full cursor-pointer transition-all duration-200 shadow-md ${
                   isUpdatingProfile ? "animate-pulse" : ""
                 }`}
               >
@@ -154,7 +142,7 @@ const Profile = () => {
             <p
               className={`mt-3 text-sm ${
                 isUpdatingProfile
-                  ? "text-amber-500"
+                  ? "text-blue-500"
                   : "text-gray-500 dark:text-gray-400"
               }`}
             >
@@ -220,7 +208,7 @@ const Profile = () => {
                   value={field.value}
                   onChange={(e) => field.setValue(e.target.value)}
                   placeholder={field.placeholder}
-                  className="w-full px-4 py-2 bg-gray-50 dark:bg-gray-700 text-sm rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-amber-500"
+                  className="w-full px-4 py-2 bg-gray-50 dark:bg-gray-700 text-sm rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
             ))}
@@ -240,7 +228,7 @@ const Profile = () => {
             <div className="text-right">
               <Link
                 to="/change-password"
-                className="text-sm text-amber-600 hover:underline flex justify-end items-center gap-1"
+                className="text-sm text-blue-600 hover:underline flex justify-end items-center gap-1 dark:text-blue-400 dark:hover:text-blue-300"
               >
                 <KeyRound size={16} /> Change Password
               </Link>
@@ -251,7 +239,7 @@ const Profile = () => {
               <button
                 onClick={handleUpdateInfo}
                 disabled={isUpdatingProfile}
-                className="inline-flex items-center gap-2 px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-lg font-medium transition duration-200 disabled:opacity-60"
+                className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 text-white rounded-lg font-medium transition duration-200 disabled:opacity-60"
               >
                 <Save className="w-4 h-4" />
                 {isUpdatingProfile ? "Saving..." : "Save Info"}
@@ -263,13 +251,16 @@ const Profile = () => {
           <hr className="border-t border-gray-200 dark:border-gray-600" />
 
           {/* Account Info */}
-          <div className="bg-gray-50 dark:bg-gray-700/50 px-6 py-5">
+          <div className="bg-blue-50 dark:bg-blue-900/30 px-6 py-5">
             <h2 className="text-lg font-semibold text-gray-700 dark:text-gray-200 mb-3 flex items-center gap-2">
-              <ShieldCheck className="text-amber-600" size={20} />
+              <ShieldCheck
+                className="text-blue-600 dark:text-blue-400"
+                size={20}
+              />
               Account Details
             </h2>
             <div className="space-y-3 text-sm text-gray-700 dark:text-gray-300">
-              <div className="flex justify-between py-2 border-b border-gray-200 dark:border-gray-600">
+              <div className="flex justify-between py-2 border-b border-blue-200 dark:border-blue-800">
                 <div className="flex items-center gap-2">
                   <Calendar className="w-4 h-4" />
                   <span>Member Since</span>

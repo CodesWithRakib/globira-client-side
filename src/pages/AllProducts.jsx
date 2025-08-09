@@ -22,10 +22,8 @@ const AllProducts = () => {
   const [totalPages, setTotalPages] = useState(0);
   const [totalCount, setTotalCount] = useState(0);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
-
   const navigate = useNavigate();
   const axiosSecure = useAxios();
-
   useTitle(`All Products`);
 
   useEffect(() => {
@@ -45,7 +43,6 @@ const AllProducts = () => {
         setLoading(false);
       }
     };
-
     fetchProducts();
   }, [axiosSecure, page]);
 
@@ -78,14 +75,13 @@ const AllProducts = () => {
         className="flex flex-col md:flex-row md:items-center md:justify-between mb-8 gap-4"
       >
         <div>
-          <h1 className="text-2xl md:text-3xl font-bold text-gray-800 dark:text-white">
+          <h1 className="text-2xl md:text-3xl font-bold text-gray-800 dark:text-gray-100">
             Product Inventory
           </h1>
           <p className="text-gray-600 dark:text-gray-400 mt-1">
             Manage and explore all available products
           </p>
         </div>
-
         <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
           {/* Search Input */}
           <div className="relative flex-grow">
@@ -95,50 +91,37 @@ const AllProducts = () => {
             <input
               type="text"
               placeholder="Search products..."
-              className="w-full pl-10 pr-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-500 dark:focus:ring-amber-400"
+              className="w-full pl-10 pr-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               aria-label="Search products"
             />
           </div>
-
           {/* View Toggle */}
           <div className="flex items-center bg-gray-100 dark:bg-gray-700 rounded-lg p-1">
             <button
               onClick={() => setViewType("card")}
-              className={`p-2 rounded-md ${
+              className={`p-2 rounded-md transition-colors ${
                 viewType === "card"
-                  ? "bg-white dark:bg-gray-600 shadow-sm"
-                  : "hover:bg-gray-200 dark:hover:bg-gray-600"
+                  ? "bg-white dark:bg-gray-600 shadow-sm text-blue-600 dark:text-blue-400"
+                  : "text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600"
               }`}
               aria-label="Card view"
               aria-pressed={viewType === "card"}
             >
-              <IoGrid
-                className={`w-5 h-5 ${
-                  viewType === "card"
-                    ? "text-amber-600 dark:text-amber-400"
-                    : "text-gray-500 dark:text-gray-400"
-                }`}
-              />
+              <IoGrid className="w-5 h-5" />
             </button>
             <button
               onClick={() => setViewType("table")}
-              className={`p-2 rounded-md ${
+              className={`p-2 rounded-md transition-colors ${
                 viewType === "table"
-                  ? "bg-white dark:bg-gray-600 shadow-sm"
-                  : "hover:bg-gray-200 dark:hover:bg-gray-600"
+                  ? "bg-white dark:bg-gray-600 shadow-sm text-blue-600 dark:text-blue-400"
+                  : "text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600"
               }`}
               aria-label="Table view"
               aria-pressed={viewType === "table"}
             >
-              <IoList
-                className={`w-5 h-5 ${
-                  viewType === "table"
-                    ? "text-amber-600 dark:text-amber-400"
-                    : "text-gray-500 dark:text-gray-400"
-                }`}
-              />
+              <IoList className="w-5 h-5" />
             </button>
           </div>
         </div>
@@ -153,14 +136,13 @@ const AllProducts = () => {
         <div className="flex items-center gap-4">
           <button
             onClick={() => setIsFilterOpen(!isFilterOpen)}
-            className="flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg transition-colors"
+            className="flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
             aria-expanded={isFilterOpen}
             aria-controls="filters-panel"
           >
             <FaFilter className="text-gray-600 dark:text-gray-300" />
             <span className="text-sm font-medium">Filters</span>
           </button>
-
           <AnimatePresence>
             {isFilterOpen && (
               <motion.div
@@ -178,8 +160,8 @@ const AllProducts = () => {
                     onChange={() => setShowAvailableOnly((prev) => !prev)}
                     aria-checked={showAvailableOnly}
                   />
-                  <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-amber-300 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-600"></div>
-                  <span className="ms-3 text-sm font-medium text-gray-700 dark:text-white">
+                  <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                  <span className="ms-3 text-sm font-medium text-gray-700 dark:text-gray-300">
                     In Stock Only
                   </span>
                 </label>
@@ -187,7 +169,6 @@ const AllProducts = () => {
             )}
           </AnimatePresence>
         </div>
-
         <div className="text-sm text-gray-600 dark:text-gray-400">
           Showing <span className="font-medium">{filteredProducts.length}</span>{" "}
           of <span className="font-medium">{totalCount}</span> products
@@ -205,7 +186,7 @@ const AllProducts = () => {
             <div className="w-24 h-24 mx-auto mb-4 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center">
               <FaSearch className="w-10 h-10 text-gray-400 dark:text-gray-500" />
             </div>
-            <h3 className="text-xl font-medium text-gray-800 dark:text-white mb-2">
+            <h3 className="text-xl font-medium text-gray-800 dark:text-gray-100 mb-2">
               No products found
             </h3>
             <p className="text-gray-500 dark:text-gray-400 mb-6">
@@ -216,7 +197,7 @@ const AllProducts = () => {
                 setSearchTerm("");
                 setShowAvailableOnly(false);
               }}
-              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
+              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 text-white rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
             >
               Reset Filters
             </button>
@@ -293,7 +274,7 @@ const AllProducts = () => {
                           />
                         </div>
                         <div>
-                          <div className="font-medium text-gray-900 dark:text-white">
+                          <div className="font-medium text-gray-900 dark:text-gray-100">
                             {product.productName}
                           </div>
                           <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
@@ -302,23 +283,18 @@ const AllProducts = () => {
                         </div>
                       </div>
                     </td>
-
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">
                       {product.brandName}
                     </td>
-
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300 capitalize">
                       {formatCategory(product.category)}
                     </td>
-
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-amber-600 dark:text-amber-400">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-blue-600 dark:text-blue-400">
                       ${product.price?.toLocaleString("en-US")}
                     </td>
-
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">
                       {product.minimumQuantity}
                     </td>
-
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span
                         className={`px-2.5 py-1.5 inline-flex items-center text-xs font-medium rounded-full ${
@@ -332,12 +308,11 @@ const AllProducts = () => {
                           : "Low Stock"}
                       </span>
                     </td>
-
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center space-x-4">
                         <button
                           onClick={() => handleViewDetails(product._id)}
-                          className="text-amber-600 hover:text-amber-800 dark:text-amber-400 dark:hover:text-amber-300 transition-colors"
+                          className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md p-1"
                           aria-label={`View details of ${product.productName}`}
                           type="button"
                         >
@@ -345,7 +320,7 @@ const AllProducts = () => {
                         </button>
                         <button
                           onClick={() => handleProductUpdate(product._id)}
-                          className="text-gray-600 hover:text-gray-800 dark:text-gray-300 dark:hover:text-gray-100 transition-colors"
+                          className="text-gray-600 hover:text-gray-800 dark:text-gray-300 dark:hover:text-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md p-1"
                           aria-label={`Edit product ${product.productName}`}
                           type="button"
                         >

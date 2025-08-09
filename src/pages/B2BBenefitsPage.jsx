@@ -16,74 +16,71 @@ import useTitle from "../hooks/useTitle";
 const B2BBenefitsPage = () => {
   const navigate = useNavigate();
   useTitle("B2B Benefits");
+
   const benefits = [
     {
       id: 1,
       title: "Wholesale Pricing",
       description:
         "Enjoy exclusive wholesale rates with volume discounts that increase with your order quantity",
-      icon: <Check className="w-6 h-6 text-amber-600 dark:text-amber-400" />,
-      color: "bg-amber-50 dark:bg-amber-900/10",
+      icon: <Check className="w-6 h-6 text-blue-600 dark:text-blue-400" />,
+      color: "bg-blue-50 dark:bg-blue-900/10",
     },
     {
       id: 2,
       title: "Verified Suppliers",
       description:
         "All our suppliers undergo strict verification to ensure product quality and reliability",
-      icon: (
-        <Shield className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
-      ),
-      color: "bg-emerald-50 dark:bg-emerald-900/10",
+      icon: <Shield className="w-6 h-6 text-blue-600 dark:text-blue-400" />,
+      color: "bg-blue-50 dark:bg-blue-900/10",
     },
     {
       id: 3,
       description:
         "Get real-time inventory updates and accurate stock levels for better planning",
       title: "Live Inventory Tracking",
-      icon: <Box className="w-6 h-6 text-purple-600 dark:text-purple-400" />,
-      color: "bg-purple-50 dark:bg-purple-900/10",
+      icon: <Box className="w-6 h-6 text-blue-600 dark:text-blue-400" />,
+      color: "bg-blue-50 dark:bg-blue-900/10",
     },
     {
       id: 4,
       title: "Global Logistics",
       description:
         "Our worldwide shipping network ensures timely delivery to your location",
-      icon: <Truck className="w-6 h-6 text-sky-600 dark:text-sky-400" />,
-      color: "bg-sky-50 dark:bg-sky-900/10",
+      icon: <Truck className="w-6 h-6 text-blue-600 dark:text-blue-400" />,
+      color: "bg-blue-50 dark:bg-blue-900/10",
     },
     {
       id: 5,
       title: "Dedicated Account Managers",
       description:
         "Personalized support from our B2B specialists for your business needs",
-      icon: <Headset className="w-6 h-6 text-red-600 dark:text-red-400" />,
-      color: "bg-red-50 dark:bg-red-900/10",
+      icon: <Headset className="w-6 h-6 text-blue-600 dark:text-blue-400" />,
+      color: "bg-blue-50 dark:bg-blue-900/10",
     },
     {
       id: 6,
       title: "Flexible Payment Options",
       description:
         "Multiple secure payment methods including net terms for qualified businesses",
-      icon: (
-        <CreditCard className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
-      ),
-      color: "bg-indigo-50 dark:bg-indigo-900/10",
+      icon: <CreditCard className="w-6 h-6 text-blue-600 dark:text-blue-400" />,
+      color: "bg-blue-50 dark:bg-blue-900/10",
     },
     {
       id: 7,
       title: "Business Analytics",
       description:
         "Access to purchasing reports and analytics to optimize your procurement",
-      icon: <ChartBar className="w-6 h-6 text-teal-600 dark:text-teal-400" />,
-      color: "bg-teal-50 dark:bg-teal-900/10",
+      icon: <ChartBar className="w-6 h-6 text-blue-600 dark:text-blue-400" />,
+      color: "bg-blue-50 dark:bg-blue-900/10",
     },
     {
       id: 8,
       title: "Custom Solutions",
       description:
         "Tailored product sourcing and private label options available",
-      icon: <Check className="w-6 h-6 text-orange-600 dark:text-orange-400" />,
-      color: "bg-orange-50 dark:bg-orange-900/10",
+      icon: <Check className="w-6 h-6 text-blue-600 dark:text-blue-400" />,
+      color: "bg-blue-50 dark:bg-blue-900/10",
     },
   ];
 
@@ -99,13 +96,12 @@ const B2BBenefitsPage = () => {
             <ArrowLeft className="w-5 h-5" />
             <span>Back</span>
           </button>
-
           <div className="text-center flex-grow">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="inline-block mb-4 px-4 py-2 rounded-full bg-amber-100 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400 text-sm font-medium"
+              className="inline-block mb-4 px-4 py-2 rounded-full bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 text-sm font-medium"
             >
               B2B SOLUTIONS
             </motion.div>
@@ -117,7 +113,6 @@ const B2BBenefitsPage = () => {
               on procurement
             </p>
           </div>
-
           {/* Empty div for layout balance */}
           <div className="w-20"></div>
         </div>
@@ -154,7 +149,7 @@ const B2BBenefitsPage = () => {
           whileInView={{ opacity: 1 }}
           transition={{ delay: 0.6 }}
           viewport={{ once: true }}
-          className="mt-16 bg-gradient-to-r from-amber-50 to-amber-100 dark:from-gray-800 dark:to-gray-700 rounded-xl p-8 md:p-12 border border-amber-200 dark:border-gray-700"
+          className="mt-16 bg-gradient-to-r from-blue-50 to-blue-100 dark:from-gray-800 dark:to-gray-700 rounded-xl p-8 md:p-12 border border-blue-200 dark:border-gray-700"
         >
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-4">
@@ -167,13 +162,13 @@ const B2BBenefitsPage = () => {
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <button
                 onClick={() => navigate("/register")}
-                className="px-8 py-3 bg-amber-600 hover:bg-amber-700 dark:bg-amber-700 dark:hover:bg-amber-800 text-white font-medium rounded-lg transition-colors"
+                className="px-8 py-3 bg-blue-600 hover:bg-blue-700 dark:bg-blue-800 dark:hover:bg-blue-900 text-white font-medium rounded-lg transition-colors"
               >
                 Create Business Account
               </button>
               <button
                 onClick={() => navigate("/contact")}
-                className="px-8 py-3 bg-white hover:bg-gray-50 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-white font-medium rounded-lg border border-gray-300 dark:border-gray-600 transition-colors"
+                className="px-8 py-3 bg-white hover:bg-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-100 font-medium rounded-lg border border-gray-300 dark:border-gray-600 transition-colors"
               >
                 Contact Sales
               </button>

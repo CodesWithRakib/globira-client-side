@@ -5,9 +5,9 @@ import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   const maxVisiblePages = 5;
   const halfMaxVisible = Math.floor(maxVisiblePages / 2);
-
   let startPage = Math.max(currentPage - halfMaxVisible, 1);
   let endPage = Math.min(startPage + maxVisiblePages - 1, totalPages);
+
   if (endPage - startPage + 1 < maxVisiblePages) {
     startPage = Math.max(endPage - maxVisiblePages + 1, 1);
   }
@@ -28,7 +28,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
         className={`w-10 h-10 flex items-center justify-center border rounded-md transition-all ${
           currentPage === 1
             ? "text-gray-400 border-gray-200 dark:border-gray-700 dark:text-gray-600 cursor-not-allowed"
-            : "text-amber-600 border-gray-300 hover:bg-amber-50 dark:text-amber-400 dark:hover:bg-amber-900/20"
+            : "text-blue-600 border-gray-300 hover:bg-blue-50 dark:text-blue-400 dark:hover:bg-blue-900/20"
         }`}
         aria-label="Previous"
       >
@@ -44,8 +44,8 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
             whileTap={{ scale: 0.95 }}
             className={`w-10 h-10 rounded-md border flex items-center justify-center font-medium transition-colors ${
               currentPage === 1
-                ? "bg-amber-600 text-white"
-                : "text-gray-700 dark:text-gray-300 hover:bg-amber-50 dark:hover:bg-amber-900/20"
+                ? "bg-blue-600 text-white"
+                : "text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-blue-900/20"
             }`}
           >
             1
@@ -65,8 +65,8 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
           whileTap={{ scale: 0.95 }}
           className={`w-10 h-10 rounded-md border flex items-center justify-center font-medium transition-colors ${
             number === currentPage
-              ? "bg-amber-600 text-white"
-              : "text-gray-700 dark:text-gray-300 hover:bg-amber-50 dark:hover:bg-amber-900/20"
+              ? "bg-blue-600 text-white shadow-md"
+              : "text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-blue-900/20"
           }`}
         >
           {number}
@@ -85,8 +85,8 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
             whileTap={{ scale: 0.95 }}
             className={`w-10 h-10 rounded-md border flex items-center justify-center font-medium transition-colors ${
               currentPage === totalPages
-                ? "bg-amber-600 text-white"
-                : "text-gray-700 dark:text-gray-300 hover:bg-amber-50 dark:hover:bg-amber-900/20"
+                ? "bg-blue-600 text-white"
+                : "text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-blue-900/20"
             }`}
           >
             {totalPages}
@@ -103,7 +103,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
         className={`w-10 h-10 flex items-center justify-center border rounded-md transition-all ${
           currentPage === totalPages
             ? "text-gray-400 border-gray-200 dark:border-gray-700 dark:text-gray-600 cursor-not-allowed"
-            : "text-amber-600 border-gray-300 hover:bg-amber-50 dark:text-amber-400 dark:hover:bg-amber-900/20"
+            : "text-blue-600 border-gray-300 hover:bg-blue-50 dark:text-blue-400 dark:hover:bg-blue-900/20"
         }`}
         aria-label="Next"
       >

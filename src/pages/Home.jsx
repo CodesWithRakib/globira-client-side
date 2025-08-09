@@ -15,24 +15,23 @@ import CtaNewsletter from "../components/CtaNewsletter";
 
 const Home = () => {
   const { user, loading } = useAuth();
-
   useTitle(`Home`);
 
   if (loading) return <Loading />;
 
   return (
     <>
-      <div className="bg-white dark:bg-zinc-950">
-        <Banner></Banner>
-        <ProductCategory></ProductCategory>
-        <ExclusiveOffers></ExclusiveOffers>
-        {user && <RecentProduct></RecentProduct>}
-        <WhyBuyFromUs></WhyBuyFromUs>
-        <BrandsCarousel></BrandsCarousel>
-        <CustomerReviews></CustomerReviews>
-        <Faq></Faq>
+      <div className="bg-white dark:bg-gray-900">
+        <Banner />
+        <ProductCategory />
+        <ExclusiveOffers />
+        {user && <RecentProduct />}
+        <WhyBuyFromUs />
+        <BrandsCarousel />
+        <CustomerReviews />
+        <Faq />
         <CtaNewsletter />
-        <Contact></Contact>
+        <Contact />
       </div>
     </>
   );

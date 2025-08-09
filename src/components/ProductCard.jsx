@@ -17,7 +17,6 @@ const ProductCard = ({ product, loading }) => {
     rating,
     _id,
   } = product || {};
-
   const navigate = useNavigate();
   const [isLiked, setIsLiked] = React.useState(false);
   const [isHovered, setIsHovered] = React.useState(false);
@@ -32,7 +31,7 @@ const ProductCard = ({ product, loading }) => {
     >
       {/* Category badge */}
       {category && (
-        <span className="absolute top-3 left-3 z-10 inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-gradient-to-r from-amber-500 to-yellow-400 text-white shadow-sm">
+        <span className="absolute top-3 left-3 z-10 inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-gradient-to-r from-blue-500 to-blue-400 text-white shadow-sm">
           {formatCategory(category)}
         </span>
       )}
@@ -69,9 +68,9 @@ const ProductCard = ({ product, loading }) => {
         >
           <button
             onClick={() => navigate(`/product/${_id}`)}
-            className="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium bg-white dark:bg-zinc-800 shadow hover:bg-gray-100 dark:hover:bg-zinc-700 transition"
+            className="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium bg-white dark:bg-zinc-800 shadow hover:bg-gray-100 dark:hover:bg-zinc-700 transition focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
-            <FaEye className="text-amber-500 dark:text-amber-400" />
+            <FaEye className="text-blue-500 dark:text-blue-400" />
             Quick View
           </button>
         </div>
@@ -103,7 +102,7 @@ const ProductCard = ({ product, loading }) => {
                 key={i}
                 className={`text-xs ${
                   i < Math.floor(rating || 0)
-                    ? "text-amber-500"
+                    ? "text-blue-500"
                     : "text-gray-300 dark:text-zinc-600"
                 }`}
               />
@@ -114,12 +113,12 @@ const ProductCard = ({ product, loading }) => {
 
         {/* Price & CTA */}
         <div className="mt-auto pt-3 flex justify-between items-center">
-          <span className="text-lg font-bold text-amber-600 dark:text-amber-400">
+          <span className="text-lg font-bold text-blue-600 dark:text-blue-400">
             ${price.toLocaleString("en-IN")}
           </span>
           <button
             onClick={() => navigate(`/product/${_id}`)}
-            className="bg-amber-500 dark:bg-amber-600 hover:bg-amber-600 dark:hover:bg-amber-700 text-white text-sm px-4 py-2 rounded-lg transition-colors"
+            className="bg-blue-600 dark:bg-blue-700 hover:bg-blue-700 dark:hover:bg-blue-800 text-white text-sm px-4 py-2 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
             aria-label={`View details of ${productName}`}
           >
             View Details

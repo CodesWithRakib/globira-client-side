@@ -8,6 +8,7 @@ import useTitle from "../hooks/useTitle";
 const AllTestimonials = () => {
   const navigate = useNavigate();
   useTitle("All Testimonials");
+
   const customerReviews = [
     {
       id: 1,
@@ -97,17 +98,15 @@ const AllTestimonials = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-12"
         >
-          <div className="inline-flex items-center justify-center gap-2 mb-4 bg-amber-100 dark:bg-amber-900/20 px-4 py-2 rounded-full">
-            <BadgeCheck className="w-5 h-5 text-amber-600 dark:text-amber-400" />
-            <span className="text-sm font-medium text-amber-600 dark:text-amber-400">
+          <div className="inline-flex items-center justify-center gap-2 mb-4 bg-blue-100 dark:bg-blue-900/20 px-4 py-2 rounded-full">
+            <BadgeCheck className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+            <span className="text-sm font-medium text-blue-600 dark:text-blue-400">
               CUSTOMER TESTIMONIALS
             </span>
           </div>
-
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
             Verified Business Reviews
           </h2>
-
           <div className="flex flex-wrap items-center justify-center gap-6 mt-6">
             <div className="flex items-center gap-2">
               <div className="flex items-center">
@@ -116,7 +115,7 @@ const AllTestimonials = () => {
                     key={i}
                     className={`w-5 h-5 ${
                       i < Math.floor(averageRating)
-                        ? "text-amber-500 fill-amber-500"
+                        ? "text-blue-500 fill-blue-500"
                         : "text-gray-300 dark:text-gray-600"
                     }`}
                   />
@@ -164,7 +163,7 @@ const AllTestimonials = () => {
                   </div>
                 </div>
                 {review.verified && (
-                  <div className="flex items-center gap-1 text-amber-500 dark:text-amber-400">
+                  <div className="flex items-center gap-1 text-blue-500 dark:text-blue-400">
                     <BadgeCheck className="w-5 h-5" />
                     <span className="text-xs">Verified</span>
                   </div>
@@ -179,7 +178,7 @@ const AllTestimonials = () => {
                       key={i}
                       className={`w-5 h-5 ${
                         i < review.rating
-                          ? "text-amber-500 fill-amber-500"
+                          ? "text-blue-500 fill-blue-500"
                           : "text-gray-300 dark:text-gray-600"
                       }`}
                     />
@@ -233,7 +232,7 @@ const AllTestimonials = () => {
         >
           <button
             onClick={() => navigate(-1)}
-            className="flex items-center gap-2 mx-auto px-6 py-3 text-sm font-medium rounded-full border border-gray-300 text-gray-700 hover:bg-gray-100 transition-colors dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700"
+            className="flex items-center gap-2 mx-auto px-6 py-3 text-sm font-medium rounded-full border border-gray-300 text-gray-700 hover:bg-gray-100 transition-colors dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
           >
             <ChevronLeft className="w-4 h-4" />
             Back to Home

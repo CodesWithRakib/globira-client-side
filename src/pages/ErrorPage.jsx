@@ -9,7 +9,6 @@ const ErrorPage = ({
   showHomeButton = true,
 }) => {
   useTitle(`${statusCode} | ${message}`);
-
   useEffect(() => {
     document.documentElement.setAttribute(
       "data-theme",
@@ -51,11 +50,11 @@ const ErrorPage = ({
       <div className="text-center max-w-md mx-auto space-y-6">
         {/* Animated error illustration */}
         <motion.div variants={itemVariants} className="relative">
-          <div className="absolute inset-0 bg-red-100 dark:bg-red-900/20 rounded-full blur-2xl opacity-70 animate-pulse"></div>
+          <div className="absolute inset-0 bg-blue-100 dark:bg-blue-900/20 rounded-full blur-2xl opacity-70 animate-pulse"></div>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
-            className="w-32 h-32 mx-auto text-red-500 dark:text-red-400 relative"
+            className="w-32 h-32 mx-auto text-blue-600 dark:text-blue-400 relative"
             fill="none"
             stroke="currentColor"
             strokeWidth="2"
@@ -70,7 +69,7 @@ const ErrorPage = ({
 
         {/* Status code */}
         <motion.div variants={itemVariants}>
-          <span className="inline-block px-3 py-1 text-sm font-mono bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 rounded-full">
+          <span className="inline-block px-3 py-1 text-sm font-mono bg-blue-50 dark:bg-blue-900 text-blue-900 dark:text-blue-100 rounded-full">
             Error {statusCode}
           </span>
         </motion.div>
@@ -78,7 +77,7 @@ const ErrorPage = ({
         {/* Message */}
         <motion.h1
           variants={itemVariants}
-          className="text-4xl font-bold text-gray-900 dark:text-white"
+          className="text-4xl font-bold text-gray-800 dark:text-gray-100"
         >
           {message}
         </motion.h1>
@@ -101,14 +100,14 @@ const ErrorPage = ({
           {showHomeButton && (
             <Link
               to="/"
-              className="px-6 py-3 font-medium text-white bg-amber-600 hover:bg-amber-700 dark:bg-amber-800 dark:hover:bg-amber-700 rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg"
+              className="px-6 py-3 font-medium text-white bg-blue-600 hover:bg-blue-700 dark:bg-blue-800 dark:hover:bg-blue-900 rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg"
             >
               Return Home
             </Link>
           )}
           <button
             onClick={() => window.location.reload()}
-            className="px-6 py-3 font-medium text-gray-700 dark:text-gray-300 bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 rounded-lg transition-colors duration-200"
+            className="px-6 py-3 font-medium text-gray-700 dark:text-gray-300 bg-blue-50 hover:bg-blue-100 dark:bg-blue-900 dark:hover:bg-blue-800 rounded-lg transition-colors duration-200"
           >
             Try Again
           </button>
@@ -120,7 +119,7 @@ const ErrorPage = ({
             Need help?{" "}
             <a
               href="mailto:support@example.com"
-              className="text-amber-600 hover:text-amber-700 hover:underline"
+              className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 hover:underline"
             >
               Contact support
             </a>

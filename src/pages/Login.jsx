@@ -10,11 +10,8 @@ import useAuth from "../hooks/useAuth";
 function Login() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-
   const { logIn, setUser, logInWithGoogle } = useAuth();
-
   useTitle(`Login`);
-
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -23,14 +20,12 @@ function Login() {
     const form = event.target;
     const formData = new FormData(form);
     const userInfo = Object.fromEntries(formData.entries());
-
     const { email, password } = userInfo;
     setIsLoggedIn(true);
     logIn(email, password)
       .then((userCredential) => {
         const user = userCredential.user;
         setUser(user);
-
         toast.success("Account logged in successfully!");
         setTimeout(() => {
           navigate(location.state?.from || "/");
@@ -62,27 +57,27 @@ function Login() {
   };
 
   return (
-    <div className="min-h-screen grid lg:grid-cols-2">
+    <div className="min-h-screen grid lg:grid-cols-2 bg-white dark:bg-gray-900">
       {/* Left Side - Form */}
-      <div className="flex flex-col justify-center items-center p-6 sm:p-12">
+      <div className="flex flex-col justify-center items-center p-6 sm:p-12 bg-white dark:bg-gray-900">
         <div className="w-full max-w-md space-y-8">
           {/* Logo */}
           <div className="text-center mb-8">
             <div className="flex flex-col items-center gap-2 group">
-              <div
-                className="w-12 h-12 rounded-xl bg-amber-100 flex items-center justify-center group-hover:bg-amber-200
-              transition-colors"
-              >
-                <FaGlobeAmericas className="w-6 h-6 text-amber-600" />
+              <div className="w-12 h-12 rounded-xl bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center group-hover:bg-blue-200 dark:hover:bg-blue-800 transition-colors">
+                <FaGlobeAmericas className="w-6 h-6 text-blue-600 dark:text-blue-400" />
               </div>
-              <h1 className="text-2xl font-bold mt-2">Welcome Back</h1>
-              <p className="text-base-content/60">Sign in to your account</p>
+              <h1 className="text-2xl font-bold mt-2 text-gray-900 dark:text-white">
+                Welcome Back
+              </h1>
+              <p className="text-gray-600 dark:text-gray-400">
+                Sign in to your account
+              </p>
             </div>
           </div>
-
           <div>
             <div onClick={handleGoogleLogin} className="my-6 space-y-4">
-              <button className="btn bg-white text-black border-[#e5e5e5] w-full gap-2 hover:bg-amber-50 transition-colors flex items-center justify-center">
+              <button className="btn bg-slate-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-700 w-full gap-2 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors flex items-center justify-center p-4 rounded-lg shadow-sm">
                 <svg
                   aria-label="Google logo"
                   width="20"
@@ -114,19 +109,20 @@ function Login() {
               </button>
             </div>
             <div className="flex items-center w-full my-4">
-              <hr className="w-full dark:text-gray-600" />
-              <p className="px-3 dark:text-gray-600">OR</p>
-              <hr className="w-full dark:text-gray-600" />
+              <hr className="w-full border-gray-300 dark:border-gray-600" />
+              <p className="px-3 text-gray-500 dark:text-gray-400">OR</p>
+              <hr className="w-full border-gray-300 dark:border-gray-600" />
             </div>
           </div>
-
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="form-control">
-              <p className="label-text font-medium">Email</p>
+              <p className="label-text font-medium text-gray-700 dark:text-gray-300">
+                Email
+              </p>
               <label className="input validator w-full relative">
                 <svg
-                  className="h-[2em] opacity-50 absolute left-3 top-1/2 -translate-y-1/2"
+                  className="h-[2em] opacity-50 absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 dark:text-gray-400"
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
                 >
@@ -144,19 +140,19 @@ function Login() {
                 <input
                   type="email"
                   name="email"
-                  className="w-full pl-12"
+                  className="w-full pl-12 pr-4 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   placeholder="mail@site.com"
                   required
                 />
               </label>
             </div>
-
             <div className="form-control">
-              <p className="label-text font-medium">Password</p>
-
+              <p className="label-text font-medium text-gray-700 dark:text-gray-300">
+                Password
+              </p>
               <label className="input validator w-full relative">
                 <svg
-                  className="h-[2em] opacity-50 absolute left-3 top-1/2 -translate-y-1/2"
+                  className="h-[2em] opacity-50 absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 dark:text-gray-400"
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
                 >
@@ -179,46 +175,46 @@ function Login() {
                 <input
                   type={showPassword ? "text" : "password"}
                   name="password"
-                  className="w-full pl-12"
+                  className="w-full pl-12 pr-12 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   required
                   placeholder="Password"
                 />
                 <button
                   type="button"
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 dark:text-gray-400"
                   onClick={() => setShowPassword(!showPassword)}
                   aria-label={showPassword ? "Hide password" : "Show password"}
                 >
                   {showPassword ? (
-                    <EyeIcon className="size-5 text-base-content/40" />
+                    <EyeIcon className="size-5" />
                   ) : (
-                    <EyeOffIcon className="size-5 text-base-content/40" />
+                    <EyeOffIcon className="size-5" />
                   )}
                 </button>
               </label>
             </div>
-
             <button
               type="submit"
-              className="w-full py-3 px-4 bg-amber-600 hover:bg-amber-700 text-white font-medium rounded-lg transition-colors disabled:opacity-70 disabled:cursor-not-allowed flex justify-center items-center gap-2"
+              className="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 text-white font-medium rounded-lg transition-colors disabled:opacity-70 disabled:cursor-not-allowed flex justify-center items-center gap-2"
               disabled={isLoggedIn}
             >
               {isLoggedIn && <Loader2 className="h-5 w-5 animate-spin" />}
               {isLoggedIn ? "Logging in..." : "Log In"}
             </button>
           </form>
-
           <div className="text-center">
-            <p className="text-base-content/60">
+            <p className="text-gray-600 dark:text-gray-400">
               Don&apos;t have an account?{" "}
-              <Link to="/register" className="text-amber-600 hover:underline">
+              <Link
+                to="/register"
+                className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 hover:underline"
+              >
                 Create account
               </Link>
             </p>
           </div>
         </div>
       </div>
-
       {/* Right Side - Image/Pattern */}
       <AuthImagePattern
         title={"Welcome back!"}

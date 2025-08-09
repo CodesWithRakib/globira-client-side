@@ -23,7 +23,6 @@ const MyProductCard = ({ product, setProducts, products }) => {
     category,
     description,
   } = product;
-
   const axiosSecure = useAxios();
 
   const handleDelete = () => {
@@ -32,7 +31,7 @@ const MyProductCard = ({ product, setProducts, products }) => {
       text: "This action cannot be undone!",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#d33",
+      confirmButtonColor: "#2563eb",
       cancelButtonColor: "#3085d6",
       confirmButtonText: "Delete",
       cancelButtonText: "Cancel",
@@ -94,7 +93,6 @@ const MyProductCard = ({ product, setProducts, products }) => {
           <span className="inline-block px-2 py-1 text-xs font-semibold rounded-full bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300">
             {formatCategory(category)}
           </span>
-
           {/* Rating */}
           <div className="flex items-center">
             <Rating
@@ -103,7 +101,7 @@ const MyProductCard = ({ product, setProducts, products }) => {
               emptySymbol={
                 <FaStar className="text-gray-300 dark:text-gray-600" />
               }
-              fullSymbol={<FaStar className="text-amber-400" />}
+              fullSymbol={<FaStar className="text-blue-500" />}
               fractions={2}
             />
             <span className="ml-1 text-sm text-gray-600 dark:text-gray-300">
@@ -145,7 +143,7 @@ const MyProductCard = ({ product, setProducts, products }) => {
 
         {/* Price */}
         <div className="flex justify-between items-center mb-4">
-          <div className="text-xl font-bold text-amber-600 dark:text-amber-400">
+          <div className="text-xl font-bold text-blue-600 dark:text-blue-400">
             ${price.toLocaleString("en-US")}
           </div>
         </div>
@@ -154,14 +152,13 @@ const MyProductCard = ({ product, setProducts, products }) => {
         <div className="flex flex-wrap justify-between gap-3 mt-auto">
           <Link
             to={`/update-product/${_id}`}
-            className="flex-1 min-w-[120px] flex items-center justify-center gap-2 bg-amber-600 hover:bg-amber-700 text-white py-2 px-4 rounded-lg transition-colors shadow-md"
+            className="flex-1 min-w-[120px] flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg transition-colors shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
           >
             <FaEdit className="text-sm" /> Edit
           </Link>
-
           <button
             onClick={handleDelete}
-            className="flex-1 min-w-[120px] flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded-lg transition-colors shadow-md"
+            className="flex-1 min-w-[120px] flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded-lg transition-colors shadow-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
           >
             <MdDelete className="text-sm" /> Delete
           </button>

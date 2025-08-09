@@ -40,8 +40,8 @@ const Products = () => {
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 px-4 sm:px-6 lg:px-8">
       {/* Header Section */}
       <div className="max-w-7xl mx-auto mb-8 text-center">
-        <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-          Our <span className="text-amber-600">Products</span>
+        <h1 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-gray-100 mb-4">
+          Our <span className="text-blue-600">Products</span>
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
           Explore our latest collection of premium products
@@ -53,7 +53,7 @@ const Products = () => {
         <select
           value={sortBy}
           onChange={(e) => setSortBy(e.target.value)}
-          className="px-4 py-2 border border-amber-300 rounded-md text-sm dark:bg-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-500"
+          className="px-4 py-2 border border-blue-300 rounded-md text-sm bg-white dark:bg-gray-800 dark:text-white dark:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           <option value="newest">Newest</option>
           <option value="price-asc">Price: Low to High</option>
@@ -65,7 +65,7 @@ const Products = () => {
       {/* Products Grid */}
       {isLoading ? (
         <div className="flex justify-center items-center h-64">
-          <FaSpinner className="animate-spin text-4xl text-amber-600" />
+          <FaSpinner className="animate-spin text-4xl text-blue-600" />
         </div>
       ) : products.length > 0 ? (
         <div className="max-w-7xl mx-auto">
@@ -74,7 +74,6 @@ const Products = () => {
               <RecentProductCard key={product._id} product={product} />
             ))}
           </div>
-
           {/* Pagination */}
           <Pagination
             currentPage={currentPage}

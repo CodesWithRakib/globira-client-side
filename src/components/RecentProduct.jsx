@@ -61,10 +61,10 @@ const RecentProduct = () => {
               className="inline-flex items-center justify-center mb-4"
               whileHover={{ scale: 1.05 }}
             >
-              <div className="p-2 rounded-full bg-amber-100 dark:bg-amber-900/30 mr-3">
-                <FiClock className="w-5 h-5 text-amber-600 dark:text-amber-400" />
+              <div className="p-2 rounded-full bg-blue-100 dark:bg-blue-900/30 mr-3">
+                <FiClock className="w-5 h-5 text-blue-600 dark:text-blue-400" />
               </div>
-              <span className="text-sm font-semibold tracking-wider text-amber-600 dark:text-amber-400 uppercase">
+              <span className="text-sm font-semibold tracking-wider text-blue-600 dark:text-blue-400 uppercase">
                 Fresh Arrivals
               </span>
             </motion.div>
@@ -82,10 +82,8 @@ const RecentProduct = () => {
               />
             </motion.button>
           </div>
-
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-            Our{" "}
-            <span className="text-amber-600 dark:text-amber-400">Newest</span>{" "}
+            Our <span className="text-blue-600 dark:text-blue-400">Newest</span>{" "}
             Additions
           </h2>
           <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
@@ -175,7 +173,7 @@ const RecentProduct = () => {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="px-6 py-2 bg-amber-600 dark:bg-amber-700 text-white rounded-lg hover:bg-amber-700 dark:hover:bg-amber-800 transition-colors"
+                className="px-6 py-2 bg-blue-600 dark:bg-blue-700 text-white rounded-lg hover:bg-blue-700 dark:hover:bg-blue-800 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
               >
                 Notify Me
               </motion.button>
@@ -196,7 +194,7 @@ const RecentProduct = () => {
               onClick={handleViewAll}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="flex items-center gap-2 mx-auto px-6 py-3 border-2 border-amber-600 text-amber-600 dark:text-amber-400 dark:border-amber-400 rounded-lg font-medium hover:bg-amber-50 dark:hover:bg-amber-900/20 transition-all duration-300 group"
+              className="flex items-center gap-2 mx-auto px-6 py-3 border-2 border-blue-600 text-blue-600 dark:text-blue-400 dark:border-blue-400 rounded-lg font-medium hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all duration-300 group focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
             >
               View All New Arrivals
               <FiArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />

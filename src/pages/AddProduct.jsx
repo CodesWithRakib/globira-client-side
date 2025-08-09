@@ -14,7 +14,6 @@ const AddProduct = () => {
   const [previewImage, setPreviewImage] = useState(null);
   const axiosSecure = useAxios();
   const { user } = useAuth();
-
   useTitle(`Add Product`);
 
   const {
@@ -64,7 +63,6 @@ const AddProduct = () => {
     const formData = new FormData();
     formData.append("file", file);
     formData.append("upload_preset", "codeswithrakib");
-
     const res = await fetch(
       `https://api.cloudinary.com/v1_1/${
         import.meta.env.VITE_CLOUD_NAME
@@ -74,7 +72,6 @@ const AddProduct = () => {
         body: formData,
       }
     );
-
     const data = await res.json();
     return data.secure_url;
   };
@@ -101,31 +98,25 @@ const AddProduct = () => {
       toast.error("Minimum selling quantity cannot exceed main quantity");
       return;
     }
-
     if (minimumQuantity < 1) {
       toast.error("Minimum selling quantity must be at least 1");
       return;
     }
-
     if (mainQuantity < 1) {
       toast.error("Main quantity must be at least 1");
       return;
     }
 
     setIsAdded(true);
-
     try {
       const productInfo = { ...data };
-
       productInfo.email = user.email;
       productInfo.sellerName = user.displayName;
       productInfo.sellerPhotoURL = user.photoURL;
-
       const selectedCategory = productInfo.category.split("-")[0];
       productInfo.productContent = productContent[selectedCategory] || "";
 
       let imageUrl = productInfo.productImage;
-
       if (data.productImageFile && data.productImageFile.length > 0) {
         try {
           imageUrl = await uploadImageToCloudinary(data.productImageFile[0]);
@@ -135,7 +126,6 @@ const AddProduct = () => {
           return;
         }
       }
-
       productInfo.productImage = imageUrl;
 
       await axiosSecure.post("/api/products", productInfo);
@@ -158,8 +148,8 @@ const AddProduct = () => {
           {/* Header */}
           <div className="text-center">
             <div className="flex flex-col items-center gap-2">
-              <div className="size-14 rounded-xl bg-amber-100 dark:bg-amber-900/50 flex items-center justify-center mb-3">
-                <AiFillProduct className="size-6 text-amber-600 dark:text-amber-400" />
+              <div className="size-14 rounded-xl bg-blue-100 dark:bg-blue-900/50 flex items-center justify-center mb-3">
+                <AiFillProduct className="size-6 text-blue-600 dark:text-blue-400" />
               </div>
               <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
                 Add New Product
@@ -187,7 +177,7 @@ const AddProduct = () => {
                   {...register("brandName", {
                     required: "Brand Name is required",
                   })}
-                  className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 dark:bg-gray-800 dark:text-white ${
+                  className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white ${
                     errors.brandName
                       ? "border-red-500 focus:border-red-500"
                       : "border-gray-300 dark:border-gray-600"
@@ -209,7 +199,7 @@ const AddProduct = () => {
                   {...register("productName", {
                     required: "Product Name is required",
                   })}
-                  className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 dark:bg-gray-800 dark:text-white ${
+                  className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white ${
                     errors.productName
                       ? "border-red-500 focus:border-red-500"
                       : "border-gray-300 dark:border-gray-600"
@@ -231,7 +221,7 @@ const AddProduct = () => {
               </label>
               <select
                 {...register("category", { required: "Category is required" })}
-                className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 dark:bg-gray-800 dark:text-white ${
+                className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white ${
                   errors.category
                     ? "border-red-500 focus:border-red-500"
                     : "border-gray-300 dark:border-gray-600"
@@ -300,7 +290,7 @@ const AddProduct = () => {
               <input
                 type="text"
                 {...register("productImage")}
-                className="mt-2 w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 dark:bg-gray-800 dark:text-white"
+                className="mt-2 w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white"
                 placeholder="Or enter image URL"
               />
             </div>
@@ -317,7 +307,7 @@ const AddProduct = () => {
                     required: "Main quantity is required",
                     min: { value: 1, message: "Minimum quantity is 1" },
                   })}
-                  className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 dark:bg-gray-800 dark:text-white ${
+                  className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white ${
                     errors.mainQuantity
                       ? "border-red-500 focus:border-red-500"
                       : "border-gray-300 dark:border-gray-600"
@@ -343,7 +333,7 @@ const AddProduct = () => {
                     required: "Minimum quantity is required",
                     min: { value: 1, message: "Minimum quantity is 1" },
                   })}
-                  className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 dark:bg-gray-800 dark:text-white ${
+                  className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white ${
                     errors.minimumQuantity
                       ? "border-red-500 focus:border-red-500"
                       : "border-gray-300 dark:border-gray-600"
@@ -377,7 +367,7 @@ const AddProduct = () => {
                       message: "Price must be at least 0.01",
                     },
                   })}
-                  className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 dark:bg-gray-800 dark:text-white ${
+                  className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white ${
                     errors.price
                       ? "border-red-500 focus:border-red-500"
                       : "border-gray-300 dark:border-gray-600"
@@ -401,7 +391,7 @@ const AddProduct = () => {
                     min: { value: 1, message: "Rating minimum is 1" },
                     max: { value: 5, message: "Rating maximum is 5" },
                   })}
-                  className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 dark:bg-gray-800 dark:text-white ${
+                  className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white ${
                     errors.rating
                       ? "border-red-500 focus:border-red-500"
                       : "border-gray-300 dark:border-gray-600"
@@ -426,7 +416,7 @@ const AddProduct = () => {
                   required: "Description is required",
                 })}
                 rows="4"
-                className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 dark:bg-gray-800 dark:text-white ${
+                className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white ${
                   errors.description
                     ? "border-red-500 focus:border-red-500"
                     : "border-gray-300 dark:border-gray-600"
@@ -444,7 +434,7 @@ const AddProduct = () => {
             <button
               type="submit"
               disabled={isAdded}
-              className="w-full flex justify-center items-center py-3 px-4 bg-amber-600 dark:bg-amber-800 hover:bg-amber-500 text-white font-medium rounded-lg transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
+              className="w-full flex justify-center items-center py-3 px-4 bg-blue-600 dark:bg-blue-800 hover:bg-blue-700 dark:hover:bg-blue-700 text-white font-medium rounded-lg transition-colors disabled:opacity-70 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
             >
               {isAdded ? (
                 <>
