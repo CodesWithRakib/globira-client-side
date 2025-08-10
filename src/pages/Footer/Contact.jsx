@@ -9,28 +9,28 @@ const Contact = () => {
 
   const contactMethods = [
     {
-      icon: <Mail className="w-6 h-6 text-amber-600 dark:text-amber-400" />,
+      icon: <Mail className="w-6 h-6 text-blue-600 dark:text-blue-400" />,
       title: "Email Support",
       description: "For general inquiries and support",
       details: "support@globira.com",
       action: "mailto:support@globira.com",
     },
     {
-      icon: <Phone className="w-6 h-6 text-amber-600 dark:text-amber-400" />,
+      icon: <Phone className="w-6 h-6 text-blue-600 dark:text-blue-400" />,
       title: "Sales Team",
       description: "For business and wholesale inquiries",
       details: "+880 1234 567890",
       action: "tel:+8801234567890",
     },
     {
-      icon: <MapPin className="w-6 h-6 text-amber-600 dark:text-amber-400" />,
+      icon: <MapPin className="w-6 h-6 text-blue-600 dark:text-blue-400" />,
       title: "Headquarters",
       description: "Our main office location",
       details: "123 Business Avenue, Dhaka 1212, Bangladesh",
       action: "https://maps.google.com",
     },
     {
-      icon: <Clock className="w-6 h-6 text-amber-600 dark:text-amber-400" />,
+      icon: <Clock className="w-6 h-6 text-blue-600 dark:text-blue-400" />,
       title: "Working Hours",
       description: "Our standard support availability",
       details: "Sunday-Thursday: 9AM - 6PM (GMT+6)",
@@ -81,7 +81,7 @@ const Contact = () => {
                   className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700 hover:shadow-md transition-all"
                 >
                   <div className="flex items-start gap-4">
-                    <div className="p-2 rounded-full bg-amber-50 dark:bg-amber-900/20">
+                    <div className="p-2 rounded-full bg-blue-50 dark:bg-blue-900/20">
                       {method.icon}
                     </div>
                     <div>
@@ -97,7 +97,7 @@ const Contact = () => {
                       {method.action && (
                         <a
                           href={method.action}
-                          className="inline-block mt-3 text-sm font-medium text-amber-600 dark:text-amber-400 hover:text-amber-700 dark:hover:text-amber-500 transition-colors"
+                          className="inline-block mt-3 text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-500 transition-colors"
                         >
                           Contact Now →
                         </a>
@@ -145,14 +145,12 @@ const Contact = () => {
                 Fill out the form below and our team will get back to you within
                 24 hours.
               </p>
-
               <ContactForm />
-
               <p className="text-xs text-gray-500 dark:text-gray-400 mt-4">
                 By submitting this form, you agree to our{" "}
                 <a
                   href="/privacy"
-                  className="text-amber-600 dark:text-amber-400 hover:underline"
+                  className="text-blue-600 dark:text-blue-400 hover:underline"
                 >
                   Privacy Policy
                 </a>

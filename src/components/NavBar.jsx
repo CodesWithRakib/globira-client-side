@@ -513,20 +513,6 @@ const NavBar = () => {
                           >
                             Your Profile
                           </NavLink>
-                          <NavLink
-                            to="/settings"
-                            className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
-                            onClick={() => setIsProfileOpen(false)}
-                          >
-                            Settings
-                          </NavLink>
-                          <NavLink
-                            to="/help"
-                            className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
-                            onClick={() => setIsProfileOpen(false)}
-                          >
-                            Help & Support
-                          </NavLink>
                           <button
                             onClick={handleLogout}
                             className="w-full text-left px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/30"
