@@ -30,6 +30,7 @@ import AllOffers from "../pages/AllOffers";
 import ViewAllPartners from "../pages/ViewAllPartners";
 import AllTestimonials from "../pages/AllTestimonials";
 import B2BBenefitsPage from "../pages/B2BBenefitsPage";
+import WishList from "../pages/WishList";
 
 const router = createBrowserRouter([
   {
@@ -104,6 +105,14 @@ const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <Cart />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "wishlist",
+        element: (
+          <PrivateRoute>
+            <WishList />
           </PrivateRoute>
         ),
       },

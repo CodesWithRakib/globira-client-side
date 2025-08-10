@@ -1,4 +1,5 @@
-import React from "react";
+// Home.jsx
+import React, { Suspense } from "react";
 import Banner from "../components/Banner";
 import ProductCategory from "../components/ProductCategory";
 import RecentProduct from "../components/RecentProduct";
@@ -15,14 +16,14 @@ import CtaNewsletter from "../components/CtaNewsletter";
 
 const Home = () => {
   const { user, loading } = useAuth();
-  useTitle(`Home`);
+  useTitle("Home");
 
   if (loading) return <Loading />;
 
   return (
-    <>
-      <div className="bg-white dark:bg-gray-900">
-        <Banner />
+    <div className="bg-white dark:bg-gray-900">
+      <Banner />
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <ProductCategory />
         <ExclusiveOffers />
         {user && <RecentProduct />}
@@ -33,7 +34,7 @@ const Home = () => {
         <CtaNewsletter />
         <Contact />
       </div>
-    </>
+    </div>
   );
 };
 

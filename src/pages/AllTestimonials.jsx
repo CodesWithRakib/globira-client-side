@@ -89,26 +89,28 @@ const AllTestimonials = () => {
     customerReviews.length;
 
   return (
-    <section className="py-16 px-4 sm:px-6 lg:px-8 bg-white dark:bg-gray-900">
+    <div className="min-h-screen bg-white dark:bg-gray-900 py-16 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-12"
+          className="text-center mb-16"
         >
-          <div className="inline-flex items-center justify-center gap-2 mb-4 bg-blue-100 dark:bg-blue-900/20 px-4 py-2 rounded-full">
+          <div className="inline-flex items-center justify-center gap-2 mb-6 bg-blue-100 dark:bg-blue-900/30 px-5 py-2.5 rounded-full shadow-sm">
             <BadgeCheck className="w-5 h-5 text-blue-600 dark:text-blue-400" />
-            <span className="text-sm font-medium text-blue-600 dark:text-blue-400">
+            <span className="text-sm font-medium text-blue-800 dark:text-blue-200">
               CUSTOMER TESTIMONIALS
             </span>
           </div>
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-800 dark:text-gray-100 mb-6">
             Verified Business Reviews
           </h2>
-          <div className="flex flex-wrap items-center justify-center gap-6 mt-6">
-            <div className="flex items-center gap-2">
+
+          <div className="flex flex-wrap items-center justify-center gap-8 mt-8">
+            <div className="flex items-center gap-3 bg-blue-100 dark:bg-blue-900/30 px-5 py-2.5 rounded-full shadow-sm">
               <div className="flex items-center">
                 {Array.from({ length: 5 }).map((_, i) => (
                   <Star
@@ -121,11 +123,12 @@ const AllTestimonials = () => {
                   />
                 ))}
               </div>
-              <span className="text-lg font-semibold text-gray-800 dark:text-white">
+              <span className="text-lg font-semibold text-gray-800 dark:text-gray-100">
                 {averageRating.toFixed(1)}/5
               </span>
             </div>
-            <div className="text-sm text-gray-600 dark:text-gray-400">
+
+            <div className="text-sm text-gray-700 dark:text-gray-300 bg-blue-100 dark:bg-blue-900/30 px-5 py-2.5 rounded-full shadow-sm">
               {customerReviews.length} verified business reviews
             </div>
           </div>
@@ -133,14 +136,15 @@ const AllTestimonials = () => {
 
         {/* Review Grid - Expanded View */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {customerReviews.map((review) => (
+          {customerReviews.map((review, index) => (
             <motion.div
               key={review.id}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.5 }}
-              className="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-lg border border-gray-100 dark:border-gray-700"
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              whileHover={{ y: -5 }}
+              className="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-sm border border-gray-200 dark:border-gray-700"
             >
               {/* Review Header */}
               <div className="flex justify-between items-start mb-6">
@@ -148,30 +152,27 @@ const AllTestimonials = () => {
                   <img
                     src={review.avatarUrl}
                     alt={`${review.name} avatar`}
-                    className="w-14 h-14 rounded-full border-2 border-white dark:border-gray-800 shadow"
+                    className="w-16 h-16 rounded-full border-2 border-white dark:border-gray-700 shadow-sm"
                   />
                   <div>
-                    <h4 className="font-semibold text-lg text-gray-900 dark:text-white">
+                    <h4 className="font-bold text-xl text-gray-800 dark:text-gray-100">
                       {review.name}
                     </h4>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
                       {review.business}
-                    </p>
-                    <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">
-                      {review.industry}
                     </p>
                   </div>
                 </div>
                 {review.verified && (
-                  <div className="flex items-center gap-1 text-blue-500 dark:text-blue-400">
-                    <BadgeCheck className="w-5 h-5" />
-                    <span className="text-xs">Verified</span>
+                  <div className="flex items-center gap-1 text-blue-600 dark:text-blue-400 bg-blue-100 dark:bg-blue-900/30 px-3 py-1 rounded-full">
+                    <BadgeCheck className="w-4 h-4" />
+                    <span className="text-xs font-medium">Verified</span>
                   </div>
                 )}
               </div>
 
               {/* Rating and Date */}
-              <div className="flex justify-between items-center mb-6">
+              <div className="flex justify-between items-center mb-8">
                 <div className="flex items-center gap-1">
                   {Array.from({ length: 5 }).map((_, i) => (
                     <Star
@@ -183,25 +184,25 @@ const AllTestimonials = () => {
                       }`}
                     />
                   ))}
-                  <span className="ml-2 font-medium text-gray-700 dark:text-gray-300">
+                  <span className="ml-2 font-bold text-gray-800 dark:text-gray-100">
                     {review.rating.toFixed(1)}
                   </span>
                 </div>
-                <span className="text-sm text-gray-500 dark:text-gray-400">
+                <span className="text-sm text-gray-600 dark:text-gray-400 bg-blue-100 dark:bg-blue-900/30 px-3 py-1 rounded-full">
                   {format(new Date(review.date), "MMMM d, yyyy")}
                 </span>
               </div>
 
               {/* Review Content */}
-              <div className="relative mb-8">
-                <Quote className="absolute -top-2 left-0 text-gray-200 dark:text-gray-700 w-8 h-8" />
-                <p className="text-gray-700 dark:text-gray-300 pl-8 text-lg leading-relaxed">
+              <div className="relative mb-10">
+                <Quote className="absolute -top-2 left-0 text-blue-300 dark:text-blue-700 w-10 h-10" />
+                <p className="text-gray-800 dark:text-gray-200 pl-10 text-lg leading-relaxed">
                   {review.review}
                 </p>
               </div>
 
               {/* Location */}
-              <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 border-t border-gray-100 dark:border-gray-700 pt-4">
+              <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 border-t border-gray-200 dark:border-gray-700 pt-4">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="16"
@@ -212,6 +213,7 @@ const AllTestimonials = () => {
                   strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
+                  className="text-blue-600 dark:text-blue-400"
                 >
                   <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
                   <circle cx="12" cy="10" r="3" />
@@ -228,18 +230,20 @@ const AllTestimonials = () => {
           whileInView={{ opacity: 1 }}
           transition={{ delay: 0.3, duration: 0.5 }}
           viewport={{ once: true }}
-          className="text-center mt-12"
+          className="text-center mt-16"
         >
-          <button
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
             onClick={() => navigate(-1)}
-            className="flex items-center gap-2 mx-auto px-6 py-3 text-sm font-medium rounded-full border border-gray-300 text-gray-700 hover:bg-gray-100 transition-colors dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            className="flex items-center gap-2 mx-auto px-6 py-3.5 text-sm font-medium rounded-full bg-blue-600 hover:bg-blue-700 text-white shadow-sm hover:shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
           >
             <ChevronLeft className="w-4 h-4" />
             Back to Home
-          </button>
+          </motion.button>
         </motion.div>
       </div>
-    </section>
+    </div>
   );
 };
 

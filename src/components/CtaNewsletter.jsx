@@ -35,143 +35,122 @@ const CtaNewsletter = () => {
   };
 
   return (
-    <motion.section
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      transition={{ duration: 0.6 }}
-      viewport={{ once: true, margin: "-100px" }}
-      className="relative overflow-hidden bg-gradient-to-br from-blue-600 to-blue-700 dark:from-blue-800 dark:to-blue-900 text-center py-16 px-6 rounded-xl mx-4 shadow-lg"
-    >
-      {/* Background pattern */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')]"></div>
-      </div>
-
-      <div className="relative z-10 max-w-3xl mx-auto">
-        {/* Small banner */}
+    <section className="py-12 bg-gradient-to-br from-blue-600 to-blue-800 dark:from-blue-800 dark:to-blue-900 text-white rounded-2xl my-16">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Section Header */}
         <motion.div
-          initial={{ opacity: 0, y: 10 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.5 }}
+          transition={{ duration: 0.5 }}
           viewport={{ once: true }}
-          className="flex justify-center mb-4"
+          className="mb-10"
         >
-          <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full border border-white/20">
-            <Rocket className="w-5 h-5 text-white" />
-            <span className="text-sm font-medium text-white">
-              GROW YOUR BUSINESS
-            </span>
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 mb-4">
+            <div className="flex items-center gap-4">
+              <div className="inline-flex items-center justify-center p-2 rounded-full bg-white/20">
+                <Rocket className="w-5 h-5 text-white" />
+              </div>
+              <div>
+                <h2 className="text-3xl md:text-4xl font-bold text-white mb-2">
+                  Grow Your <span className="text-blue-200">Business</span>
+                </h2>
+                <p className="text-lg text-blue-100 max-w-2xl">
+                  Join thousands of businesses sourcing high-quality products at
+                  competitive wholesale prices
+                </p>
+              </div>
+            </div>
+
+            <motion.button
+              onClick={() => navigate("/login")}
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+              className="flex items-center gap-2 px-6 py-3 bg-white text-blue-600 font-medium rounded-lg transition-colors shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue-600"
+            >
+              Get Started Now
+              <ArrowRight className="w-4 h-4" />
+            </motion.button>
           </div>
         </motion.div>
 
-        {/* Main CTA heading */}
-        <motion.h2
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.5 }}
-          viewport={{ once: true }}
-          className="text-3xl md:text-4xl font-bold text-white mb-5"
-        >
-          Ready to Source Wholesale Products?
-        </motion.h2>
+        {/* Newsletter Section */}
+        <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
+          <div className="max-w-3xl mx-auto">
+            <div className="flex flex-col md:flex-row gap-8 items-center">
+              {/* Left side - Icon and text */}
+              <div className="md:w-1/3 flex flex-col items-center text-center md:text-left">
+                <div className="w-16 h-16 rounded-full bg-white/20 flex items-center justify-center mb-4">
+                  <Mail className="w-8 h-8 text-white" />
+                </div>
+                <h3 className="text-xl font-bold text-white mb-2">
+                  Stay Updated
+                </h3>
+                <p className="text-blue-100 text-sm">
+                  Subscribe to our newsletter for exclusive deals and updates
+                </p>
+              </div>
 
-        {/* Description */}
-        <motion.p
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4, duration: 0.5 }}
-          viewport={{ once: true }}
-          className="text-lg text-white/90 mb-8 max-w-2xl mx-auto"
-        >
-          Join thousands of businesses sourcing high-quality products at
-          competitive wholesale prices.
-        </motion.p>
+              {/* Right side - Form */}
+              <div className="md:w-2/3">
+                <form onSubmit={handleSubscribe} className="space-y-4">
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    <div className="relative flex-grow">
+                      <input
+                        type="email"
+                        placeholder="Enter your business email"
+                        required
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        disabled={submitting}
+                        className="w-full px-5 py-3.5 rounded-lg border border-white/20 bg-white/10 text-white placeholder-blue-200 focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-white/50 shadow-sm disabled:opacity-60"
+                      />
+                    </div>
+                    <motion.button
+                      whileHover={{ scale: 1.03 }}
+                      whileTap={{ scale: 0.97 }}
+                      type="submit"
+                      disabled={submitting}
+                      className="flex items-center justify-center gap-2 px-6 py-3.5 bg-white text-blue-600 font-medium rounded-lg shadow-md transition-colors disabled:opacity-60 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue-600"
+                    >
+                      <span>{submitting ? "Subscribing..." : "Subscribe"}</span>
+                      <Send className="w-5 h-5" />
+                    </motion.button>
+                  </div>
 
-        {/* Call-to-action button */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5, duration: 0.5 }}
-          viewport={{ once: true }}
-          className="flex flex-col items-center"
-        >
-          <motion.button
-            onClick={() => navigate("/login")}
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.97 }}
-            className="flex items-center gap-2 px-8 py-3.5 bg-white text-blue-600 text-lg font-semibold rounded-lg shadow-md hover:shadow-lg transition-all mb-10 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue-600"
-          >
-            Get Started Now
-            <ArrowRight className="w-5 h-5" />
-          </motion.button>
+                  {/* Trust indicators */}
+                  <div className="flex flex-wrap justify-center gap-4 mt-4 text-sm text-blue-100">
+                    <div className="flex items-center gap-1">
+                      <Check className="w-4 h-4" />
+                      <span>No credit card required</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <Check className="w-4 h-4" />
+                      <span>Get approved in minutes</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <Shield className="w-4 h-4" />
+                      <span>100% secure</span>
+                    </div>
+                  </div>
 
-          {/* Newsletter subscription form */}
-          <motion.form
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6, duration: 0.5 }}
-            viewport={{ once: true }}
-            className="flex flex-col sm:flex-row gap-3 justify-center items-stretch max-w-xl w-full mx-auto"
-            onSubmit={handleSubscribe}
-          >
-            <div className="relative flex-grow">
-              <input
-                type="email"
-                placeholder="Enter your business email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                disabled={submitting}
-                className="w-full px-5 py-3.5 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500 shadow-sm text-gray-700 dark:text-gray-300 disabled:opacity-60"
-              />
+                  {/* Privacy notice */}
+                  <div className="text-center text-xs text-blue-200/70 mt-2">
+                    We never share your data. Read our{" "}
+                    <a href="/privacy" className="underline hover:text-white">
+                      Privacy Policy
+                    </a>
+                  </div>
+                </form>
+              </div>
             </div>
-            <motion.button
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
-              type="submit"
-              disabled={submitting}
-              className="flex items-center justify-center gap-2 px-6 py-3.5 bg-blue-500 hover:bg-blue-600 dark:bg-blue-500 dark:hover:bg-blue-600 text-white font-medium rounded-lg shadow-md transition-colors disabled:opacity-60 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2"
-            >
-              <span>{submitting ? "Subscribing..." : "Subscribe"}</span>
-              <Send className="w-5 h-5" />
-            </motion.button>
-          </motion.form>
+          </div>
+        </div>
 
-          {/* Trust message */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ delay: 0.8, duration: 0.5 }}
-            viewport={{ once: true }}
-            className="flex items-center justify-center gap-2 mt-5 text-sm text-white/80"
-          >
-            <Check className="w-4 h-4" />
-            <span>No credit card required</span>
-            <span className="mx-2">•</span>
-            <Check className="w-4 h-4" />
-            <span>Get approved in minutes</span>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ delay: 0.9, duration: 0.5 }}
-            viewport={{ once: true }}
-            className="flex items-center justify-center gap-2 mt-3 text-xs text-white/70"
-          >
-            <Shield className="w-4 h-4" />
-            <span>We never share your data. Read our </span>
-            <a href="privacy" className="underline hover:text-white">
-              Privacy Policy
-            </a>
-          </motion.div>
-        </motion.div>
+        {/* Decorative elements */}
+        <div className="absolute -bottom-10 -right-10 w-40 h-40 rounded-full bg-blue-400/10 blur-3xl"></div>
+        <div className="absolute -top-10 -left-10 w-40 h-40 rounded-full bg-white/5 blur-3xl"></div>
       </div>
-
-      {/* Decorative elements */}
-      <div className="absolute -bottom-20 -right-20 w-64 h-64 rounded-full bg-blue-400/10 blur-3xl"></div>
-      <div className="absolute -top-20 -left-20 w-64 h-64 rounded-full bg-white/5 blur-3xl"></div>
-    </motion.section>
+    </section>
   );
 };
 

@@ -1,3 +1,4 @@
+// Banner.jsx
 import React from "react";
 import { useNavigate } from "react-router";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
@@ -17,7 +18,7 @@ const Banner = () => {
       subtitle: "Upgrade your gear with cutting-edge devices.",
       buttonText: "Shop Electronics",
       image:
-        "https://img.freepik.com/free-photo/electronics-device-digital-gadget-modern-technology_53876-142041.jpg",
+        "https://images.unsplash.com/photo-1498049794561-7780e623c3c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80",
       path: "/category/electronics-gadgets",
     },
     {
@@ -27,7 +28,7 @@ const Banner = () => {
       subtitle: "Discover smart solutions for your home.",
       buttonText: "Browse Appliances",
       image:
-        "https://img.freepik.com/free-photo/modern-kitchen-interior_53876-145109.jpg",
+        "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80",
       path: "/category/home-kitchen-appliances",
     },
     {
@@ -37,7 +38,7 @@ const Banner = () => {
       subtitle: "Trendy looks at unbeatable prices.",
       buttonText: "Shop Fashion",
       image:
-        "https://img.freepik.com/free-photo/fashion-model-posing-street_23-2151037495.jpg",
+        "https://images.unsplash.com/photo-1441986300917-64674bd600d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80",
       path: "/category/fashion-apparel",
     },
     {
@@ -47,7 +48,7 @@ const Banner = () => {
       subtitle: "Top-grade tools and machinery at your service.",
       buttonText: "Shop Tools",
       image:
-        "https://img.freepik.com/free-photo/industrial-factory-interior_23-2149430863.jpg",
+        "https://images.unsplash.com/photo-1581093196277-9f03a43a7749?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80",
       path: "/category/industrial-machinery-tools",
     },
     {
@@ -57,13 +58,13 @@ const Banner = () => {
       subtitle: "Self-care products that bring real results.",
       buttonText: "Shop Beauty",
       image:
-        "https://img.freepik.com/free-photo/woman-using-facial-roller_23-2149271677.jpg",
+        "https://images.unsplash.com/photo-1596462502278-27bfdc403348?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80",
       path: "/category/health-beauty",
     },
   ];
 
   return (
-    <div className="relative">
+    <section className="relative">
       <Swiper
         modules={[Navigation, Pagination, Autoplay]}
         spaceBetween={0}
@@ -82,10 +83,7 @@ const Banner = () => {
           pauseOnMouseEnter: true,
         }}
         speed={800}
-        style={{
-          height: "70vh",
-          maxHeight: "700px",
-        }}
+        className="h-[70vh] max-h-[700px]"
       >
         {slideData.map((slide) => (
           <SwiperSlide key={slide.id}>
@@ -98,45 +96,47 @@ const Banner = () => {
                 backgroundRepeat: "no-repeat",
               }}
             >
-              <div className="max-w-4xl mx-auto px-4">
-                <div className="inline-block px-4 py-1 bg-blue-600/80 backdrop-blur-sm rounded-full mb-4">
-                  <h3 className="text-blue-100 text-sm md:text-base font-medium uppercase tracking-wide">
-                    {slide.category}
-                  </h3>
-                </div>
-                <h1 className="text-4xl md:text-6xl font-bold mb-4 md:mb-6 leading-tight text-white drop-shadow-lg">
-                  {slide.title}
-                </h1>
-                <p className="text-lg md:text-xl mb-8 max-w-2xl mx-auto text-blue-100">
-                  {slide.subtitle}
-                </p>
-                <button
-                  onClick={() => navigate(slide.path)}
-                  className="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white px-8 py-3.5 text-lg font-medium rounded-lg transition duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 focus:ring-offset-gray-900 shadow-lg"
-                  aria-label={`Shop ${slide.category}`}
-                >
-                  {slide.buttonText}
-                  <svg
-                    className="ml-2 w-5 h-5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
+              <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="max-w-4xl mx-auto">
+                  <div className="inline-block px-4 py-1 bg-blue-600/80 backdrop-blur-sm rounded-full mb-4">
+                    <h3 className="text-blue-100 text-sm md:text-base font-medium uppercase tracking-wide">
+                      {slide.category}
+                    </h3>
+                  </div>
+                  <h1 className="text-4xl md:text-6xl font-bold mb-4 md:mb-6 leading-tight text-white drop-shadow-lg">
+                    {slide.title}
+                  </h1>
+                  <p className="text-lg md:text-xl mb-8 max-w-2xl mx-auto text-blue-100">
+                    {slide.subtitle}
+                  </p>
+                  <button
+                    onClick={() => navigate(slide.path)}
+                    className="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white px-8 py-3.5 text-lg font-medium rounded-lg transition duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 focus:ring-offset-gray-900 shadow-lg"
+                    aria-label={`Shop ${slide.category}`}
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M14 5l7 7m0 0l-7 7m7-7H3"
-                    />
-                  </svg>
-                </button>
+                    {slide.buttonText}
+                    <svg
+                      className="ml-2 w-5 h-5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M14 5l7 7m0 0l-7 7m7-7H3"
+                      />
+                    </svg>
+                  </button>
+                </div>
               </div>
             </div>
           </SwiperSlide>
         ))}
       </Swiper>
-    </div>
+    </section>
   );
 };
 

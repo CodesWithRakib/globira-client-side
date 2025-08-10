@@ -2,11 +2,11 @@
 import React from "react";
 import { motion } from "motion/react";
 import { useNavigate } from "react-router";
-import { ArrowRight } from "lucide-react";
-import ExclusiveCard from "./ExclusiveCard";
+import { ArrowRight, Clock, Tag } from "lucide-react";
 
 const ExclusiveOffers = () => {
   const navigate = useNavigate();
+
   const offersData = [
     {
       id: 1,
@@ -104,68 +104,145 @@ const ExclusiveOffers = () => {
     },
   ];
 
-  return (
-    <section className="px-4 sm:px-6 lg:px-8 py-12 bg-white dark:bg-gray-900">
-      <div className="max-w-7xl mx-auto">
-        {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          viewport={{ once: true }}
-          className="mb-10"
-        >
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 mb-4">
-            <div>
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">
-                Exclusive <span className="text-blue-600">Offers</span>
-              </h2>
-              <p className="mt-2 text-lg text-gray-600 dark:text-gray-300">
-                Limited-time deals on our most popular products
-              </p>
-            </div>
-            <motion.button
-              onClick={() => navigate("/all-offers")}
-              whileHover={{ x: 5 }}
-              whileTap={{ scale: 0.95 }}
-              className="flex items-center gap-2 text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 font-medium transition-colors"
-            >
-              View all offers <ArrowRight className="w-4 h-4" />
-            </motion.button>
-          </div>
-          <div className="h-1 w-20 bg-blue-500 rounded-full" />
-        </motion.div>
+  // Calculate days remaining until expiry
+  const calculateDaysRemaining = (expiryDate) => {
+    const today = new Date();
+    const expiry = new Date(expiryDate);
+    const diffTime = Math.max(0, expiry - today);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays;
+  };
 
-        {/* Offers Grid */}
-        <motion.div
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "0px 0px -100px 0px" }}
-          variants={{
-            hidden: { opacity: 0 },
-            visible: {
-              opacity: 1,
-              transition: {
-                staggerChildren: 0.1,
-              },
+  // Exclusive Card Component
+  const ExclusiveCard = ({ offer }) => {
+    const daysRemaining = calculateDaysRemaining(offer.expiry);
+
+    return (
+      <motion.div
+        whileHover={{ y: -5 }}
+        className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-100 dark:border-gray-700 h-full flex flex-col"
+      >
+        {/* Image Container */}
+        <div className="relative overflow-hidden h-48">
+          <img
+            src={offer.image}
+            alt={offer.title}
+            className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+          />
+          {/* Discount Badge */}
+          <div className="absolute top-4 right-4 bg-red-500 text-white px-3 py-1 rounded-full font-bold flex items-center gap-1">
+            <Tag className="w-4 h-4" />
+            {offer.discount} OFF
+          </div>
+        </div>
+
+        {/* Content */}
+        <div className="p-5 flex-grow flex flex-col">
+          <div className="mb-3">
+            <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+              {offer.title}
+            </h3>
+            <p className="text-gray-600 dark:text-gray-400 text-sm">
+              {offer.description}
+            </p>
+          </div>
+
+          {/* Expiry Info */}
+          <div className="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-4">
+            <Clock className="w-4 h-4 mr-1" />
+            <span>
+              {daysRemaining === 0
+                ? "Expires today"
+                : daysRemaining === 1
+                ? "1 day left"
+                : `${daysRemaining} days left`}
+            </span>
+          </div>
+
+          {/* Details */}
+          <div className="mb-4 text-sm text-gray-600 dark:text-gray-400 flex-grow">
+            <p>{offer.details}</p>
+          </div>
+
+          {/* Terms */}
+          <div className="text-xs text-gray-500 dark:text-gray-400 mb-4 italic">
+            {offer.terms}
+          </div>
+
+          {/* Button */}
+          <motion.button
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={() => navigate(`/category/${offer.category}`)}
+            className="mt-auto w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg transition-colors duration-300 font-medium"
+          >
+            {offer.buttonLabel}
+          </motion.button>
+        </div>
+      </motion.div>
+    );
+  };
+
+  return (
+    <section className="py-12 bg-white dark:bg-gray-900">
+      {/* Section Header */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        viewport={{ once: true }}
+        className="mb-10"
+      >
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 mb-4">
+          <div>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">
+              Exclusive <span className="text-blue-600">Offers</span>
+            </h2>
+            <p className="mt-2 text-lg text-gray-600 dark:text-gray-300">
+              Limited-time deals on our most popular products
+            </p>
+          </div>
+          <motion.button
+            onClick={() => navigate("/all-offers")}
+            whileHover={{ x: 5 }}
+            whileTap={{ scale: 0.95 }}
+            className="flex items-center gap-2 text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 font-medium transition-colors"
+          >
+            View all offers <ArrowRight className="w-4 h-4" />
+          </motion.button>
+        </div>
+        <div className="h-1 w-20 bg-blue-500 rounded-full" />
+      </motion.div>
+
+      {/* Offers Grid */}
+      <motion.div
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "0px 0px -100px 0px" }}
+        variants={{
+          hidden: { opacity: 0 },
+          visible: {
+            opacity: 1,
+            transition: {
+              staggerChildren: 0.1,
             },
-          }}
-        >
-          {offersData.slice(0, 6).map((offer) => (
-            <motion.div
-              key={offer.id}
-              variants={{
-                hidden: { opacity: 0, y: 30 },
-                visible: { opacity: 1, y: 0 },
-              }}
-              transition={{ duration: 0.5 }}
-            >
-              <ExclusiveCard offer={offer} />
-            </motion.div>
-          ))}
-        </motion.div>
-      </div>
+          },
+        }}
+      >
+        {offersData.slice(0, 6).map((offer) => (
+          <motion.div
+            key={offer.id}
+            variants={{
+              hidden: { opacity: 0, y: 30 },
+              visible: { opacity: 1, y: 0 },
+            }}
+            transition={{ duration: 0.5 }}
+          >
+            <ExclusiveCard offer={offer} />
+          </motion.div>
+        ))}
+      </motion.div>
     </section>
   );
 };

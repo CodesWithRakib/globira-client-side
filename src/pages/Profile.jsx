@@ -20,6 +20,7 @@ import Loading from "../components/Loading";
 import { Link } from "react-router";
 import useTitle from "../hooks/useTitle";
 import useAuth from "../hooks/useAuth";
+import { motion } from "motion/react";
 
 const Profile = () => {
   const [selectedImg, setSelectedImg] = useState(null);
@@ -102,11 +103,16 @@ const Profile = () => {
   if (!user) return <Loading />;
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 py-10 px-4">
+    <div className="min-h-screen bg-white dark:bg-gray-900 py-10 px-4">
       <div className="max-w-3xl mx-auto">
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-xl overflow-hidden">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="bg-white dark:bg-gray-800 rounded-xl shadow-sm overflow-hidden border border-gray-200 dark:border-gray-700"
+        >
           {/* Header */}
-          <div className="bg-gradient-to-r from-blue-600 to-blue-700 p-6 text-center">
+          <div className="bg-blue-600 p-6 text-center">
             <h1 className="text-3xl font-bold text-white">Your Profile</h1>
             <p className="text-blue-100 mt-1">
               Manage your personal information
@@ -115,18 +121,24 @@ const Profile = () => {
 
           {/* Avatar Upload */}
           <div className="flex flex-col items-center py-6 px-4">
-            <div className="relative group">
+            <motion.div
+              className="relative group"
+              whileHover={{ scale: 1.02 }}
+              transition={{ duration: 0.2 }}
+            >
               <img
                 src={selectedImg || user?.photoURL || "/avatar.png"}
                 alt="Profile"
                 onError={(e) => (e.target.src = "/avatar.png")}
-                className="size-32 rounded-full object-cover border-4 border-white dark:border-gray-700 shadow-md"
+                className="size-32 rounded-full object-cover border-4 border-white dark:border-gray-700 shadow-sm"
               />
-              <label
+              <motion.label
                 htmlFor="avatar-upload"
-                className={`absolute bottom-2 right-2 bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 p-2 rounded-full cursor-pointer transition-all duration-200 shadow-md ${
+                className={`absolute bottom-2 right-2 bg-blue-600 hover:bg-blue-700 p-2.5 rounded-full cursor-pointer transition-colors duration-200 shadow-sm ${
                   isUpdatingProfile ? "animate-pulse" : ""
                 }`}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
               >
                 <Camera className="w-5 h-5 text-white" />
                 <input
@@ -137,13 +149,13 @@ const Profile = () => {
                   onChange={handleImageUpload}
                   disabled={isUpdatingProfile}
                 />
-              </label>
-            </div>
+              </motion.label>
+            </motion.div>
             <p
-              className={`mt-3 text-sm ${
+              className={`mt-3 text-sm font-medium ${
                 isUpdatingProfile
-                  ? "text-blue-500"
-                  : "text-gray-500 dark:text-gray-400"
+                  ? "text-blue-600 dark:text-blue-400"
+                  : "text-gray-600 dark:text-gray-400"
               }`}
             >
               {isUpdatingProfile
@@ -198,8 +210,14 @@ const Profile = () => {
                 placeholder: "Facebook Profile Link",
               },
             ].map((field, idx) => (
-              <div key={idx} className="space-y-1">
-                <label className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-200 font-medium">
+              <motion.div
+                key={idx}
+                className="space-y-1"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: idx * 0.1, duration: 0.3 }}
+              >
+                <label className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300 font-medium">
                   {field.icon}
                   {field.label}
                 </label>
@@ -208,51 +226,73 @@ const Profile = () => {
                   value={field.value}
                   onChange={(e) => field.setValue(e.target.value)}
                   placeholder={field.placeholder}
-                  className="w-full px-4 py-2 bg-gray-50 dark:bg-gray-700 text-sm rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-2.5 bg-white dark:bg-gray-800 text-sm rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                 />
-              </div>
+              </motion.div>
             ))}
 
             {/* Email (Read-only) */}
-            <div className="space-y-1">
-              <label className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-200 font-medium">
+            <motion.div
+              className="space-y-1"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.7, duration: 0.3 }}
+            >
+              <label className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300 font-medium">
                 <Mail size={18} />
                 Email
               </label>
-              <div className="px-4 py-3 bg-gray-100 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600 text-sm font-medium">
+              <div className="px-4 py-3 bg-white dark:bg-gray-800 rounded-lg border border-gray-300 dark:border-gray-600 text-sm font-medium">
                 {user?.email}
               </div>
-            </div>
+            </motion.div>
 
             {/* Change Password Link */}
-            <div className="text-right">
+            <motion.div
+              className="text-right"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.8, duration: 0.3 }}
+            >
               <Link
                 to="/change-password"
-                className="text-sm text-blue-600 hover:underline flex justify-end items-center gap-1 dark:text-blue-400 dark:hover:text-blue-300"
+                className="text-sm text-blue-600 hover:underline flex justify-end items-center gap-1 dark:text-blue-400 dark:hover:text-blue-300 font-medium"
               >
                 <KeyRound size={16} /> Change Password
               </Link>
-            </div>
+            </motion.div>
 
             {/* Save Button */}
-            <div className="flex justify-end pt-2">
-              <button
+            <motion.div
+              className="flex justify-end pt-2"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.9, duration: 0.3 }}
+            >
+              <motion.button
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
                 onClick={handleUpdateInfo}
                 disabled={isUpdatingProfile}
-                className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 text-white rounded-lg font-medium transition duration-200 disabled:opacity-60"
+                className="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors duration-200 disabled:opacity-60 shadow-sm hover:shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
               >
                 <Save className="w-4 h-4" />
                 {isUpdatingProfile ? "Saving..." : "Save Info"}
-              </button>
-            </div>
+              </motion.button>
+            </motion.div>
           </div>
 
           {/* Divider */}
-          <hr className="border-t border-gray-200 dark:border-gray-600" />
+          <div className="border-t border-gray-200 dark:border-gray-700"></div>
 
           {/* Account Info */}
-          <div className="bg-blue-50 dark:bg-blue-900/30 px-6 py-5">
-            <h2 className="text-lg font-semibold text-gray-700 dark:text-gray-200 mb-3 flex items-center gap-2">
+          <motion.div
+            className="bg-blue-50 dark:bg-blue-900/20 px-6 py-5"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1, duration: 0.5 }}
+          >
+            <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-3 flex items-center gap-2">
               <ShieldCheck
                 className="text-blue-600 dark:text-blue-400"
                 size={20}
@@ -260,7 +300,7 @@ const Profile = () => {
               Account Details
             </h2>
             <div className="space-y-3 text-sm text-gray-700 dark:text-gray-300">
-              <div className="flex justify-between py-2 border-b border-blue-200 dark:border-blue-800">
+              <div className="flex justify-between py-2 border-b border-blue-100 dark:border-blue-900/50">
                 <div className="flex items-center gap-2">
                   <Calendar className="w-4 h-4" />
                   <span>Member Since</span>
@@ -284,8 +324,8 @@ const Profile = () => {
                 <span className="font-medium text-green-500">Active</span>
               </div>
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </div>
     </div>
   );

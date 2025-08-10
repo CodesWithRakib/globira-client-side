@@ -8,16 +8,35 @@ import Loading from "../components/Loading";
 
 const Root = () => {
   const { loading } = useAuth();
-  return loading ? (
-    <Loading></Loading>
-  ) : (
-    <div>
-      <NavBar></NavBar>
-      <div className="min-h-[calc(100vh-441px)] dark:bg-[#010313]">
-        <Outlet></Outlet>
-      </div>
-      <Footer></Footer>
-      <Toaster />
+
+  if (loading) {
+    return <Loading />;
+  }
+
+  return (
+    <div className="flex flex-col min-h-screen bg-white dark:bg-gray-900">
+      {/* Navbar at the top */}
+      <NavBar />
+
+      {/* Main content area that grows to fill available space */}
+      <main className="flex-grow">
+        <Outlet />
+      </main>
+
+      {/* Footer at the bottom */}
+      <Footer />
+
+      {/* Toast notifications */}
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          duration: 4000,
+          style: {
+            background: "#363636",
+            color: "#fff",
+          },
+        }}
+      />
     </div>
   );
 };

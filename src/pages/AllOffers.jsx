@@ -17,7 +17,7 @@ const AllOffers = () => {
       discount: "30%",
       expiry: "2025-07-01",
       buttonLabel: "Shop Now",
-      bgColor: "bg-blue-50",
+      bgColor: "bg-blue-100",
       category: "health-beauty",
       details:
         "Complete skincare routine including cleanser, toner, serum, and moisturizer. Suitable for all skin types. Limited stock available.",
@@ -49,7 +49,7 @@ const AllOffers = () => {
       discount: "50%",
       expiry: "2025-07-20",
       buttonLabel: "Explore",
-      bgColor: "bg-blue-50",
+      bgColor: "bg-blue-100",
       category: "electronics-gadgets",
       details:
         "Noise-cancelling wireless headphones with 30-hour battery life. Includes carrying case and charging cable. Available in black and white.",
@@ -80,7 +80,7 @@ const AllOffers = () => {
       discount: "35%",
       expiry: "2025-08-01",
       buttonLabel: "Buy Now",
-      bgColor: "bg-blue-50",
+      bgColor: "bg-blue-100",
       category: "fashion-apparel",
       details:
         "Premium men's clothing collection. Includes dress shirts, casual tees, and tailored pants. Sizes S-XXL available.",
@@ -105,28 +105,35 @@ const AllOffers = () => {
   ];
 
   return (
-    <section className="px-4 sm:px-6 lg:px-8 py-12 bg-white dark:bg-gray-900">
+    <div className="min-h-screen bg-white dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         {/* Header with back button */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="mb-10 flex items-center gap-4"
+          className="mb-12"
         >
-          <button
-            onClick={() => navigate(-1)}
-            className="flex items-center gap-2 text-blue-600 hover:text-blue-700 dark:hover:text-blue-400 font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded-md p-2"
-          >
-            <ArrowLeft className="w-5 h-5" /> Back
-          </button>
-          <div>
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">
-              All Exclusive <span className="text-blue-600">Offers</span>
-            </h2>
-            <p className="mt-2 text-lg text-gray-600 dark:text-gray-300">
-              Browse all our current promotions and limited-time deals
-            </p>
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => navigate(-1)}
+              className="flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 text-blue-700 dark:text-blue-300 font-medium transition-colors shadow-sm"
+            >
+              <ArrowLeft className="w-5 h-5" /> Back
+            </motion.button>
+            <div className="flex-grow">
+              <h2 className="text-4xl md:text-5xl font-bold text-gray-800 dark:text-gray-100 mb-3">
+                All Exclusive{" "}
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-800">
+                  Offers
+                </span>
+              </h2>
+              <p className="text-lg text-gray-600 dark:text-gray-400 max-w-3xl">
+                Browse all our current promotions and limited-time deals
+              </p>
+            </div>
           </div>
         </motion.div>
 
@@ -139,28 +146,53 @@ const AllOffers = () => {
             visible: {
               opacity: 1,
               transition: {
-                staggerChildren: 0.1,
+                staggerChildren: 0.15,
               },
             },
           }}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
         >
-          {offersData.map((offer) => (
+          {offersData.map((offer, index) => (
             <motion.div
               key={offer.id}
               variants={{
                 hidden: { opacity: 0, y: 30 },
                 visible: { opacity: 1, y: 0 },
               }}
-              transition={{ duration: 0.5 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              whileHover={{ y: -10 }}
               className="h-full"
             >
               <ExclusiveCard offer={offer} expandedView={true} />
             </motion.div>
           ))}
         </motion.div>
+
+        {/* Decorative Elements */}
+        <motion.div
+          className="mt-20 flex justify-center space-x-2"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.8, duration: 0.5 }}
+        >
+          {[...Array(5)].map((_, i) => (
+            <motion.div
+              key={i}
+              className="w-2 h-2 rounded-full bg-blue-600 dark:bg-blue-400"
+              animate={{
+                scale: [1, 1.5, 1],
+                opacity: [0.7, 1, 0.7],
+              }}
+              transition={{
+                duration: 2,
+                repeat: Infinity,
+                delay: i * 0.2,
+              }}
+            />
+          ))}
+        </motion.div>
       </div>
-    </section>
+    </div>
   );
 };
 

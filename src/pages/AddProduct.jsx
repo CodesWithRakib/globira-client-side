@@ -141,320 +141,331 @@ const AddProduct = () => {
   };
 
   return (
-    <div className="min-h-screen grid lg:grid-cols-2 bg-gray-50 dark:bg-gray-900">
-      {/* Left Side - Form */}
-      <div className="flex flex-col justify-center items-center p-6 sm:p-12">
-        <div className="w-full max-w-lg space-y-6">
-          {/* Header */}
-          <div className="text-center">
-            <div className="flex flex-col items-center gap-2">
-              <div className="size-14 rounded-xl bg-blue-100 dark:bg-blue-900/50 flex items-center justify-center mb-3">
-                <AiFillProduct className="size-6 text-blue-600 dark:text-blue-400" />
-              </div>
-              <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-                Add New Product
-              </h1>
-              <p className="text-gray-500 dark:text-gray-400">
-                Fill in the details to list your product
-              </p>
-            </div>
-          </div>
-
-          {/* Form */}
-          <form
-            onSubmit={handleSubmit(onSubmit)}
-            className="space-y-4"
-            noValidate
-          >
-            {/* Brand and Product Name */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Brand Name
-                </label>
-                <input
-                  type="text"
-                  {...register("brandName", {
-                    required: "Brand Name is required",
-                  })}
-                  className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white ${
-                    errors.brandName
-                      ? "border-red-500 focus:border-red-500"
-                      : "border-gray-300 dark:border-gray-600"
-                  }`}
-                  placeholder="Enter brand name"
-                />
-                {errors.brandName && (
-                  <p className="text-xs text-red-500 mt-1">
-                    {errors.brandName.message}
-                  </p>
-                )}
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Product Name
-                </label>
-                <input
-                  type="text"
-                  {...register("productName", {
-                    required: "Product Name is required",
-                  })}
-                  className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white ${
-                    errors.productName
-                      ? "border-red-500 focus:border-red-500"
-                      : "border-gray-300 dark:border-gray-600"
-                  }`}
-                  placeholder="Enter product name"
-                />
-                {errors.productName && (
-                  <p className="text-xs text-red-500 mt-1">
-                    {errors.productName.message}
-                  </p>
-                )}
-              </div>
-            </div>
-
-            {/* Category */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Category
-              </label>
-              <select
-                {...register("category", { required: "Category is required" })}
-                className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white ${
-                  errors.category
-                    ? "border-red-500 focus:border-red-500"
-                    : "border-gray-300 dark:border-gray-600"
-                }`}
-                defaultValue=""
-              >
-                <option value="" disabled>
-                  Select a category
-                </option>
-                <option value="electronics-gadgets">
-                  Electronics & Gadgets
-                </option>
-                <option value="home-kitchen-appliances">
-                  Home & Kitchen Appliances
-                </option>
-                <option value="fashion-apparel">Fashion & Apparel</option>
-                <option value="industrial-machinery-tools">
-                  Industrial Machinery & Tools
-                </option>
-                <option value="health-beauty">Health & Beauty</option>
-                <option value="automotive-parts-accessories">
-                  Automotive Parts & Accessories
-                </option>
-                <option value="office-supplies-stationery">
-                  Office Supplies & Stationery
-                </option>
-              </select>
-              {errors.category && (
-                <p className="text-xs text-red-500 mt-1">
-                  {errors.category.message}
-                </p>
-              )}
-            </div>
-
-            {/* Image Upload */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Product Image
-              </label>
-              <div className="flex items-center gap-4">
-                <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-                  <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                    <FiUpload className="w-8 h-8 text-gray-400" />
-                    <p className="text-sm text-gray-500 dark:text-gray-400">
-                      Click to upload or drag and drop
+    <div className="min-h-screen bg-white dark:bg-gray-900">
+      <div className="container mx-auto px-4 py-8">
+        <div className="max-w-6xl mx-auto">
+          <div className="bg-white dark:bg-gray-900 rounded-xl shadow-sm overflow-hidden border border-gray-200 dark:border-gray-700">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
+              {/* Left Side - Form */}
+              <div className="p-8 md:p-12">
+                <div className="max-w-md mx-auto">
+                  {/* Header */}
+                  <div className="text-center mb-10">
+                    <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-100 dark:bg-blue-900/30 mb-4">
+                      <AiFillProduct className="w-8 h-8 text-blue-600 dark:text-blue-400" />
+                    </div>
+                    <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-100 mb-2">
+                      Add New Product
+                    </h1>
+                    <p className="text-gray-600 dark:text-gray-400">
+                      Fill in the details to list your product
                     </p>
                   </div>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    {...register("productImageFile")}
-                    onChange={handleImageChange}
-                    className="hidden"
-                  />
-                </label>
-                {previewImage && (
-                  <div className="w-32 h-32 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-600">
-                    <img
-                      src={previewImage}
-                      alt="Preview"
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                )}
-              </div>
-              <input
-                type="text"
-                {...register("productImage")}
-                className="mt-2 w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white"
-                placeholder="Or enter image URL"
-              />
-            </div>
 
-            {/* Quantities */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Main Quantity
-                </label>
-                <input
-                  type="number"
-                  {...register("mainQuantity", {
-                    required: "Main quantity is required",
-                    min: { value: 1, message: "Minimum quantity is 1" },
-                  })}
-                  className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white ${
-                    errors.mainQuantity
-                      ? "border-red-500 focus:border-red-500"
-                      : "border-gray-300 dark:border-gray-600"
-                  }`}
-                  placeholder="1000"
-                />
-                {errors.mainQuantity && (
-                  <p className="text-xs text-red-500 mt-1">
-                    {errors.mainQuantity.message}
-                  </p>
-                )}
-                <p className="text-xs text-gray-500 mt-1">
-                  Total available stock
-                </p>
+                  {/* Form */}
+                  <form
+                    onSubmit={handleSubmit(onSubmit)}
+                    className="space-y-6"
+                    noValidate
+                  >
+                    {/* Brand and Product Name */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                          Brand Name
+                        </label>
+                        <input
+                          type="text"
+                          {...register("brandName", {
+                            required: "Brand Name is required",
+                          })}
+                          className={`w-full px-4 py-3 rounded-lg bg-white dark:bg-gray-800 border focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:text-white transition-colors ${
+                            errors.brandName
+                              ? "border-red-500 focus:border-red-500"
+                              : "border-gray-300 dark:border-gray-600"
+                          }`}
+                          placeholder="Enter brand name"
+                        />
+                        {errors.brandName && (
+                          <p className="text-xs text-red-500 mt-1">
+                            {errors.brandName.message}
+                          </p>
+                        )}
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                          Product Name
+                        </label>
+                        <input
+                          type="text"
+                          {...register("productName", {
+                            required: "Product Name is required",
+                          })}
+                          className={`w-full px-4 py-3 rounded-lg bg-white dark:bg-gray-800 border focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:text-white transition-colors ${
+                            errors.productName
+                              ? "border-red-500 focus:border-red-500"
+                              : "border-gray-300 dark:border-gray-600"
+                          }`}
+                          placeholder="Enter product name"
+                        />
+                        {errors.productName && (
+                          <p className="text-xs text-red-500 mt-1">
+                            {errors.productName.message}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Category */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        Category
+                      </label>
+                      <select
+                        {...register("category", {
+                          required: "Category is required",
+                        })}
+                        className={`w-full px-4 py-3 rounded-lg bg-white dark:bg-gray-800 border focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:text-white transition-colors ${
+                          errors.category
+                            ? "border-red-500 focus:border-red-500"
+                            : "border-gray-300 dark:border-gray-600"
+                        }`}
+                        defaultValue=""
+                      >
+                        <option value="" disabled>
+                          Select a category
+                        </option>
+                        <option value="electronics-gadgets">
+                          Electronics & Gadgets
+                        </option>
+                        <option value="home-kitchen-appliances">
+                          Home & Kitchen Appliances
+                        </option>
+                        <option value="fashion-apparel">
+                          Fashion & Apparel
+                        </option>
+                        <option value="industrial-machinery-tools">
+                          Industrial Machinery & Tools
+                        </option>
+                        <option value="health-beauty">Health & Beauty</option>
+                        <option value="automotive-parts-accessories">
+                          Automotive Parts & Accessories
+                        </option>
+                        <option value="office-supplies-stationery">
+                          Office Supplies & Stationery
+                        </option>
+                      </select>
+                      {errors.category && (
+                        <p className="text-xs text-red-500 mt-1">
+                          {errors.category.message}
+                        </p>
+                      )}
+                    </div>
+
+                    {/* Image Upload */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        Product Image
+                      </label>
+                      <div className="flex flex-col sm:flex-row gap-5">
+                        <label className="flex flex-col items-center justify-center w-full sm:w-48 h-40 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl cursor-pointer bg-blue-50 dark:bg-blue-900/20 hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors">
+                          <div className="flex flex-col items-center justify-center p-4">
+                            <FiUpload className="w-10 h-10 text-gray-400 mb-2" />
+                            <p className="text-sm text-gray-500 dark:text-gray-400 text-center">
+                              Click to upload or drag and drop
+                            </p>
+                          </div>
+                          <input
+                            type="file"
+                            accept="image/*"
+                            {...register("productImageFile")}
+                            onChange={handleImageChange}
+                            className="hidden"
+                          />
+                        </label>
+                        {previewImage && (
+                          <div className="w-full sm:w-40 h-40 rounded-xl overflow-hidden border border-gray-200 dark:border-gray-600 shadow-sm">
+                            <img
+                              src={previewImage}
+                              alt="Preview"
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                        )}
+                      </div>
+                      <input
+                        type="text"
+                        {...register("productImage")}
+                        className="mt-3 w-full px-4 py-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:text-white transition-colors"
+                        placeholder="Or enter image URL"
+                      />
+                    </div>
+
+                    {/* Quantities */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                          Main Quantity
+                        </label>
+                        <input
+                          type="number"
+                          {...register("mainQuantity", {
+                            required: "Main quantity is required",
+                            min: { value: 1, message: "Minimum quantity is 1" },
+                          })}
+                          className={`w-full px-4 py-3 rounded-lg bg-white dark:bg-gray-800 border focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:text-white transition-colors ${
+                            errors.mainQuantity
+                              ? "border-red-500 focus:border-red-500"
+                              : "border-gray-300 dark:border-gray-600"
+                          }`}
+                          placeholder="1000"
+                        />
+                        {errors.mainQuantity && (
+                          <p className="text-xs text-red-500 mt-1">
+                            {errors.mainQuantity.message}
+                          </p>
+                        )}
+                        <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                          Total available stock
+                        </p>
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                          Minimum Selling Quantity
+                        </label>
+                        <input
+                          type="number"
+                          {...register("minimumQuantity", {
+                            required: "Minimum quantity is required",
+                            min: { value: 1, message: "Minimum quantity is 1" },
+                          })}
+                          className={`w-full px-4 py-3 rounded-lg bg-white dark:bg-gray-800 border focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:text-white transition-colors ${
+                            errors.minimumQuantity
+                              ? "border-red-500 focus:border-red-500"
+                              : "border-gray-300 dark:border-gray-600"
+                          }`}
+                          placeholder="10"
+                        />
+                        {errors.minimumQuantity && (
+                          <p className="text-xs text-red-500 mt-1">
+                            {errors.minimumQuantity.message}
+                          </p>
+                        )}
+                        <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                          Minimum order quantity
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Price and Rating */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                          Price ($)
+                        </label>
+                        <input
+                          type="number"
+                          step="0.01"
+                          {...register("price", {
+                            required: "Price is required",
+                            min: {
+                              value: 0.01,
+                              message: "Price must be at least 0.01",
+                            },
+                          })}
+                          className={`w-full px-4 py-3 rounded-lg bg-white dark:bg-gray-800 border focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:text-white transition-colors ${
+                            errors.price
+                              ? "border-red-500 focus:border-red-500"
+                              : "border-gray-300 dark:border-gray-600"
+                          }`}
+                          placeholder="99.99"
+                        />
+                        {errors.price && (
+                          <p className="text-xs text-red-500 mt-1">
+                            {errors.price.message}
+                          </p>
+                        )}
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                          Rating (1-5)
+                        </label>
+                        <input
+                          type="number"
+                          {...register("rating", {
+                            required: "Rating is required",
+                            min: { value: 1, message: "Rating minimum is 1" },
+                            max: { value: 5, message: "Rating maximum is 5" },
+                          })}
+                          className={`w-full px-4 py-3 rounded-lg bg-white dark:bg-gray-800 border focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:text-white transition-colors ${
+                            errors.rating
+                              ? "border-red-500 focus:border-red-500"
+                              : "border-gray-300 dark:border-gray-600"
+                          }`}
+                          placeholder="4"
+                        />
+                        {errors.rating && (
+                          <p className="text-xs text-red-500 mt-1">
+                            {errors.rating.message}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Description */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        Description
+                      </label>
+                      <textarea
+                        {...register("description", {
+                          required: "Description is required",
+                        })}
+                        rows="4"
+                        className={`w-full px-4 py-3 rounded-lg bg-white dark:bg-gray-800 border focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:text-white transition-colors ${
+                          errors.description
+                            ? "border-red-500 focus:border-red-500"
+                            : "border-gray-300 dark:border-gray-600"
+                        }`}
+                        placeholder="Detailed product description..."
+                      ></textarea>
+                      {errors.description && (
+                        <p className="text-xs text-red-500 mt-1">
+                          {errors.description.message}
+                        </p>
+                      )}
+                    </div>
+
+                    {/* Submit Button */}
+                    <button
+                      type="submit"
+                      disabled={isAdded}
+                      className="w-full flex justify-center items-center py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors duration-200 disabled:opacity-70 disabled:cursor-not-allowed shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
+                    >
+                      {isAdded ? (
+                        <>
+                          <Loader2 className="h-5 w-5 animate-spin mr-2" />
+                          Adding Product...
+                        </>
+                      ) : (
+                        "Add Product"
+                      )}
+                    </button>
+                  </form>
+                </div>
               </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Minimum Selling Quantity
-                </label>
-                <input
-                  type="number"
-                  {...register("minimumQuantity", {
-                    required: "Minimum quantity is required",
-                    min: { value: 1, message: "Minimum quantity is 1" },
-                  })}
-                  className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white ${
-                    errors.minimumQuantity
-                      ? "border-red-500 focus:border-red-500"
-                      : "border-gray-300 dark:border-gray-600"
-                  }`}
-                  placeholder="10"
+
+              {/* Right Side - Image */}
+              <div className="hidden lg:block">
+                <AuthImagePattern
+                  title="Expand Your Product Line"
+                  subtitle="List your products to reach thousands of potential buyers worldwide. Our platform connects you with the right customers for your business."
                 />
-                {errors.minimumQuantity && (
-                  <p className="text-xs text-red-500 mt-1">
-                    {errors.minimumQuantity.message}
-                  </p>
-                )}
-                <p className="text-xs text-gray-500 mt-1">
-                  Minimum order quantity
-                </p>
               </div>
             </div>
-
-            {/* Price and Rating */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Price ($)
-                </label>
-                <input
-                  type="number"
-                  step="0.01"
-                  {...register("price", {
-                    required: "Price is required",
-                    min: {
-                      value: 0.01,
-                      message: "Price must be at least 0.01",
-                    },
-                  })}
-                  className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white ${
-                    errors.price
-                      ? "border-red-500 focus:border-red-500"
-                      : "border-gray-300 dark:border-gray-600"
-                  }`}
-                  placeholder="99.99"
-                />
-                {errors.price && (
-                  <p className="text-xs text-red-500 mt-1">
-                    {errors.price.message}
-                  </p>
-                )}
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Rating (1-5)
-                </label>
-                <input
-                  type="number"
-                  {...register("rating", {
-                    required: "Rating is required",
-                    min: { value: 1, message: "Rating minimum is 1" },
-                    max: { value: 5, message: "Rating maximum is 5" },
-                  })}
-                  className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white ${
-                    errors.rating
-                      ? "border-red-500 focus:border-red-500"
-                      : "border-gray-300 dark:border-gray-600"
-                  }`}
-                  placeholder="4"
-                />
-                {errors.rating && (
-                  <p className="text-xs text-red-500 mt-1">
-                    {errors.rating.message}
-                  </p>
-                )}
-              </div>
-            </div>
-
-            {/* Description */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Description
-              </label>
-              <textarea
-                {...register("description", {
-                  required: "Description is required",
-                })}
-                rows="4"
-                className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:text-white ${
-                  errors.description
-                    ? "border-red-500 focus:border-red-500"
-                    : "border-gray-300 dark:border-gray-600"
-                }`}
-                placeholder="Detailed product description..."
-              ></textarea>
-              {errors.description && (
-                <p className="text-xs text-red-500 mt-1">
-                  {errors.description.message}
-                </p>
-              )}
-            </div>
-
-            {/* Submit Button */}
-            <button
-              type="submit"
-              disabled={isAdded}
-              className="w-full flex justify-center items-center py-3 px-4 bg-blue-600 dark:bg-blue-800 hover:bg-blue-700 dark:hover:bg-blue-700 text-white font-medium rounded-lg transition-colors disabled:opacity-70 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-            >
-              {isAdded ? (
-                <>
-                  <Loader2 className="h-5 w-5 animate-spin mr-2" />
-                  Adding Product...
-                </>
-              ) : (
-                "Add Product"
-              )}
-            </button>
-          </form>
+          </div>
         </div>
       </div>
-
-      {/* Right Side - Image */}
-      <AuthImagePattern
-        title="Expand Your Product Line"
-        subtitle="List your products to reach thousands of potential buyers worldwide. 
-Our platform connects you with the right customers for your business."
-      />
     </div>
   );
 };

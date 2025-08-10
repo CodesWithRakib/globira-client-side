@@ -24,6 +24,7 @@ import {
   Calendar,
   Heart,
   ChevronRight,
+  ChevronLeft,
   AlertCircle,
   Info,
   Package,
@@ -34,10 +35,10 @@ import {
   List,
   X,
   Check,
-  ChevronLeft,
   HelpCircle,
+  ExternalLink,
 } from "lucide-react";
-import { useParams } from "react-router";
+import { useParams, useNavigate } from "react-router";
 import toast from "react-hot-toast";
 import useAxios from "../hooks/useAxios";
 import Loading from "../components/Loading";
@@ -56,12 +57,19 @@ const ProductDetails = () => {
   const [newReview, setNewReview] = useState("");
   const [rating, setRating] = useState(5);
   const [isInWishlist, setIsInWishlist] = useState(false);
+  const [activeTab, setActiveTab] = useState("description");
   const { user } = useAuth();
   const { id } = useParams();
+  const navigate = useNavigate();
   const axiosSecure = useAxios();
 
   const toggleWishlist = () => {
     setIsInWishlist(!isInWishlist);
+    if (!isInWishlist) {
+      toast.success("Added to wishlist!");
+    } else {
+      toast.success("Removed from wishlist!");
+    }
   };
 
   const {
@@ -141,6 +149,7 @@ const ProductDetails = () => {
       })
       .then(() => {
         toast.success("Product ordered successfully!");
+        window.my_modal_3.close();
       })
       .catch((error) => {
         toast.error(`Error ordering Product: ${error?.message}`);
@@ -181,12 +190,22 @@ const ProductDetails = () => {
   if (loading) return <Loading />;
 
   return (
-    <div className="max-w-7xl mx-auto p-6">
+    <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
       {/* Breadcrumb */}
-      <div className="flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400 mb-4">
-        <Home className="w-4 h-4" />
+      <div className="flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400 mb-6">
+        <button
+          onClick={() => navigate("/")}
+          className="flex items-center hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+        >
+          <Home className="w-4 h-4" />
+        </button>
         <ChevronRight className="w-4 h-4" />
-        <span>{formatCategory(category)}</span>
+        <button
+          onClick={() => navigate(`/category/${formatCategory(category)}`)}
+          className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+        >
+          {formatCategory(category)}
+        </button>
         <ChevronRight className="w-4 h-4" />
         <span className="text-blue-600 dark:text-blue-400 font-medium">
           {productName}
@@ -197,7 +216,7 @@ const ProductDetails = () => {
         {/* Left Side - Product Images */}
         <div className="space-y-4">
           {/* Main Image */}
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-200 dark:border-gray-700">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden border border-gray-200 dark:border-gray-700">
             <img
               src={mainImage}
               onError={(e) => (e.target.src = productImage || noImage)}
@@ -232,7 +251,7 @@ const ProductDetails = () => {
           </div>
 
           {/* Image Sources */}
-          <div className="text-xs text-gray-500 dark:text-gray-400 mt-2 italic flex items-center">
+          <div className="text-xs text-gray-500 dark:text-gray-400 italic flex items-center">
             <Info className="w-4 h-4 mr-1" />
             <p>Product images from "demo collection"</p>
           </div>
@@ -297,7 +316,7 @@ const ProductDetails = () => {
           </div>
 
           {/* Price and Availability */}
-          <div className="bg-gradient-to-r from-blue-50/50 to-blue-100/30 dark:from-gray-800 dark:to-gray-800 p-6 rounded-xl shadow-sm border border-blue-100 dark:border-gray-700">
+          <div className="bg-gradient-to-r from-blue-50/50 to-blue-100/30 dark:from-gray-800 dark:to-gray-800 p-6 rounded-2xl shadow-sm border border-blue-100 dark:border-gray-700">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <div className="flex items-end gap-2">
@@ -438,18 +457,23 @@ const ProductDetails = () => {
               {/* Quick action buttons */}
               <div className="flex gap-2">
                 <button
-                  onClick={() => toast.success("Saved to wishlist")}
+                  onClick={() => navigate("/wishlist")}
                   className="flex-1 py-2 px-4 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg text-gray-700 dark:text-gray-300 flex items-center justify-center gap-2 transition-colors"
                 >
                   <Heart className="w-5 h-5" />
-                  Save
+                  Wishlist
                 </button>
                 <button
-                  onClick={() => toast.success("Enquired successfully")}
+                  onClick={() => {
+                    const element = document.getElementById("reviews-section");
+                    if (element) {
+                      element.scrollIntoView({ behavior: "smooth" });
+                    }
+                  }}
                   className="flex-1 py-2 px-4 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg text-gray-700 dark:text-gray-300 flex items-center justify-center gap-2 transition-colors"
                 >
                   <MessageSquare className="w-5 h-5" />
-                  Enquire
+                  Reviews
                 </button>
               </div>
             </div>
@@ -458,297 +482,472 @@ const ProductDetails = () => {
       </div>
 
       {/* Product Tabs */}
-      <div className="mt-12">
+      <div className="mt-16">
         <div className="flex flex-wrap justify-center gap-2 md:gap-4 border-b border-gray-200 dark:border-gray-700 pb-1">
-          <button className="px-4 py-2 font-medium text-blue-600 border-b-2 border-blue-600 transition-all duration-300">
+          <button
+            onClick={() => setActiveTab("description")}
+            className={`px-4 py-2 font-medium transition-all duration-300 ${
+              activeTab === "description"
+                ? "text-blue-600 border-b-2 border-blue-600"
+                : "text-gray-600 dark:text-gray-400 hover:text-blue-600"
+            }`}
+          >
             Description
           </button>
-          <button className="px-4 py-2 font-medium text-gray-600 dark:text-gray-400 hover:text-blue-600 transition-all duration-300">
+          <button
+            onClick={() => setActiveTab("specifications")}
+            className={`px-4 py-2 font-medium transition-all duration-300 ${
+              activeTab === "specifications"
+                ? "text-blue-600 border-b-2 border-blue-600"
+                : "text-gray-600 dark:text-gray-400 hover:text-blue-600"
+            }`}
+          >
             Specifications
           </button>
-          <button className="px-4 py-2 font-medium text-gray-600 dark:text-gray-400 hover:text-blue-600 transition-all duration-300">
+          <button
+            onClick={() => {
+              setActiveTab("reviews");
+              const element = document.getElementById("reviews-section");
+              if (element) {
+                element.scrollIntoView({ behavior: "smooth" });
+              }
+            }}
+            className={`px-4 py-2 font-medium transition-all duration-300 ${
+              activeTab === "reviews"
+                ? "text-blue-600 border-b-2 border-blue-600"
+                : "text-gray-600 dark:text-gray-400 hover:text-blue-600"
+            }`}
+          >
             Reviews{" "}
             <span className="ml-1 bg-blue-100 text-blue-800 text-xs font-semibold px-2 py-0.5 rounded-full dark:bg-blue-900/30 dark:text-blue-300">
               {reviews.length}
             </span>
           </button>
         </div>
+
         <div className="mt-6 bg-white dark:bg-gray-800 shadow-lg rounded-xl p-6 md:p-8 border border-gray-200 dark:border-gray-700">
-          <div>
-            <div className="flex items-center mb-6">
-              <BadgeCheck className="w-8 h-8 text-blue-600 mr-3" />
-              <h3 className="text-2xl font-bold text-gray-900 dark:text-white">
-                Product Description
-              </h3>
-            </div>
-            <p className="text-gray-700 dark:text-gray-300 mb-8 leading-relaxed text-lg">
-              {productContent}
-            </p>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {/* Key Features */}
-              <div className="bg-blue-50/50 dark:bg-gray-700/50 p-5 rounded-xl">
-                <h4 className="flex items-center gap-3 text-lg font-semibold text-blue-600 dark:text-blue-400 mb-4">
-                  <Layers3 className="w-6 h-6" />
-                  Key Features
-                </h4>
-                <ul className="space-y-3 text-gray-700 dark:text-gray-300">
-                  {[
-                    "Premium industrial-grade materials for durability",
-                    "Precision engineered for optimal performance",
-                    "Compatible with standard industry equipment",
-                    "Manufactured under strict quality control",
-                    "Long service life with minimal maintenance",
-                  ].map((feature, index) => (
-                    <li key={index} className="flex items-start">
-                      <CheckCircle className="w-5 h-5 text-green-500 mt-0.5 mr-2 flex-shrink-0" />
-                      <span>{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              {/* Applications */}
-              <div className="bg-blue-50/50 dark:bg-gray-700/50 p-5 rounded-xl">
-                <h4 className="flex items-center gap-3 text-lg font-semibold text-blue-600 dark:text-blue-400 mb-4">
-                  <Star className="w-6 h-6" />
-                  Applications
-                </h4>
-                <ul className="space-y-3 text-gray-700 dark:text-gray-300">
-                  {[
-                    "Industrial manufacturing processes",
-                    "Factory production lines",
-                    "Heavy machinery components",
-                    "Equipment maintenance and repair",
-                    "Large-scale construction projects",
-                  ].map((app, index) => (
-                    <li key={index} className="flex items-start">
-                      <CheckCircle className="w-5 h-5 text-green-500 mt-0.5 mr-2 flex-shrink-0" />
-                      <span>{app}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Reviews Section */}
-      <div className="mt-16">
-        <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center">
-          Customer Reviews
-          <span className="block text-lg font-normal text-gray-500 dark:text-gray-400 mt-2">
-            Hear from our satisfied customers
-          </span>
-        </h2>
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Review Summary */}
-          <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-6 rounded-xl shadow-lg">
-            <div className="text-center mb-6">
-              <div className="inline-flex items-center justify-center bg-blue-100 text-blue-800 text-5xl font-extrabold w-32 h-32 rounded-full mb-4 dark:bg-blue-900/30 dark:text-blue-200">
-                4.5
-              </div>
-              <div className="flex justify-center mb-2">
-                {[1, 2, 3, 4, 5].map((star) => (
-                  <Star
-                    key={star}
-                    size={24}
-                    className={`mx-0.5 ${
-                      star <= 4.5
-                        ? "fill-blue-400 text-blue-400"
-                        : "text-gray-300 dark:text-gray-600"
-                    }`}
-                  />
-                ))}
-              </div>
-              <p className="text-sm text-gray-500 dark:text-gray-400">
-                Based on {reviews.length} reviews
-              </p>
-            </div>
-            <div className="space-y-3">
-              {[5, 4, 3, 2, 1].map((rating) => {
-                const percentages = { 5: 70, 4: 20, 3: 7, 2: 2, 1: 1 };
-                return (
-                  <div key={rating} className="flex items-center">
-                    <span className="w-8 text-sm font-medium text-gray-600 dark:text-gray-300">
-                      {rating}
-                    </span>
-                    <Star className="w-5 h-5 text-blue-400 ml-1" />
-                    <div className="flex-1 h-2.5 mx-3 bg-gray-200 dark:bg-gray-700 rounded-full">
-                      <div
-                        className="h-2.5 bg-blue-400 rounded-full"
-                        style={{ width: `${percentages[rating]}%` }}
-                      ></div>
-                    </div>
-                    <span className="text-sm text-gray-500 dark:text-gray-400 w-10 text-right">
-                      {percentages[rating]}%
-                    </span>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Reviews List */}
-          <div className="lg:col-span-2 space-y-6">
-            {/* Write Review Form */}
-            {user && (
-              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700">
-                <h3 className="text-xl font-semibold mb-4 flex items-center gap-2 text-gray-900 dark:text-white">
-                  <PencilLine className="w-6 h-6 text-blue-600" />
-                  Share Your Experience
+          {activeTab === "description" && (
+            <div>
+              <div className="flex items-center mb-6">
+                <BadgeCheck className="w-8 h-8 text-blue-600 mr-3" />
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-white">
+                  Product Description
                 </h3>
-                <form onSubmit={handleReviewSubmit}>
-                  <div className="mb-4">
-                    <label className="block mb-2 font-medium text-gray-700 dark:text-gray-300">
-                      Your Rating
-                    </label>
-                    <div className="flex space-x-1">
-                      {[1, 2, 3, 4, 5].map((star) => (
-                        <button
-                          key={star}
-                          type="button"
-                          onClick={() => setRating(star)}
-                          className={`p-1 rounded-full transition-all ${
-                            star <= rating
-                              ? "bg-blue-100 dark:bg-blue-900/30"
-                              : "hover:bg-gray-100 dark:hover:bg-gray-700"
-                          }`}
-                        >
-                          <Star
-                            size={28}
-                            className={`${
-                              star <= rating
-                                ? "fill-blue-400 text-blue-400"
-                                : "text-gray-300 dark:text-gray-600"
-                            }`}
-                          />
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                  <div className="mb-4">
-                    <textarea
-                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
-                      placeholder="Share your honest thoughts about this product..."
-                      value={newReview}
-                      onChange={(e) => setNewReview(e.target.value)}
-                      rows="4"
-                    ></textarea>
-                  </div>
-                  <button
-                    type="submit"
-                    className="w-full md:w-auto px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors shadow-md"
-                  >
-                    Submit Review
-                  </button>
-                </form>
               </div>
-            )}
-
-            {/* Reviews Sorting */}
-            <div className="flex justify-between items-center">
-              <h4 className="text-lg font-semibold text-gray-900 dark:text-white">
-                {reviews.length} Customer Reviews
-              </h4>
-              <div className="relative">
-                <select className="appearance-none bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-100 py-2 pl-4 pr-8 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                  <option>Most Recent</option>
-                  <option>Highest Rated</option>
-                  <option>Lowest Rated</option>
-                </select>
-                <ChevronDown className="w-5 h-5 text-gray-400 absolute right-3 top-2.5 pointer-events-none" />
+              <p className="text-gray-700 dark:text-gray-300 mb-8 leading-relaxed text-lg">
+                {productContent}
+              </p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                {/* Key Features */}
+                <div className="bg-blue-50/50 dark:bg-gray-700/50 p-5 rounded-xl">
+                  <h4 className="flex items-center gap-3 text-lg font-semibold text-blue-600 dark:text-blue-400 mb-4">
+                    <Layers3 className="w-6 h-6" />
+                    Key Features
+                  </h4>
+                  <ul className="space-y-3 text-gray-700 dark:text-gray-300">
+                    {[
+                      "Premium industrial-grade materials for durability",
+                      "Precision engineered for optimal performance",
+                      "Compatible with standard industry equipment",
+                      "Manufactured under strict quality control",
+                      "Long service life with minimal maintenance",
+                    ].map((feature, index) => (
+                      <li key={index} className="flex items-start">
+                        <CheckCircle className="w-5 h-5 text-green-500 mt-0.5 mr-2 flex-shrink-0" />
+                        <span>{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                {/* Applications */}
+                <div className="bg-blue-50/50 dark:bg-gray-700/50 p-5 rounded-xl">
+                  <h4 className="flex items-center gap-3 text-lg font-semibold text-blue-600 dark:text-blue-400 mb-4">
+                    <Star className="w-6 h-6" />
+                    Applications
+                  </h4>
+                  <ul className="space-y-3 text-gray-700 dark:text-gray-300">
+                    {[
+                      "Industrial manufacturing processes",
+                      "Factory production lines",
+                      "Heavy machinery components",
+                      "Equipment maintenance and repair",
+                      "Large-scale construction projects",
+                    ].map((app, index) => (
+                      <li key={index} className="flex items-start">
+                        <CheckCircle className="w-5 h-5 text-green-500 mt-0.5 mr-2 flex-shrink-0" />
+                        <span>{app}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
             </div>
+          )}
 
-            {/* Render Reviews */}
-            {reviews?.length > 0 ? (
-              reviews.map((review, index) => (
-                <div
-                  key={review?._id || index}
-                  className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow border border-gray-200 dark:border-gray-700"
-                >
-                  <div className="flex items-start">
-                    <div className="avatar mr-4">
-                      <div className="w-12 h-12 rounded-full overflow-hidden bg-gray-100">
-                        <img
-                          src={review.image}
-                          alt={review.user}
-                          className="w-full h-full object-cover"
-                          onError={(e) => {
-                            e.target.src =
-                              "https://randomuser.me/api/portraits/lego/1.jpg";
-                          }}
-                          loading="lazy"
-                        />
+          {activeTab === "specifications" && (
+            <div>
+              <div className="flex items-center mb-6">
+                <ListChecks className="w-8 h-8 text-blue-600 mr-3" />
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-white">
+                  Technical Specifications
+                </h3>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-4">
+                  <div className="bg-gray-50 dark:bg-gray-700/50 p-4 rounded-xl">
+                    <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
+                      General
+                    </h4>
+                    <div className="space-y-3">
+                      <div className="flex justify-between">
+                        <span className="text-gray-600 dark:text-gray-400">
+                          Brand
+                        </span>
+                        <span className="font-medium text-gray-800 dark:text-gray-200">
+                          {brandName}
+                        </span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-gray-600 dark:text-gray-400">
+                          Category
+                        </span>
+                        <span className="font-medium text-gray-800 dark:text-gray-200">
+                          {formatCategory(category)}
+                        </span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-gray-600 dark:text-gray-400">
+                          SKU
+                        </span>
+                        <span className="font-medium text-gray-800 dark:text-gray-200">
+                          {_id?.slice(0, 8).toUpperCase()}
+                        </span>
                       </div>
                     </div>
-                    <div className="flex-1">
-                      <div className="flex justify-between items-start flex-wrap">
-                        <div>
-                          <h4 className="font-semibold text-gray-900 dark:text-white">
-                            {review.user}
-                          </h4>
-                          <div className="flex items-center mt-1">
-                            <div className="flex mr-2">
-                              {[1, 2, 3, 4, 5].map((star) => (
-                                <Star
-                                  key={star}
-                                  size={18}
-                                  className={`${
-                                    star <= review.rating
-                                      ? "fill-blue-400 text-blue-400"
-                                      : "text-gray-300 dark:text-gray-600"
-                                  }`}
-                                />
-                              ))}
-                            </div>
-                            <span className="text-sm text-gray-500 dark:text-gray-400">
-                              {review?.date
-                                ? new Date(review.date).toLocaleDateString(
-                                    "en-US",
-                                    {
-                                      year: "numeric",
-                                      month: "long",
-                                      day: "numeric",
-                                    }
-                                  )
-                                : "No date"}
-                            </span>
-                          </div>
-                        </div>
-                        <button className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 mt-1">
-                          <MoreHorizontal className="w-5 h-5" />
-                        </button>
+                  </div>
+
+                  <div className="bg-gray-50 dark:bg-gray-700/50 p-4 rounded-xl">
+                    <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
+                      Physical
+                    </h4>
+                    <div className="space-y-3">
+                      <div className="flex justify-between">
+                        <span className="text-gray-600 dark:text-gray-400">
+                          Material
+                        </span>
+                        <span className="font-medium text-gray-800 dark:text-gray-200">
+                          High-grade industrial materials
+                        </span>
                       </div>
-                      <p className="mt-3 text-gray-700 dark:text-gray-300">
-                        {review.comment}
-                      </p>
-                      <div className="mt-4 flex space-x-4">
-                        <button className="flex items-center text-sm text-gray-500 hover:text-blue-600 dark:hover:text-blue-400">
-                          <ThumbsUp className="w-4 h-4 mr-1" />
-                          Helpful ({review.helpful || 0})
-                        </button>
-                        <button className="flex items-center text-sm text-gray-500 hover:text-gray-700 dark:hover:text-gray-300">
-                          <MessageSquare className="w-4 h-4 mr-1" />
-                          Reply
-                        </button>
+                      <div className="flex justify-between">
+                        <span className="text-gray-600 dark:text-gray-400">
+                          Dimensions
+                        </span>
+                        <span className="font-medium text-gray-800 dark:text-gray-200">
+                          Standard industry size
+                        </span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-gray-600 dark:text-gray-400">
+                          Weight
+                        </span>
+                        <span className="font-medium text-gray-800 dark:text-gray-200">
+                          Varies by model
+                        </span>
                       </div>
                     </div>
                   </div>
                 </div>
-              ))
-            ) : (
-              <div className="bg-white dark:bg-gray-800 p-8 rounded-xl shadow border border-gray-200 dark:border-gray-700 text-center">
-                <FileText className="w-12 h-12 mx-auto text-gray-400 mb-4" />
-                <h4 className="text-lg font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  No reviews yet
-                </h4>
-                <p className="text-gray-500 dark:text-gray-400">
-                  Be the first to share your thoughts about this product
-                </p>
+
+                <div className="space-y-4">
+                  <div className="bg-gray-50 dark:bg-gray-700/50 p-4 rounded-xl">
+                    <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
+                      Order Information
+                    </h4>
+                    <div className="space-y-3">
+                      <div className="flex justify-between">
+                        <span className="text-gray-600 dark:text-gray-400">
+                          Minimum Order
+                        </span>
+                        <span className="font-medium text-gray-800 dark:text-gray-200">
+                          {minimumQuantity} units
+                        </span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-gray-600 dark:text-gray-400">
+                          Available Stock
+                        </span>
+                        <span className="font-medium text-gray-800 dark:text-gray-200">
+                          {mainQuantity} units
+                        </span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-gray-600 dark:text-gray-400">
+                          Lead Time
+                        </span>
+                        <span className="font-medium text-gray-800 dark:text-gray-200">
+                          2-3 business days
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-gray-50 dark:bg-gray-700/50 p-4 rounded-xl">
+                    <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
+                      Warranty & Support
+                    </h4>
+                    <div className="space-y-3">
+                      <div className="flex justify-between">
+                        <span className="text-gray-600 dark:text-gray-400">
+                          Warranty
+                        </span>
+                        <span className="font-medium text-gray-800 dark:text-gray-200">
+                          1 year manufacturer warranty
+                        </span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-gray-600 dark:text-gray-400">
+                          Support
+                        </span>
+                        <span className="font-medium text-gray-800 dark:text-gray-200">
+                          24/7 technical support
+                        </span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-gray-600 dark:text-gray-400">
+                          Returns
+                        </span>
+                        <span className="font-medium text-gray-800 dark:text-gray-200">
+                          30 days return policy
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-            )}
-          </div>
+            </div>
+          )}
+
+          {activeTab === "reviews" && (
+            <div id="reviews-section">
+              <div className="flex items-center mb-6">
+                <MessageSquare className="w-8 h-8 text-blue-600 mr-3" />
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-white">
+                  Customer Reviews
+                </h3>
+              </div>
+
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                {/* Review Summary */}
+                <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-6 rounded-xl shadow-lg">
+                  <div className="text-center mb-6">
+                    <div className="inline-flex items-center justify-center bg-blue-100 text-blue-800 text-5xl font-extrabold w-32 h-32 rounded-full mb-4 dark:bg-blue-900/30 dark:text-blue-200">
+                      4.5
+                    </div>
+                    <div className="flex justify-center mb-2">
+                      {[1, 2, 3, 4, 5].map((star) => (
+                        <Star
+                          key={star}
+                          size={24}
+                          className={`mx-0.5 ${
+                            star <= 4.5
+                              ? "fill-blue-400 text-blue-400"
+                              : "text-gray-300 dark:text-gray-600"
+                          }`}
+                        />
+                      ))}
+                    </div>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">
+                      Based on {reviews.length} reviews
+                    </p>
+                  </div>
+                  <div className="space-y-3">
+                    {[5, 4, 3, 2, 1].map((rating) => {
+                      const percentages = { 5: 70, 4: 20, 3: 7, 2: 2, 1: 1 };
+                      return (
+                        <div key={rating} className="flex items-center">
+                          <span className="w-8 text-sm font-medium text-gray-600 dark:text-gray-300">
+                            {rating}
+                          </span>
+                          <Star className="w-5 h-5 text-blue-400 ml-1" />
+                          <div className="flex-1 h-2.5 mx-3 bg-gray-200 dark:bg-gray-700 rounded-full">
+                            <div
+                              className="h-2.5 bg-blue-400 rounded-full"
+                              style={{ width: `${percentages[rating]}%` }}
+                            ></div>
+                          </div>
+                          <span className="text-sm text-gray-500 dark:text-gray-400 w-10 text-right">
+                            {percentages[rating]}%
+                          </span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Reviews List */}
+                <div className="lg:col-span-2 space-y-6">
+                  {/* Write Review Form */}
+                  {user && (
+                    <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700">
+                      <h3 className="text-xl font-semibold mb-4 flex items-center gap-2 text-gray-900 dark:text-white">
+                        <PencilLine className="w-6 h-6 text-blue-600" />
+                        Share Your Experience
+                      </h3>
+                      <form onSubmit={handleReviewSubmit}>
+                        <div className="mb-4">
+                          <label className="block mb-2 font-medium text-gray-700 dark:text-gray-300">
+                            Your Rating
+                          </label>
+                          <div className="flex space-x-1">
+                            {[1, 2, 3, 4, 5].map((star) => (
+                              <button
+                                key={star}
+                                type="button"
+                                onClick={() => setRating(star)}
+                                className={`p-1 rounded-full transition-all ${
+                                  star <= rating
+                                    ? "bg-blue-100 dark:bg-blue-900/30"
+                                    : "hover:bg-gray-100 dark:hover:bg-gray-700"
+                                }`}
+                              >
+                                <Star
+                                  size={28}
+                                  className={`${
+                                    star <= rating
+                                      ? "fill-blue-400 text-blue-400"
+                                      : "text-gray-300 dark:text-gray-600"
+                                  }`}
+                                />
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                        <div className="mb-4">
+                          <textarea
+                            className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+                            placeholder="Share your honest thoughts about this product..."
+                            value={newReview}
+                            onChange={(e) => setNewReview(e.target.value)}
+                            rows="4"
+                          ></textarea>
+                        </div>
+                        <button
+                          type="submit"
+                          className="w-full md:w-auto px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors shadow-md"
+                        >
+                          Submit Review
+                        </button>
+                      </form>
+                    </div>
+                  )}
+
+                  {/* Reviews Sorting */}
+                  <div className="flex justify-between items-center">
+                    <h4 className="text-lg font-semibold text-gray-900 dark:text-white">
+                      {reviews.length} Customer Reviews
+                    </h4>
+                    <div className="relative">
+                      <select className="appearance-none bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-100 py-2 pl-4 pr-8 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option>Most Recent</option>
+                        <option>Highest Rated</option>
+                        <option>Lowest Rated</option>
+                      </select>
+                      <ChevronDown className="w-5 h-5 text-gray-400 absolute right-3 top-2.5 pointer-events-none" />
+                    </div>
+                  </div>
+
+                  {/* Render Reviews */}
+                  {reviews?.length > 0 ? (
+                    reviews.map((review, index) => (
+                      <div
+                        key={review?._id || index}
+                        className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow border border-gray-200 dark:border-gray-700"
+                      >
+                        <div className="flex items-start">
+                          <div className="avatar mr-4">
+                            <div className="w-12 h-12 rounded-full overflow-hidden bg-gray-100">
+                              <img
+                                src={review.image}
+                                alt={review.user}
+                                className="w-full h-full object-cover"
+                                onError={(e) => {
+                                  e.target.src =
+                                    "https://randomuser.me/api/portraits/lego/1.jpg";
+                                }}
+                                loading="lazy"
+                              />
+                            </div>
+                          </div>
+                          <div className="flex-1">
+                            <div className="flex justify-between items-start flex-wrap">
+                              <div>
+                                <h4 className="font-semibold text-gray-900 dark:text-white">
+                                  {review.user}
+                                </h4>
+                                <div className="flex items-center mt-1">
+                                  <div className="flex mr-2">
+                                    {[1, 2, 3, 4, 5].map((star) => (
+                                      <Star
+                                        key={star}
+                                        size={18}
+                                        className={`${
+                                          star <= review.rating
+                                            ? "fill-blue-400 text-blue-400"
+                                            : "text-gray-300 dark:text-gray-600"
+                                        }`}
+                                      />
+                                    ))}
+                                  </div>
+                                  <span className="text-sm text-gray-500 dark:text-gray-400">
+                                    {review?.date
+                                      ? new Date(
+                                          review.date
+                                        ).toLocaleDateString("en-US", {
+                                          year: "numeric",
+                                          month: "long",
+                                          day: "numeric",
+                                        })
+                                      : "No date"}
+                                  </span>
+                                </div>
+                              </div>
+                              <button className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 mt-1">
+                                <MoreHorizontal className="w-5 h-5" />
+                              </button>
+                            </div>
+                            <p className="mt-3 text-gray-700 dark:text-gray-300">
+                              {review.comment}
+                            </p>
+                            <div className="mt-4 flex space-x-4">
+                              <button className="flex items-center text-sm text-gray-500 hover:text-blue-600 dark:hover:text-blue-400">
+                                <ThumbsUp className="w-4 h-4 mr-1" />
+                                Helpful ({review.helpful || 0})
+                              </button>
+                              <button className="flex items-center text-sm text-gray-500 hover:text-gray-700 dark:hover:text-gray-300">
+                                <MessageSquare className="w-4 h-4 mr-1" />
+                                Reply
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <div className="bg-white dark:bg-gray-800 p-8 rounded-xl shadow border border-gray-200 dark:border-gray-700 text-center">
+                      <FileText className="w-12 h-12 mx-auto text-gray-400 mb-4" />
+                      <h4 className="text-lg font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        No reviews yet
+                      </h4>
+                      <p className="text-gray-500 dark:text-gray-400">
+                        Be the first to share your thoughts about this product
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 

@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import noImage from "/default.jpg";
 import { useNavigate } from "react-router";
 import { FaHeart, FaRegHeart, FaStar, FaEye } from "react-icons/fa";
 import SkeletonLoading from "./SkeletonLoading";
 import { formatCategory } from "../Utils/formatCategory";
+import { toast } from "react-hot-toast";
 
 const ProductCard = ({ product, loading }) => {
   const {
@@ -18,8 +19,38 @@ const ProductCard = ({ product, loading }) => {
     _id,
   } = product || {};
   const navigate = useNavigate();
-  const [isLiked, setIsLiked] = React.useState(false);
-  const [isHovered, setIsHovered] = React.useState(false);
+  const [isLiked, setIsLiked] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+
+  // Check if product is in wishlist on component mount
+  useEffect(() => {
+    const wishlist = JSON.parse(localStorage.getItem("wishlist") || "[]");
+    setIsLiked(wishlist.some((item) => item._id === _id));
+  }, [_id]);
+
+  const handleWishlistToggle = (e) => {
+    e.stopPropagation();
+
+    // Get current wishlist from localStorage
+    const wishlist = JSON.parse(localStorage.getItem("wishlist") || "[]");
+
+    if (isLiked) {
+      // Remove from wishlist
+      const updatedWishlist = wishlist.filter((item) => item._id !== _id);
+      localStorage.setItem("wishlist", JSON.stringify(updatedWishlist));
+      setIsLiked(false);
+      toast.success("Removed from wishlist");
+    } else {
+      // Add to wishlist
+      // Check if already exists (shouldn't happen but just in case)
+      if (!wishlist.some((item) => item._id === _id)) {
+        const updatedWishlist = [...wishlist, product];
+        localStorage.setItem("wishlist", JSON.stringify(updatedWishlist));
+        setIsLiked(true);
+        toast.success("Added to wishlist");
+      }
+    }
+  };
 
   if (loading) return <SkeletonLoading />;
 
@@ -31,17 +62,14 @@ const ProductCard = ({ product, loading }) => {
     >
       {/* Category badge */}
       {category && (
-        <span className="absolute top-3 left-3 z-10 inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-gradient-to-r from-blue-500 to-blue-400 text-white shadow-sm">
+        <span className="absolute top-3 left-3 z-10 inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-blue-500 text-white shadow-sm">
           {formatCategory(category)}
         </span>
       )}
 
-      {/* Wishlist */}
+      {/* Wishlist button */}
       <button
-        onClick={(e) => {
-          e.stopPropagation();
-          setIsLiked(!isLiked);
-        }}
+        onClick={handleWishlistToggle}
         className="absolute top-3 right-3 z-10 p-2 rounded-full bg-white/80 dark:bg-zinc-800/80 backdrop-blur-sm shadow hover:scale-110 transition-transform"
         aria-label={isLiked ? "Remove from wishlist" : "Add to wishlist"}
       >
