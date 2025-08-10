@@ -4,7 +4,7 @@ Globira is a full-stack B2B wholesale marketplace where users can browse, list, 
 
 📚 **[Jump to Table of Contents](#-table-of-contents)**
 
-![Globira Screenshot](https://i.ibb.co/6Jtj4wc9/b11a11-globira-site-web-app-home.png)
+![Globira Screenshot](https://i.ibb.co.com/wfnSNXr/home.png)
 
 ---
 
@@ -32,23 +32,23 @@ Globira is a full-stack B2B wholesale marketplace where users can browse, list, 
 
 ## 🚀 Live Site
 
-🔗 **[Globira Web App](https://b11a11-globira-site.web.app/)**
+🔗 **[Globira Web App](https://globira.netlify.app/)**
 
 ---
 
 ## 📸 Screenshots
 
-| 🏠 Home Page                                                            | 📄 Product Details                                                               | ➕ Add Product                                                                |
-| ----------------------------------------------------------------------- | -------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
-| ![Home](https://i.ibb.co/6Jtj4wc9/b11a11-globira-site-web-app-home.png) | ![Details](https://i.ibb.co/mr04jVHn/b11a11-globira-site-web-app-categories.png) | ![Add](https://i.ibb.co/C5cMnTZN/b11a11-globira-site-web-app-add-product.png) |
+| 🏠 Home Page                                   | 📄 Product Details                                            | ➕ Add Product                                        |
+| ---------------------------------------------- | ------------------------------------------------------------- | ----------------------------------------------------- |
+| ![Home](https://i.ibb.co.com/wfnSNXr/home.png) | ![Details](https://i.ibb.co.com/jvKfHCjq/product-details.png) | ![Add](https://i.ibb.co.com/ZpdDjCZh/add-product.png) |
 
-| 📦 My Products                                                                          | 🛍️ All Products                                             | 🔐 Login Page                                                             |
-| --------------------------------------------------------------------------------------- | ----------------------------------------------------------- | ------------------------------------------------------------------------- |
-| ![My Products](https://i.ibb.co/S4nmsYvp/b11a11-globira-site-web-app-add-product-1.png) | ![All Products](https://i.ibb.co/7tLg3NJJ/all-products.png) | ![Login](https://i.ibb.co/SXDKTztr/b11a11-globira-site-web-app-login.png) |
+| 📦 My Products                                               | 🛍️ All Products                                                 | 🔐 Login Page                                     |
+| ------------------------------------------------------------ | --------------------------------------------------------------- | ------------------------------------------------- |
+| ![My Products](https://i.ibb.co.com/xvmQJ1W/my-products.png) | ![All Products](https://i.ibb.co.com/m5nGDjMZ/all-products.png) | ![Login](https://i.ibb.co.com/G4fQkyKg/login.png) |
 
-| 📝 Register Page                                                                |
-| ------------------------------------------------------------------------------- |
-| ![Register](https://i.ibb.co/M5BMC30L/b11a11-globira-site-web-app-register.png) |
+| 📝 Register Page                                        |
+| ------------------------------------------------------- |
+| ![Register](https://i.ibb.co.com/jZjGpcTB/register.png) |
 
 ---
 
@@ -108,7 +108,7 @@ Globira is a full-stack B2B wholesale marketplace where users can browse, list, 
 - `@tailwindcss/vite`, `tailwindcss`
 - `axios`, `firebase`, `react`, `react-dom`, `react-icons`
 - `react-hot-toast`, `react-fast-marquee`, `react-rating`, `react-tooltip`
-- `react-router`, `sweetalert2`, `swiper`, `motion`, `date-fns`
+- `react-router`, `sweetalert2`, `react/slick`, `motion`, `date-fns`
 
 ### ✅ Backend
 
@@ -132,16 +132,17 @@ Globira is a full-stack B2B wholesale marketplace where users can browse, list, 
 ### 📥 Clone Repositories
 
 # Clone Frontend
+
 ```bash
-git clone https://github.com/Programming-Hero-Web-Course4/b11a11-client-side-CodesWithRakib.git
-cd b11a11-client-side-CodesWithRakib
+git clone https://github.com/CodesWithRakib/globira-client-side.git
 npm install
 npm run dev
 ```
+
 # Clone Backend
+
 ```bash
-git clone https://github.com/Programming-Hero-Web-Course4/b11a11-server-side-CodesWithRakib.git
-cd b11a11-server-side-CodesWithRakib
+git clone https://github.com/CodesWithRakib/globira-server-side.git
 npm install
 npm run dev
 ```
