@@ -272,7 +272,7 @@ const RecentProduct = () => {
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
         viewport={{ once: true }}
-        className="mb-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+        className="mb-10 container mx-auto "
       >
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 mb-4">
           <div className="flex items-center gap-4">
@@ -316,7 +316,7 @@ const RecentProduct = () => {
       </motion.div>
 
       {/* Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="w-full ">
         <AnimatePresence mode="wait">
           {loading ? (
             <motion.div

@@ -33,7 +33,6 @@ import { motion, AnimatePresence } from "motion/react";
 import { throttle } from "lodash";
 import toast from "react-hot-toast";
 import noImage from "/avatar.png";
-
 const offers = [
   { id: 1, text: "🚚 Free Shipping on orders over $50!", action: "/products" },
   {
@@ -52,7 +51,6 @@ const offers = [
     action: "/products",
   },
 ];
-
 const NavBar = () => {
   const { user, logOut } = useAuth();
   const [theme, setTheme] = useState(
@@ -68,15 +66,14 @@ const NavBar = () => {
   const [now, setNow] = useState(new Date());
   const [currentOfferIndex, setCurrentOfferIndex] = useState(0);
   const [isHoveringOffer, setIsHoveringOffer] = useState(false);
-  const [cartCount] = useState(9);
-  const [notifications] = useState(3);
-  const [wishlistCount] = useState(5);
+  const [cartCount, setCartCount] = useState(0);
+  const [wishlistCount, setWishlistCount] = useState(0);
+  const [wishlistItems, setWishlistItems] = useState([]);
+  const [isWishlistPage, setIsWishlistPage] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
-
   const navigate = useNavigate();
   const profileRef = useRef(null);
   const offerRef = useRef(null);
-
   // Check mobile status on resize
   useEffect(() => {
     const handleResize = throttle(() => {
@@ -85,17 +82,14 @@ const NavBar = () => {
         setIsMobileMenuOpen(false);
       }
     }, 200);
-
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-
   // Update time every minute
   useEffect(() => {
     const timer = setInterval(() => setNow(new Date()), 60000);
     return () => clearInterval(timer);
   }, []);
-
   // Rotate offers when not hovering
   useEffect(() => {
     if (!isHoveringOffer) {
@@ -105,7 +99,6 @@ const NavBar = () => {
       return () => clearInterval(offerTimer);
     }
   }, [isHoveringOffer]);
-
   // Scroll handler
   useEffect(() => {
     const handleScroll = throttle(() => {
@@ -114,7 +107,6 @@ const NavBar = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
   // Click outside profile dropdown
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -125,18 +117,73 @@ const NavBar = () => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
-
   // Theme handling
   useEffect(() => {
     localStorage.setItem("theme", theme);
     document.documentElement.setAttribute("data-theme", theme);
     document.documentElement.classList.add("transition-colors", "duration-300");
   }, [theme]);
-
+  // Fetch cart count from localStorage
+  useEffect(() => {
+    const fetchCartCount = () => {
+      try {
+        const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+        setCartCount(cart.length);
+      } catch (error) {
+        console.error("Error fetching cart count:", error);
+      }
+    };
+    fetchCartCount();
+    // Update cart count when localStorage changes
+    const handleStorageChange = (e) => {
+      if (e.key === "cart") {
+        fetchCartCount();
+      }
+    };
+    window.addEventListener("storage", handleStorageChange);
+    // Custom event for cart updates (for same-tab updates)
+    window.addEventListener("cartUpdated", fetchCartCount);
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+      window.removeEventListener("cartUpdated", fetchCartCount);
+    };
+  }, []);
+  // Fetch wishlist data from localStorage
+  useEffect(() => {
+    const fetchWishlistData = () => {
+      try {
+        const wishlist = JSON.parse(localStorage.getItem("wishlist") || "[]");
+        setWishlistItems(wishlist);
+        setWishlistCount(wishlist.length);
+      } catch (error) {
+        console.error("Error fetching wishlist data:", error);
+      }
+    };
+    fetchWishlistData();
+    // Update wishlist when localStorage changes
+    const handleStorageChange = (e) => {
+      if (e.key === "wishlist") {
+        fetchWishlistData();
+      }
+    };
+    window.addEventListener("storage", handleStorageChange);
+    // Custom event for wishlist updates (for same-tab updates)
+    const handleWishlistUpdate = () => {
+      fetchWishlistData();
+    };
+    window.addEventListener("wishlistUpdated", handleWishlistUpdate);
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+      window.removeEventListener("wishlistUpdated", handleWishlistUpdate);
+    };
+  }, []);
+  // Check if current page is wishlist
+  useEffect(() => {
+    setIsWishlistPage(window.location.pathname === "/wishlist");
+  }, []);
   const toggleTheme = useCallback(() => {
     setTheme((prev) => (prev === "dark" ? "light" : "dark"));
   }, []);
-
   const handleLogout = useCallback(() => {
     logOut()
       .then(() => {
@@ -148,7 +195,6 @@ const NavBar = () => {
         toast.error("Logout failed!");
       });
   }, [logOut, navigate]);
-
   const handleOfferClick = useCallback(
     (index) => {
       setCurrentOfferIndex(index);
@@ -158,7 +204,6 @@ const NavBar = () => {
     },
     [navigate]
   );
-
   const navLinks = [
     { path: "/", name: "Home", icon: HomeIcon },
     { path: "/categories", name: "Categories", icon: Grid3X3Icon },
@@ -182,11 +227,9 @@ const NavBar = () => {
       private: true,
     },
   ];
-
   const filteredLinks = navLinks.filter((link) => !link.private || user);
   const todayDate = format(now, "EEE, MMM d");
   const currentTime = format(now, "h:mm a");
-
   // Responsive offer text
   const getOfferText = (text) => {
     if (isMobile && text.length > 30) {
@@ -194,7 +237,6 @@ const NavBar = () => {
     }
     return text;
   };
-
   return (
     <div
       className={`sticky top-0 z-50 w-full transition-all duration-300 ${
@@ -205,7 +247,7 @@ const NavBar = () => {
     >
       {/* TopBar - Hidden on mobile for space */}
       <div className="hidden sm:block bg-blue-600 dark:bg-blue-900 text-xs md:text-sm py-2 w-full">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 flex flex-wrap justify-between items-center select-none">
+        <div className="container mx-auto p-4  flex flex-wrap justify-between items-center select-none">
           {/* Left section */}
           <div className="flex items-center gap-4 py-1">
             <div
@@ -223,7 +265,6 @@ const NavBar = () => {
               <span className="text-white font-medium">{currentTime}</span>
             </div>
           </div>
-
           {/* Middle section - offer carousel */}
           <div className="flex-1 flex items-center justify-center px-4 py-1 max-w-2xl mx-2 min-w-0">
             <div
@@ -266,7 +307,6 @@ const NavBar = () => {
               </div>
             </div>
           </div>
-
           {/* Right section */}
           <div className="flex items-center gap-4 md:gap-6 py-1">
             <button
@@ -281,7 +321,7 @@ const NavBar = () => {
             </button>
             <button
               className="flex items-center gap-1.5 group cursor-pointer"
-              onClick={() => (window.location.href = "tel:+880171234567")}
+              onClick={() => (window.location.href = "tel:+8801767476724")}
             >
               <PhoneIcon className="w-4 h-4 text-white" />
               <span className="hidden md:inline text-white font-medium">
@@ -292,16 +332,15 @@ const NavBar = () => {
           </div>
         </div>
       </div>
-
       {/* Main Navigation */}
       <div className="border-b border-gray-200 dark:border-gray-700">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="container mx-auto px-4 ">
           <div className="flex items-center justify-between h-16">
             {/* Left side - Logo and mobile menu button */}
             <div className="flex items-center">
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="md:hidden p-2 rounded-md text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 focus:outline-none"
+                className="lg:hidden p-2 rounded-md text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 focus:outline-none"
                 aria-label="Toggle menu"
               >
                 {isMobileMenuOpen ? (
@@ -310,7 +349,6 @@ const NavBar = () => {
                   <MenuIcon className="w-6 h-6" />
                 )}
               </button>
-
               <div
                 onClick={() => navigate("/")}
                 className="ml-2 md:ml-0 text-xl font-bold cursor-pointer flex items-center"
@@ -321,7 +359,6 @@ const NavBar = () => {
                 </span>
               </div>
             </div>
-
             {/* Center - Desktop navigation */}
             <nav className="hidden lg:flex mx-4 flex-1 justify-center">
               <div className="flex items-center space-x-1 lg:space-x-2">
@@ -343,7 +380,6 @@ const NavBar = () => {
                 ))}
               </div>
             </nav>
-
             {/* Right side - Actions */}
             <div className="flex items-center gap-2 sm:gap-3">
               {/* Theme toggle */}
@@ -360,45 +396,83 @@ const NavBar = () => {
                   <MoonIcon className="w-5 h-5 text-blue-600" />
                 )}
               </button>
-
               {/* Wishlist */}
-              <NavLink
-                to="/wishlist"
-                className={({ isActive }) =>
-                  `p-2 rounded-full relative ${
-                    isActive
-                      ? "text-blue-600 dark:text-blue-400"
-                      : "text-gray-600 dark:text-gray-300"
-                  } hover:bg-gray-100 dark:hover:bg-gray-800`
-                }
-              >
-                <HeartIcon className="w-5 h-5" />
-                {wishlistCount > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                    {wishlistCount > 9 ? "9+" : wishlistCount}
-                  </span>
-                )}
-              </NavLink>
-
+              <div className="relative">
+                <NavLink
+                  to="/wishlist"
+                  className={({ isActive }) =>
+                    `p-2 rounded-full relative transition-all duration-300 ${
+                      isActive || wishlistCount > 0
+                        ? "text-red-500"
+                        : "text-gray-600 dark:text-gray-300"
+                    } hover:bg-gray-100 dark:hover:bg-gray-800`
+                  }
+                  data-tooltip-id="wishlist-tooltip"
+                  data-tooltip-content={`${wishlistCount} items in wishlist`}
+                  data-tooltip-place="bottom"
+                >
+                  <motion.div
+                    animate={{
+                      scale: wishlistCount > 0 ? [1, 1.1, 1] : 1,
+                      rotate: wishlistCount > 0 ? [0, -5, 5, 0] : 0,
+                    }}
+                    transition={{
+                      duration: 0.5,
+                      repeat: wishlistCount > 0 ? Infinity : 0,
+                      repeatType: "reverse",
+                    }}
+                  >
+                    <HeartIcon
+                      className="w-5 h-5"
+                      fill={wishlistCount > 0 ? "currentColor" : "none"}
+                    />
+                  </motion.div>
+                  {/* Animated count badge */}
+                  <AnimatePresence>
+                    {wishlistCount > 0 && (
+                      <motion.span
+                        initial={{ scale: 0, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        exit={{ scale: 0, opacity: 0 }}
+                        className="absolute top-3 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold shadow-md border-2 border-white dark:border-gray-900"
+                      >
+                        {wishlistCount > 99 ? "99+" : wishlistCount}
+                      </motion.span>
+                    )}
+                  </AnimatePresence>
+                </NavLink>
+              </div>
               {/* Cart */}
-              <NavLink
-                to="/cart"
-                className={({ isActive }) =>
-                  `p-2 rounded-full relative ${
-                    isActive
-                      ? "text-blue-600 dark:text-blue-400"
-                      : "text-gray-600 dark:text-gray-300"
-                  } hover:bg-gray-100 dark:hover:bg-gray-800`
-                }
-              >
-                <ShoppingCartIcon className="w-5 h-5" />
-                {cartCount > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-blue-600 dark:bg-blue-800 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                    {cartCount > 9 ? "9+" : cartCount}
-                  </span>
-                )}
-              </NavLink>
-
+              <div className="relative">
+                <NavLink
+                  to="/cart"
+                  className={({ isActive }) =>
+                    `p-2 rounded-full relative transition-all duration-300 ${
+                      isActive || cartCount > 0
+                        ? "text-blue-600"
+                        : "text-gray-600 dark:text-gray-300"
+                    } hover:bg-gray-100 dark:hover:bg-gray-800`
+                  }
+                  data-tooltip-id="cart-tooltip"
+                  data-tooltip-content={`${cartCount} items in cart`}
+                  data-tooltip-place="bottom"
+                >
+                  <ShoppingCartIcon className="w-5 h-5" />
+                  {/* Animated count badge */}
+                  <AnimatePresence>
+                    {cartCount > 0 && (
+                      <motion.span
+                        initial={{ scale: 0, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        exit={{ scale: 0, opacity: 0 }}
+                        className="absolute top-3 -right-1 bg-blue-600 dark:bg-blue-800 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold shadow-md border-2 border-white dark:border-gray-900"
+                      >
+                        {cartCount > 99 ? "99+" : cartCount}
+                      </motion.span>
+                    )}
+                  </AnimatePresence>
+                </NavLink>
+              </div>
               {/* User profile or auth buttons */}
               {user ? (
                 <div className="relative" ref={profileRef}>
@@ -414,11 +488,7 @@ const NavBar = () => {
                       alt={user?.displayName || "User"}
                       className="w-8 h-8 rounded-full border-2 border-blue-600 dark:border-blue-400"
                     />
-                    {notifications > 0 && (
-                      <span className="absolute top-0 right-0 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white dark:border-gray-900"></span>
-                    )}
                   </button>
-
                   <AnimatePresence>
                     {isProfileOpen && (
                       <motion.div
@@ -442,6 +512,20 @@ const NavBar = () => {
                             onClick={() => setIsProfileOpen(false)}
                           >
                             Your Profile
+                          </NavLink>
+                          <NavLink
+                            to="/settings"
+                            className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                            onClick={() => setIsProfileOpen(false)}
+                          >
+                            Settings
+                          </NavLink>
+                          <NavLink
+                            to="/help"
+                            className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                            onClick={() => setIsProfileOpen(false)}
+                          >
+                            Help & Support
                           </NavLink>
                           <button
                             onClick={handleLogout}
@@ -473,7 +557,6 @@ const NavBar = () => {
             </div>
           </div>
         </div>
-
         {/* Mobile menu */}
         <AnimatePresence>
           {isMobileMenuOpen && (
@@ -500,7 +583,6 @@ const NavBar = () => {
                     {link.name}
                   </NavLink>
                 ))}
-
                 {!user && (
                   <div className="pt-2 border-t border-gray-200 dark:border-gray-700 flex gap-2">
                     <NavLink
@@ -524,7 +606,6 @@ const NavBar = () => {
           )}
         </AnimatePresence>
       </div>
-
       {/* Tooltips */}
       <Tooltip
         id="date-tooltip"
@@ -539,5 +620,4 @@ const NavBar = () => {
     </div>
   );
 };
-
 export default NavBar;

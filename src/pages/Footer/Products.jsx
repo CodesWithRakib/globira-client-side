@@ -44,7 +44,7 @@ const Products = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="max-w-7xl mx-auto mb-12 text-center"
+        className="container mx-auto mb-12 text-center"
       >
         <h1 className="text-4xl md:text-5xl font-bold text-gray-800 dark:text-gray-100 mb-4">
           Our{" "}
