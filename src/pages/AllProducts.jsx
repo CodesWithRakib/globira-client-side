@@ -22,10 +22,9 @@ const AllProducts = () => {
   const [totalPages, setTotalPages] = useState(0);
   const [totalCount, setTotalCount] = useState(0);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const [sortBy, setSortBy] = useState("newest"); // New state for sorting
+  const [sortBy, setSortBy] = useState("newest");
   const navigate = useNavigate();
   const axiosSecure = useAxios();
-
   useTitle(`All Products`);
 
   useEffect(() => {
@@ -33,7 +32,7 @@ const AllProducts = () => {
       setLoading(true);
       try {
         const response = await axiosSecure.get(
-          `/api/products?page=${page}&limit=${limit}&sortBy=${sortBy}` // Added sortBy parameter
+          `/api/products?page=${page}&limit=${limit}&sortBy=${sortBy}`
         );
         const { data, total } = response.data;
         setProducts(data);
@@ -46,7 +45,7 @@ const AllProducts = () => {
       }
     };
     fetchProducts();
-  }, [axiosSecure, page, sortBy]); // Added sortBy to dependencies
+  }, [axiosSecure, page, sortBy]);
 
   const handleProductUpdate = (productId) => {
     navigate(`/update-product/${productId}`);
@@ -58,7 +57,7 @@ const AllProducts = () => {
 
   const handleSortChange = (e) => {
     setSortBy(e.target.value);
-    setPage(1); // Reset to first page when sorting changes
+    setPage(1);
   };
 
   const filteredProducts = products.filter((product) => {
@@ -106,7 +105,6 @@ const AllProducts = () => {
                   aria-label="Search products"
                 />
               </div>
-
               {/* Sort Dropdown */}
               <div className="relative">
                 <select
@@ -133,7 +131,6 @@ const AllProducts = () => {
                   </svg>
                 </div>
               </div>
-
               {/* View Toggle */}
               <div className="flex items-center bg-gray-100 dark:bg-gray-700 rounded-lg p-1 border border-gray-300 dark:border-gray-600">
                 <button
